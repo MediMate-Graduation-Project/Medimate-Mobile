@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { TabNavigation } from "./TabNavigation";
 
-export const StackNavigaton=()=>{
+export const StackNavigation=()=>{
     const Stack=createNativeStackNavigator();
     return(
         <Stack.Navigator>

@@ -36,7 +36,6 @@ export const MyDrawerNavigation = () => {
             screenOptions={{
                 headerTitle: () =>
                     <View style={styles.containerLogo}>
-
                         <Image style={styles.image} source={require('../assets/logo.png')}></Image>
                         <Text style={styles.nameApp}>MediMate</Text>
                     </View>,

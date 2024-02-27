@@ -1,6 +1,6 @@
 import Card from "../components/card"
-
-export const ListHospitals = ({list}) => {
+import React from "react"
+export const ListHospitals = (list: any[]) => {
   return(
     <>
       {list.map((item)=>(

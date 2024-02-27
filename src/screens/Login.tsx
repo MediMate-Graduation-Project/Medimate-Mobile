@@ -8,72 +8,50 @@ import {
   Keyboard,
 } from 'react-native';
 import React, {createRef, useState} from 'react';
-import Logo from '../assets/Logo.png';
-import countryCode from '../assets/countryCode.png';
-import { useLogin } from '../hooks/useAuth';
-export default Login = ({navigation}) => {
+// import Logo from '../assets/Logo.png';
+// import countryCode from '../assets/countryCode.png';
+import {useLogin} from '../hooks/useAuth';
+import {useNavigation} from '@react-navigation/native';
+
+export const Login = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
   const passwordInputRef = createRef();
-  // const { mutate: login, isError, error } = useLogin();
-
+  const {mutate: login, isError, error} = useLogin(setErrorText);
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    if (!userPhoneNumber) {
-      setErrorText('Vui lòng nhập số điện thoại');
-      return;
+    try {
+      if (!userPhoneNumber) {
+        setErrorText('Vui lòng nhập số điện thoại');
+        return;
+      }
+      if (!userPassword) {
+        setErrorText('Vui lòng nhập mật khẩu');
+        return;
+      }
+      setLoading(true);
+      let dataToSend: any = {username: userPhoneNumber, password: userPassword};
+      login(dataToSend);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
     }
-    if (!userPassword) {
-      setErrorText('Vui lòng nhập mật khẩu');
-      return;
-    }
-    setLoading(true);
-    let dataToSend = {username: userPhoneNumber, password: userPassword};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-    console.log(formBody);
-    fetch('https://medimate-be-1.onrender.com/auth/login', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then(response => {
-        setLoading(false);
-        if (response.status === 200) {
-          // AsyncStorage.setItem('user_id', response.data.email);
-          navigation.navigate('Trang chủ');
-        } else {
-          setErrorText('Số điện thoại hoặc mật khẩu không đúng');
-        }
-      })
-      .catch(error => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
   };
   return (
     <View style={styles.container}>
       <View style={styles.view}>
         <View style={{alignSelf: 'center', alignItems: 'center'}}>
-          <Image source={Logo} />
+          <Image source={require('../assets/Logo.png')} />
           <Text style={styles.title}>Đăng nhập</Text>
         </View>
         <View style={styles.formLogin}>
           <View>
             <Text style={styles.text}>Số Điện Thoại</Text>
             <View style={styles.viewInput}>
-              <Image source={countryCode} />
+              <Image source={require('../assets/countryCode.png')} />
               <TextInput
                 style={styles.textInput}
                 onChangeText={userPhoneNumber =>
@@ -107,20 +85,22 @@ export default Login = ({navigation}) => {
           <Text style={{color: 'red', alignSelf: 'center', margin: 15}}>
             {errorText}
           </Text>
-          <View style={styles.button}>
-            <Pressable onPress={handleLogin} style={styles.btnLogin}>
-              <Text style={styles.buttonText}>Đăng nhập</Text>
-            </Pressable>
+          <View>
+            <View style={styles.button}>
+              <Pressable onPress={handleLogin} style={styles.btnLogin}>
+                <Text style={styles.buttonText}>Đăng nhập</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.registerText}>
+              Bạn chưa có tài khoản?{' '}
+              <Text
+                style={{color: '#30A2FF'}}
+                onPress={() => navigation.navigate('register')}>
+                {' '}
+                Đăng ký tại đây
+              </Text>
+            </Text>
           </View>
-          <Text
-            style={{
-              fontSize: 15,
-              color: '#000',
-              alignSelf: 'center',
-              fontStyle: 'italic',
-            }}>
-            Bạn chưa có tài khoản? Đăng ký tại đây
-          </Text>
         </View>
       </View>
     </View>
@@ -164,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '700',
   },
-  formRegister: {
+  formLogin: {
     flexDirection: 'column',
     gap: 10,
   },
@@ -186,5 +166,11 @@ const styles = StyleSheet.create({
     color: '#30A2FF',
     alignSelf: 'flex-end',
     paddingTop: 12,
+  },
+  registerText: {
+    fontSize: 15,
+    color: '#000',
+    alignSelf: 'center',
+    fontStyle: 'italic',
   },
 });

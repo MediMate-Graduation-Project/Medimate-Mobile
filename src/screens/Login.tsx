@@ -44,7 +44,7 @@ export const Login = () => {
     <View style={styles.container}>
       <View style={styles.view}>
         <View style={{alignSelf: 'center', alignItems: 'center'}}>
-          <Image source={require('../assets/Logo.png')} />
+          <Image source={require('../assets/logo.png')} />
           <Text style={styles.title}>Đăng nhập</Text>
         </View>
         <View style={styles.formLogin}>

@@ -99,7 +99,7 @@ export const Register = () => {
       <View style={styles.view}>
         <View style={{alignSelf: 'center', alignItems: 'center'}}>
           <Animated.Image
-            source={require('../assets/Logo.png')}
+            source={require('../assets/logo.png')}
             style={{height: imageHeight, width: imageWidth}}
           />
           <Text style={styles.title}>Tạo tài khoản</Text>

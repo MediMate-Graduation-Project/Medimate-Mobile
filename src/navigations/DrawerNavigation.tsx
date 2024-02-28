@@ -17,7 +17,7 @@ const CustomDrawer = (props: any) => {
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.containerHeaderDrawer}>
-        <Image source={require('../assets/Logo.png')}></Image>
+        <Image source={require('../assets/logo.png')}></Image>
         <View style={styles.contanierUser}>
           <MaterialCommunityIcons
             name="account-circle"
@@ -55,7 +55,7 @@ export const MyDrawerNavigation = () => {
           <View style={styles.containerLogo}>
             <Image
               style={styles.image}
-              source={require('../assets/Logo.png')}></Image>
+              source={require('../assets/logo.png')}></Image>
             <Text style={styles.nameApp}>MediMate</Text>
           </View>
         ),

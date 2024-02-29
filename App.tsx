@@ -1,5 +1,5 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,15 +7,19 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { StackNavigaton } from './src/navigations/StackNavigation';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 
 function App(): React.JSX.Element {
-  const Stack=createNativeStackNavigator();
+  const Stack = createNativeStackNavigator();
+  const queryClient = new QueryClient()
   return (
-      <NavigationContainer>
-        <StackNavigaton/>
-      </NavigationContainer>
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <StackNavigaton />
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 }
 

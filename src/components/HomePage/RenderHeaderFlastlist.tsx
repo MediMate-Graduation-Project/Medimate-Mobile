@@ -36,6 +36,9 @@ export const RenderHeaderFlatlist = () => {
   const NavigationSymptom = () => {
     navigation.navigate('voice')
   }
+  const NavigateSchedule = () =>{
+    navigation.navigate("schedule")
+  }
   return (
     <View style={stylesHeaderFlatlist.container}>
       <View style={stylesHeaderFlatlist.containerService}>
@@ -44,7 +47,7 @@ export const RenderHeaderFlatlist = () => {
       </View>
       <View style={stylesHeaderFlatlist.containerService}>
         <ServiceItem nameService={'Hồ sơ cá nhân'} nameIcon={'account-box-multiple-outline'} nameNavigation={null} />
-        <ServiceItem nameService={'Đặt lịch khám'} nameIcon={'card-bulleted-outline'} nameNavigation={null} />
+        <ServiceItem nameService={'Chọn lịch'} nameIcon={'card-bulleted-outline'} nameNavigation={NavigateSchedule} />
       </View>
       <View><Text style={stylesHeaderFlatlist.title}>Bệnh viện nổi bật nhất</Text></View>
       <View>

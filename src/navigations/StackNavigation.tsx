@@ -6,6 +6,7 @@ import VoiceTest from "../screens/Symptom";
 import { Login } from "../screens/Login";
 import { Register } from "../screens/Register";
 import { Schedule } from "../screens/Schedule";
+import { DetailHospital } from "../screens/DetailHospital";
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 export const StackNavigation=()=>{
@@ -17,6 +18,7 @@ export const StackNavigation=()=>{
             <Stack.Screen name="login" component={Login} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="register" component={Register} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="schedule" component={Schedule}options={{headerShown:false}} ></Stack.Screen>
+            <Stack.Screen name="detail" component={DetailHospital} options={{headerShown:false}}></Stack.Screen>
         </Stack.Navigator>
     )
 }

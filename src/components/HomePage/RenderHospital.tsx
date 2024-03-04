@@ -3,11 +3,14 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import Stars from 'react-native-stars';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { stylesRenderHospital } from "../../styles/Home";
+import { useNavigation } from "@react-navigation/native";
 export const RenderHospital = ({ item }: any) => {
+    const navigation = useNavigation()
     return (
         <View style={stylesRenderHospital.container}>
             <View style={stylesRenderHospital.containerInfor}>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={()=> {navigation.navigate('detail'), console.log(22);
+                }}>
                     <Text style={stylesRenderHospital.name}>{item.name}</Text>
                     <View style={stylesRenderHospital.containeritemInfor}>
                         <Image width={100} height={100} style={{ objectFit: 'scale-down' }} source={{ uri: item.image }} />

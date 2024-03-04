@@ -5,6 +5,7 @@ import { MyDrawerNavigation } from "./DrawerNavigation";
 import VoiceTest from "../screens/Symptom";
 import { Login } from "../screens/Login";
 import { Register } from "../screens/Register";
+import { DetailHospital } from "../screens/DetailHospital";
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 export const StackNavigation=()=>{
@@ -15,6 +16,7 @@ export const StackNavigation=()=>{
             <Stack.Screen name="voice" component={VoiceTest}></Stack.Screen>
             <Stack.Screen name="login" component={Login} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="register" component={Register} options={{headerShown:false}}></Stack.Screen>
+            <Stack.Screen name="detail" component={DetailHospital} options={{headerShown:false}}></Stack.Screen>
         </Stack.Navigator>
     )
 }

@@ -5,6 +5,8 @@ import { MyDrawerNavigation } from "./DrawerNavigation";
 import VoiceTest from "../screens/Symptom";
 import { Login } from "../screens/Login";
 import { Register } from "../screens/Register";
+import { VoiceDemo } from "../screens/voicedemo";
+
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 export const StackNavigation=()=>{

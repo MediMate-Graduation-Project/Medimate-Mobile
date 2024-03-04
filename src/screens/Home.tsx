@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Image, Keyboard, Platform, TouchableOpacity } from 'react-native';
 import { KeyboardAvoidingView, Pressable, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -6,9 +6,13 @@ import { RenderHospital } from '../components/HomePage/RenderHospital';
 import { RenderHeaderFlatlist } from '../components/HomePage/RenderHeaderFlastlist';
 import { RenderNews } from '../components/HomePage/RenderNews';
 import { stylesHome } from '../styles/Home';
-
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../components/AuthContext';
+import { useCheckAuth } from '../hooks/checkAuth';
 export const HomePage = () => {
-
   const dataNews = [
     {
       id: 1,
@@ -31,16 +35,35 @@ export const HomePage = () => {
       namenews: 'Vụ nổ tại nhà máy đóng tàu Dung Quất: 3 bệnh nhân nguy kịch'
     }
   ]
+  const storeData = async (value:any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('user', jsonValue);
+    } catch (e) {
+      console.log('Error',e);
+      
+    }
+  };
+//   useEffect(
+    
+//       const fetchData = async () => {
+//         try {
+//           const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
+//           setDataUser(response.data)
+//           console.log('Data2', dataUser);
+//         } catch (error) {
+//           console.error('Error fetching user data:', error);
+//           setDataUser('NoUser')
+//         }
+//       }
+      
+  
+//     , []
+// );
+  
+  
   return (
-    // <View>
-    //   <KeyboardAvoidingView
-    //     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    //     style={stylesHome.container}>
-    //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
-    //  </TouchableWithoutFeedback>
-    //</KeyboardAvoidingView>
-    //</View>
     <View style={stylesHome.container}>
       <View style={stylesHome.searchBar}>
         <MaterialCommunityIcons size={30} color={'#30A2FF'} name='magnify' ></MaterialCommunityIcons>

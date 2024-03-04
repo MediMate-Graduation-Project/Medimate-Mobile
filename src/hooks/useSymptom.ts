@@ -4,8 +4,8 @@ import Voice, {SpeechResultsEvent,SpeechErrorEvent,SpeechRecognizedEvent,} from 
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 export const useSymptom=()=>{
-  const [started, setStarted] = useState('');
-  const [results, setResults] = useState([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [results, setResults] = useState<string>('');
   const [isKeyboardOpened, setIsKeyboardOpened] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleResult, setModalVisibleResult] = useState(false);

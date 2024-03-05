@@ -1,11 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { TabNavigation } from "./TabNavigation";
 import { MyDrawerNavigation } from "./DrawerNavigation";
-import VoiceTest from "../screens/Symptom";
 import { Login } from "../screens/Login";
 import { Register } from "../screens/Register";
-import { VoiceDemo } from "../screens/voicedemo";
+
 import Symptom from "../screens/Symptom";
 
 

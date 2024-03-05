@@ -23,24 +23,25 @@ const CustomDrawer = (props: any) => {
   const { hasUser, setHasUser, dataUser, setIdUser, idUser } = useAuth();
 
   const { handleLogout } = useCheckAuth(setHasUser, setIdUser);
-  // const{userData}=useGetDataUser(idUser);
-  
-  console.log('sss',idUser);
-  
+
+
+  console.log('sss', idUser);
+
 
   const { data: userData, isLoading, isError } = useQuery(
-    {queryKey:['userData'],
-     queryFn:async()=>{
-      const response = await axios.get(`https://medimate-be.onrender.com/users/${idUser}`);
-    return response.data;
-    },
-    enabled:hasUser
-  }
-   
-  
+    {
+      queryKey: ['userData'],
+      queryFn: async () => {
+        const response = await axios.get(`https://medimate-be.onrender.com/users/${idUser}`);
+        return response.data;
+      },
+      enabled: hasUser
+    }
+
+
   );
-  
- 
+
+
 
   console.log('newson', userData);
   return (

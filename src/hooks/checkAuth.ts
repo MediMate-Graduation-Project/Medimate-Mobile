@@ -18,17 +18,6 @@ export const useCheckAuth = (setHasUser: any, setIdUser: any) => {
         },
         enabled:hasUser
     })
-    //   }, {
-    //     onSuccess: (data) => {
-    //       console.log('check', data.id);
-    //       setGlobalIdUser(data.id);
-    //       setGlobalHasUser(true);
-    //     },
-    //     onError: (error) => {
-    //       console.log('Không có user nào login', error);
-    //       setGlobalHasUser(false);
-    //     }
-    //   });
     useEffect(()=>{
         if (data) {
             console.log('check', data.id);

@@ -1,42 +1,34 @@
-import {View, StyleSheet, Image, Text, Pressable, Alert} from 'react-native';
+import {View, StyleSheet, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Icon} from 'react-native-vector-icons/Icon';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Boundary} from './boundary';
+import { useGetDetailHospital } from '../hooks/useHospital';
+import { Rating } from './rating';
 
-export default function Card() {
-  const navigation = useNavigation();
-  const data = {
-    hospitalName: 'Bệnh viện Hoàn Mỹ Đà Nẵng',
-    address: '99 Tô Hiến Thành',
-    status: true,
-  };
+export default function Card({ id }) {
+  const   data = useGetDetailHospital(id);
+  const navigation = useNavigation()
+  const rating = 2
   return (
-    <Boundary title={'Menu'}>
-      <Pressable onPress={() => {}}>
+    // <Boundary title={'Menu'}>
+      <Pressable onPress={() => {navigation.navigate('detail', { id: data.data?.id})}}>
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.name}>{data.hospitalName}</Text>
+            <Text style={styles.name}>{data.data?.hospitalName}</Text>
             <View style={styles.rating}>
-              <MaterialCommunityIcons name="star-outline" color="#30A2FF" />
-              <MaterialCommunityIcons name="star-outline" color="#30A2FF" />
-              <MaterialCommunityIcons name="star-outline" color="#30A2FF" />
-              <MaterialCommunityIcons name="star-outline" color="#30A2FF" />
-              <MaterialCommunityIcons name="star-outline" />
+              <Rating number={rating}/>
             </View>
-            <Text style={styles.address}>{data.address}</Text>
-            {/* <Text style={styles.rate}>{data.rate}</Text> */}
+            <Text style={styles.address}>{data.data?.address}</Text>
             <Text style={styles.status}>
-              {data.status ? 'Đang mở cửa' : 'Đã đóng cửa'}
+              {data.data?.status ? 'Đang mở cửa' : 'Đã đóng cửa'}
             </Text>
           </View>
-          <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Đặt khám</Text>
+          <Pressable style={styles.button} >
+            <Text style={styles.buttonText} >Đặt khám</Text>
           </Pressable>
         </View>
       </Pressable>
-    </Boundary>
+    // </Boundary>
   );
 }
 const styles = StyleSheet.create({

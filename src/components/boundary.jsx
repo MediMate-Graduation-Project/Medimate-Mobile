@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, ImageBackground, Text, Pressable} from 'react-native';
+import {StyleSheet, View, ImageBackground, Pressable, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { mainColor } from '../common/colors';
 
-export const Boundary = ({children, title = '', background = ''}) => {
+export const Boundary = ({children, background = ''}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -12,7 +13,6 @@ export const Boundary = ({children, title = '', background = ''}) => {
         style={styles.background}
         imageStyle={styles.backgroundImage}
         resizeMode='cover'
-        // size={50}
       >
         <View style={styles.header}>
           <View>
@@ -26,7 +26,12 @@ export const Boundary = ({children, title = '', background = ''}) => {
             </Pressable>
           </View>
           <View style={styles.iconRight}>
-            <MaterialCommunityIcons
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>
+                Đặt khám ngay
+              </Text>
+            </Pressable>
+            {/* <MaterialCommunityIcons
               name="share-variant-outline"
               color={'#000'}
               size={25}
@@ -37,9 +42,8 @@ export const Boundary = ({children, title = '', background = ''}) => {
               color={'#000'}
               size={25}
               style={styles.backIcon}
-            />
+            /> */}
           </View>
-          {/* <Text style={styles.title}>{title}</Text> */}
         </View>
         {children}
       </ImageBackground>
@@ -53,7 +57,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor:'#00ff00',
+    backgroundColor:'#fff',
     
   },
   backgroundImage: {
@@ -70,26 +74,34 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   backIcon: {
-    // marginTop: 20,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#fff',
     width: 35,
     height: 35,
     padding: 5,
-    borderRadius: 15,
+    borderRadius: 20,
+  },
+  button:{
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 20,
+    borderColor: mainColor,
+    borderWidth: 2
+  },
+  buttonText:{
+    fontWeight: '700',
+    fontSize: 15,
+    color: mainColor
   },
   iconRight: {
     flexDirection: 'row',
     gap: 5,
-    // justifyContent:'flex-end'
   },
   title: {
     marginTop: 5,
     color: '#22242E',
     fontWeight: '700',
     fontSize: 15,
-    // marginBottom: 10,
     width: '100%',
-    // paddingRight:15,
     textAlign: 'center',
   },
 });

@@ -12,4 +12,5 @@ export const registerAPI = async (params) => {
 
 export default {
   loginAPI,
+  registerAPI
 };

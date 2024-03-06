@@ -7,18 +7,21 @@ import {StackNavigation} from './src/navigations/StackNavigation';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import { MyDrawerNavigation } from './src/navigations/DrawerNavigation';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+
 const queryClient = new QueryClient();
 function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator();
 
   return (
     
-      <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
-        <StackNavigation />
-        </QueryClientProvider>
-      </NavigationContainer>
-    // </QueryClientProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <QueryClientProvider client={queryClient}>
+          <StackNavigation />
+          </QueryClientProvider>
+        </NavigationContainer>
+      </GestureHandlerRootView>
   );
 }
 

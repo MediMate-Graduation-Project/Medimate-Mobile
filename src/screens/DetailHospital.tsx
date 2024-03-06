@@ -1,48 +1,72 @@
-import React, {Children} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  ScrollView,
   Image,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Boundary} from '../components/boundary';
 import {mainColor} from '../common/colors';
+import {useGetDetailHospital} from '../hooks/useHospital';
+import {Modalize} from 'react-native-modalize';
+import {Rating} from '../components/rating';
 
-export const DetailHospital = () => {
-  const hospital = {
-    name: 'Bệnh viện 199',
-    address: 'Địa chỉ: Số 216, Nguyễn Công Trứ, Quận Sơn Trà, Tp. Đà Nẵng',
-    info: 'Đi vào hoạt động từ năm 1999, đến nay bệnh viện 199 có 450 giường bệnh điều trị nội ngoại trú với 27 chuyên khoa và 5 phòng chức năng cùn...',
-  };
+export const DetailHospital = ({route}: {route: any}) => {
+  const {id} = route.params || {};
+  const data = useGetDetailHospital(id);
+  const [numberOfLines, setNumberOfLines] = useState(3);
+
   return (
-    <Boundary background={require('../assets/Background.png')} title={''}>
-      <ScrollView style={styles.container}>
-        <View style={styles.info}>
-          <Text style={styles.name}>{hospital.name}</Text>
-          <Text style={styles.address}>{hospital.address}</Text>
-          <Text style={styles.title}>Giới thiệu về bệnh viện</Text>
-          <Text style={styles.address}>{hospital.info}</Text>
-        </View>
-        <View style={styles.imageContainer}>
-          <Text style={styles.title}>Hình ảnh</Text>
-          <View style={styles.imageView}>
-            <Image source={require('../assets/hospital1.png')}></Image>
-            <Image source={require('../assets/hospital1.png')}></Image>
-            <Image source={require('../assets/hospital1.png')}></Image>
-            <Image source={require('../assets/hospital1.png')}></Image>
+    <Boundary background={require('../assets/Background.png')}>
+      <Modalize alwaysOpen={550}>
+        <View style={styles.container}>
+          <View style={styles.info}>
+            <Text style={styles.name}>{data.data?.hospitalName}</Text>
+            <Text style={styles.address}>{data.data?.address}</Text>
+            <Text style={styles.title}>Giới thiệu về bệnh viện</Text>
+            <Text style={styles.address} numberOfLines={numberOfLines}>
+              {data.data?.introduce}
+            </Text>
           </View>
-          <Text style={styles.moreText}>Xem thêm</Text>
-        </View>
-        <View>
-          <Text style={styles.title}>Đánh giá</Text>
+          <Text
+            style={styles.moreText}
+            onPress={() => {
+              numberOfLines == 0 ? setNumberOfLines(3) : setNumberOfLines(0);
+            }}>
+            {data.data?.introduce && numberOfLines == 0
+              ? 'Rút gọn'
+              : 'Xem thêm'}
+          </Text>
+          <View style={styles.imageContainer}>
+            <Text style={styles.title}>Hình ảnh</Text>
+            <View style={styles.imageView}>
+              <Image source={require('../assets/hospital1.png')}></Image>
+              <Image source={require('../assets/hospital2.png')}></Image>
+              <Image source={require('../assets/hospital3.png')}></Image>
+              <Image source={require('../assets/hospital4.png')}></Image>
+            </View>
+            <Text style={styles.moreText}>Xem thêm</Text>
+          </View>
           <View>
-           
+            <Text style={styles.title}>Đánh giá</Text>
+            {data.data?.reviews.map((item: any) => (
+              <View style={styles.feedbackView} key={item}>
+                <View style={styles.infoView}>
+                  <MaterialCommunityIcons name="account" size={40} style={styles.avatar} />
+                  <View style={styles.contentRight}>
+                    <Text style={styles.title}>{item?.users.name}</Text>
+                    <Text style={styles.reviewText}>{item?.review}</Text>
+                    <View style={styles.rating}>
+                      <Rating number={item?.rating} />                    
+                    </View>
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
         </View>
-      </ScrollView>
+      </Modalize>
     </Boundary>
   );
 };
@@ -53,8 +77,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     flex: 1,
-    marginTop: 120,
-    // marginStart: 50
   },
   name: {
     fontSize: 23,
@@ -89,7 +111,32 @@ const styles = StyleSheet.create({
     color: mainColor,
     fontWeight: '700',
     alignSelf: 'flex-end',
-    fontSize: 17,
+    fontSize: 15,
     marginTop: 5,
+  },
+  feedbackView: {
+    flexDirection: 'column',
+    marginTop: 15,
+  },
+  infoView: {
+    flexDirection: 'row',
+  },
+  avatar:{
+    // borderRadius: 20,
+    // borderWidth: 1,
+    // height: 40
+  },
+  reviewText: {
+    color: '#000000',
+    fontSize: 15,
+  },
+  contentRight: {
+    flexDirection: 'column',
+    gap: 5,
+    paddingRight: 20,
+  },
+  rating: {
+    flexDirection: 'row',
+    gap: 2,
   },
 });

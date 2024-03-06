@@ -9,8 +9,7 @@ export const RenderHospital = ({ item }: any) => {
     return (
         <View style={stylesRenderHospital.container}>
             <View style={stylesRenderHospital.containerInfor}>
-                <TouchableOpacity onPress={()=> {navigation.navigate('detail'), console.log(22);
-                }}>
+                <TouchableOpacity onPress={()=> {navigation.navigate('detail') }}>
                     <Text style={stylesRenderHospital.name}>{item.name}</Text>
                     <View style={stylesRenderHospital.containeritemInfor}>
                         <Image width={100} height={100} style={{ objectFit: 'scale-down' }} source={{ uri: item.image }} />

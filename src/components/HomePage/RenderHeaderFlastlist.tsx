@@ -36,11 +36,14 @@ export const RenderHeaderFlatlist = () => {
   const NavigationSymptom = () => {
     navigation.navigate('voice')
   }
+  const NavigationListHospital = () => {
+    navigation.navigate('listHospital')
+  }
   return (
     <View style={stylesHeaderFlatlist.container}>
       <View style={stylesHeaderFlatlist.containerService}>
         <ServiceItem nameService={'Đặt lịch khám'} nameIcon={'calendar-clock-outline'} nameNavigation={NavigationSymptom} />
-        <ServiceItem nameService={'Khám định kỳ'} nameIcon={'progress-clock'} nameNavigation={null} />
+        <ServiceItem nameService={'Khám định kỳ'} nameIcon={'progress-clock'} nameNavigation={NavigationListHospital} />
       </View>
       <View style={stylesHeaderFlatlist.containerService}>
         <ServiceItem nameService={'Hồ sơ cá nhân'} nameIcon={'account-box-multiple-outline'} nameNavigation={null} />

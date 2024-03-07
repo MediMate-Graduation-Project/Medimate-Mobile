@@ -5,23 +5,25 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StackNavigation} from './src/navigations/StackNavigation';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import { MyDrawerNavigation } from './src/navigations/DrawerNavigation';
+import {MyDrawerNavigation} from './src/navigations/DrawerNavigation';
 
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { AuthProvider } from './src/components/AuthContext';
 
 const queryClient = new QueryClient();
 function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator();
 
   return (
-    
-      <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <AuthProvider>
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
-          <StackNavigation />
+            <StackNavigation />
           </QueryClientProvider>
         </NavigationContainer>
-      </GestureHandlerRootView>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
 

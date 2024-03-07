@@ -1,14 +1,13 @@
 import React from 'react';
-import { FlatList, Image, Keyboard, Platform, TouchableOpacity } from 'react-native';
-import { KeyboardAvoidingView, Pressable, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList} from 'react-native';
+import {  TextInput, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { RenderHospital } from '../components/HomePage/RenderHospital';
 import { RenderHeaderFlatlist } from '../components/HomePage/RenderHeaderFlastlist';
 import { RenderNews } from '../components/HomePage/RenderNews';
 import { stylesHome } from '../styles/Home';
 
-export const HomePage = () => {
 
+export const HomePage = () => {
   const dataNews = [
     {
       id: 1,
@@ -31,16 +30,10 @@ export const HomePage = () => {
       namenews: 'Vụ nổ tại nhà máy đóng tàu Dung Quất: 3 bệnh nhân nguy kịch'
     }
   ]
-  return (
-    // <View>
-    //   <KeyboardAvoidingView
-    //     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    //     style={stylesHome.container}>
-    //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
-    //  </TouchableWithoutFeedback>
-    //</KeyboardAvoidingView>
-    //</View>
+  
+  return (
+
     <View style={stylesHome.container}>
       <View style={stylesHome.searchBar}>
         <MaterialCommunityIcons size={30} color={'#30A2FF'} name='magnify' ></MaterialCommunityIcons>

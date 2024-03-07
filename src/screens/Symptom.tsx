@@ -23,7 +23,7 @@ import Voice, {
 import { TouchableOpacity } from 'react-native';
 import { Keyboard } from 'react-native';
 
-function VoiceTest() {
+function Symptom() {
   const [recognized, setRecognized] = useState('');
   const [volume, setVolume] = useState('');
   const [error, setError] = useState('');
@@ -253,4 +253,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default VoiceTest;
+export default Symptom;

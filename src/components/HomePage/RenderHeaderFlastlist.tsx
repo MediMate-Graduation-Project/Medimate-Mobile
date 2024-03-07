@@ -37,7 +37,7 @@ export const RenderHeaderFlatlist = () => {
     navigation.navigate('voice')
   }
   const NavigateSchedule = () =>{
-    navigation.navigate("schedule")
+    navigation.navigate('schedule', { id: 2})
   }
   return (
     <View style={stylesHeaderFlatlist.container}>

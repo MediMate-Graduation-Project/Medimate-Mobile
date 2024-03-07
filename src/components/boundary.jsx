@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from '../common/colors';
 
-export const Boundary = ({children, background = ''}) => {
+export const Boundary = ({children, background = '', hospitalId}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -26,7 +26,7 @@ export const Boundary = ({children, background = ''}) => {
             </Pressable>
           </View>
           <View style={styles.iconRight}>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button}  onPress={() => {navigation.navigate('schedule', { id: hospitalId})}}>
               <Text style={styles.buttonText}>
                 Đặt khám ngay
               </Text>

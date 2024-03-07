@@ -4,6 +4,7 @@ import Stars from 'react-native-stars';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { stylesRenderHospital } from "../../styles/Home";
 import { useNavigation } from "@react-navigation/native";
+
 export const RenderHospital = ({ item }: any) => {
     const navigation = useNavigation()
     return (

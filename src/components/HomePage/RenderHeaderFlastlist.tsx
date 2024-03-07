@@ -37,8 +37,8 @@ export const RenderHeaderFlatlist = () => {
     navigation.navigate('voice')
   }
   const NavigationListHospital = () => {
-    navigation.navigate('listHospital')
-  }
+    navigation.navigate('listHospital')}
+
   return (
     <View style={stylesHeaderFlatlist.container}>
       <View style={stylesHeaderFlatlist.containerService}>

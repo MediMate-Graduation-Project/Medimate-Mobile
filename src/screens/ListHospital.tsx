@@ -1,6 +1,6 @@
 import Card from '../components/card';
 import React from 'react';
-import {useGetAllHospital} from '../hooks/useHospital';
+import {useGetAllHospital} from '../hooks/useHospital.jsx';
 import {ScrollView, StyleSheet, TextInput, View} from 'react-native';
 import {mainColor} from '../common/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

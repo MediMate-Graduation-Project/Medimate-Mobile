@@ -23,7 +23,7 @@ export default function Card({ id }) {
               {data.data?.status ? 'Đang mở cửa' : 'Đã đóng cửa'}
             </Text>
           </View>
-          <Pressable style={styles.button} >
+          <Pressable style={styles.button}  onPress={() => {navigation.navigate('schedule', { id: data.data?.id})}}>
             <Text style={styles.buttonText} >Đặt khám</Text>
           </Pressable>
         </View>

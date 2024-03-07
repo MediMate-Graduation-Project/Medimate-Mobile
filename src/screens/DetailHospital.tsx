@@ -8,9 +8,9 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Boundary} from '../components/boundary';
 import {mainColor} from '../common/colors';
-import {useGetDetailHospital} from '../hooks/useHospital';
+import { useGetDetailHospital } from '../hooks/useHospital.jsx';
 import {Modalize} from 'react-native-modalize';
-import {Rating} from '../components/rating';
+import {Rating} from '../components/rating.jsx';
 
 export const DetailHospital = ({route}: {route: any}) => {
   const {id} = route.params || {};
@@ -18,7 +18,7 @@ export const DetailHospital = ({route}: {route: any}) => {
   const [numberOfLines, setNumberOfLines] = useState(3);
 
   return (
-    <Boundary background={require('../assets/Background.png')}>
+    <Boundary background={require('../assets/Background.png')} hospitalId={id}>
       <Modalize alwaysOpen={550}>
         <View style={styles.container}>
           <View style={styles.info}>

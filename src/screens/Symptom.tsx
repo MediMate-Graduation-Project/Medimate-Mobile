@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   Image,
-  TouchableHighlight,
-  TextInput,
-  ScrollView,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
   TouchableWithoutFeedback,
-  Alert,
+  View
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native';
-import { Keyboard } from 'react-native';
-import TypeWriter from 'react-native-typewriter'
 import Modal from "react-native-modal";
+import TypeWriter from 'react-native-typewriter';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from '../common/colors';
 import { useSymptom } from '../hooks/useSymptom';
 

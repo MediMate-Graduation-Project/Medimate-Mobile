@@ -25,23 +25,23 @@ export const useSymptom=()=>{
 
   const onSpeechStart = (e: any) => {
     console.log('onSpeechStart: ', e);
-    setStarted('√');
+    setIsRecording(true);
   };
 
 
   const onSpeechEnd = (e: any) => {
     console.log('onSpeechEnd: ', e);
-    setEnd('√');
+    setIsRecording(false);
   };
 
   const onSpeechError = (e: SpeechErrorEvent) => {
     console.log('onSpeechError: ', e);
-    setError(JSON.stringify(e.error));
+    
   };
 
   const onSpeechResults = (e: SpeechResultsEvent) => {
     console.log('onSpeechResults: ', e.value);
-    setResults(e.value[0]);
+    setResults(e.value && e.value[0] || '');
   };
 
   const _startRecognizing = async () => {
@@ -65,8 +65,8 @@ export const useSymptom=()=>{
     }
   };
   const _clearState = () => {
-    setStarted('');
-    setResults([]);
+    setIsRecording(false);
+    setResults('');
   };
 
   const { mutateAsync, isPending, isError } = useMutation({

@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
 import {useQueryClient, useMutation} from '@tanstack/react-query';
-import SweetAlert2 from 'react-sweetalert2';
 import auth, { registerAPI } from '../api/auth.js';
 const loginAPI = auth.loginAPI;
 

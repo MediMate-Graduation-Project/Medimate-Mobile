@@ -1,14 +1,14 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import appointment from '../api/Appointment.js';
-const getScheduleAPI = appointment.getScheduleAPI;
-const bookAppointment = appointment.bookAppointmentAPI
-
+const getSchedule = appointment.getSchedule;
+const bookAppointment = appointment.bookAppointment
+const queryClient = useQueryClient();
 export const useGetSchedule= (id) => {
   return useQuery({
-      queryKey: ["SCHEDULE"],
+      queryKey: ["SCHEDULE",id],
       queryFn: async () => {
           try {
-              const { data } = await getScheduleAPI(id);
+              const { data } = await getSchedule(id);
               return data;
           } catch (error) {
               console.error("Error:", error);
@@ -19,28 +19,17 @@ export const useGetSchedule= (id) => {
 };
 
 export const useBookAppointment = (setErrorTextCallback) => {
-    // const navigation = useNavigation();
-    const bookAppointment = async params => {
-      const result = await bookAppointment(params);
-      return result;
-    };
     return useMutation({
-      mutationFn: bookAppointment,
+      mutationFn: async params => {
+          const result = await bookAppointment(params);
+          return result;
+        },
       onSuccess: async data => {
         console.log(data);
-        // const check = data.status === 200;
-        // if (check) {
-        //   navigation.navigate('Trang chủ');
-        // }
+        queryClient.invalidateQueries(["SCHEDULE"]);
       },
       onError: error => {
         console.error('Error:', error);
-        // if (error.response && error.response.status === 401) {
-        //   setErrorTextCallback('Số điện thoại hoặc mật khẩu không đúng');
-        // }
-        // else{
-        //   setErrorText('Error:', error)
-        // }
       },
     });
   };

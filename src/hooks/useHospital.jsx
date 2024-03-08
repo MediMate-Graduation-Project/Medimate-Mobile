@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import hospital, { getAllHospital } from '../api/Hospital';
+import { queryKey } from '../constants';
 
-const getDetailHospital = hospital.getDetailHospital;
+const getHospitalDetail = hospital.getHospitalDetail;
 
 export const useGetAllHospital = () =>{
   return useQuery({
-    queryKey:['HOSPITAL'],
+    queryKey:[queryKey.hospital],
     queryFn: async () =>{
       try {
         const {data} = await getAllHospital();
@@ -17,12 +18,12 @@ export const useGetAllHospital = () =>{
     }
   })
 }
-export const useGetDetailHospital = (id) => {
+export const useGetHospitalDetail = (id) => {
   return useQuery({
-      queryKey: ["HOSPITAL", id],
+      queryKey: [queryKey.hospital, id],
       queryFn: async () => {
           try {
-              const { data } = await getDetailHospital(id);
+              const { data } = await getHospitalDetail(id);
               return data;
           } catch (error) {
                console.log("Error fetching hospital details:", error);

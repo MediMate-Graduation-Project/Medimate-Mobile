@@ -2,16 +2,17 @@ import {View, StyleSheet, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Boundary} from './boundary';
-import { useGetDetailHospital } from '../hooks/useHospital';
+import { useGetHospitalDetail } from '../hooks/useHospital';
 import { Rating } from './rating';
+import { page } from '../constants';
 
 export default function Card({ id }) {
-  const   data = useGetDetailHospital(id);
+  const   data = useGetHospitalDetail(id);
   const navigation = useNavigation()
   const rating = 2
   return (
     // <Boundary title={'Menu'}>
-      <Pressable onPress={() => {navigation.navigate('detail', { id: data.data?.id})}}>
+      <Pressable onPress={() => {navigation.navigate(page.detail, { id: data.data?.id})}}>
         <View style={styles.container}>
           <View style={styles.content}>
             <Text style={styles.name}>{data.data?.hospitalName}</Text>
@@ -23,7 +24,7 @@ export default function Card({ id }) {
               {data.data?.status ? 'Đang mở cửa' : 'Đã đóng cửa'}
             </Text>
           </View>
-          <Pressable style={styles.button}  onPress={() => {navigation.navigate('schedule', { id: data.data?.id})}}>
+          <Pressable style={styles.button}  onPress={() => {navigation.navigate(page.schedule, { id: data.data?.id})}}>
             <Text style={styles.buttonText} >Đặt khám</Text>
           </Pressable>
         </View>

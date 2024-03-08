@@ -2,15 +2,15 @@ import baseAxios from './baseAxios.js';
 
 const ENDPOINT = 'auth';
 
-export const loginAPI = async (params) => {
+export const login = async (params) => {
   return await baseAxios.post(`${ENDPOINT}/login`, params);
 };
 
-export const registerAPI = async (params) => {
+export const register = async (params) => {
   return await baseAxios.post(`${ENDPOINT}/register`, params);
 };
 
 export default {
-  loginAPI,
-  registerAPI
+  login,
+  register
 };

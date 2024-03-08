@@ -2,8 +2,8 @@ import React from 'react';
 import { FlatList} from 'react-native';
 import {  TextInput, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { RenderHeaderFlatlist } from '../components/HomePage/RenderHeaderFlastlist';
-import { RenderNews } from '../components/HomePage/RenderNews';
+import { HeaderFlatList } from '../components/HomePage/HeaderFlatList';
+import { News } from '../components/HomePage/News';
 import { stylesHome } from '../styles/Home';
 
 
@@ -41,8 +41,8 @@ export const HomePage = () => {
       </View>
       <FlatList
         data={dataNews}
-        ListHeaderComponent={RenderHeaderFlatlist}
-        renderItem={RenderNews}
+        ListHeaderComponent={HeaderFlatList}
+        renderItem={News}
         style={stylesHome.Flatlist}
       >
       </FlatList>

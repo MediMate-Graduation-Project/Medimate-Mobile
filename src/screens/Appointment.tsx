@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { mainColor } from '../common/colors';
 import { TouchableOpacity } from 'react-native';
+import { page } from '../constants';
 
 export const AppointmentPage = () => {
   const { hasUser} = useAuth();
@@ -36,7 +37,7 @@ export const AppointmentPage = () => {
               <TouchableOpacity onPress={()=>navigation.navigate('Trang chủ')} style={[styles.button, { backgroundColor: '#FB3D56' }]}>
                 <Text style={styles.titleButton}>Quay lại trang chủ</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>navigation.navigate('login')} style={[styles.button, { backgroundColor: mainColor}]}>
+              <TouchableOpacity onPress={()=>navigation.navigate(page.login)} style={[styles.button, { backgroundColor: mainColor}]}>
                 <Text style={styles.titleButton}>Đăng nhập</Text>
               </TouchableOpacity>
             </View>

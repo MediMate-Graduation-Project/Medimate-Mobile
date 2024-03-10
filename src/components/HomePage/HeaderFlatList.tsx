@@ -1,9 +1,11 @@
 import React from "react"
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
-import { RenderHospital } from "./RenderHospital";
+import { Hospitals } from "./Hospitals";
 import { useNavigation } from "@react-navigation/native";
 import { ServiceItem } from "./ServiceItem";
 import { stylesHeaderFlatlist } from "../../styles/Home";
+import { useGetAllHospital } from "../../hooks/useHospital";
+import { page } from "../../constants";
 const data = [
   {
     id: 1,
@@ -31,26 +33,31 @@ const data = [
   },
 
 ]
-export const RenderHeaderFlatlist = () => {
+export const HeaderFlatList = () => {
   const navigation = useNavigation();
   const NavigationSymptom = () => {
-    navigation.navigate('voice')
+    navigation.navigate(page.voice)
   }
+  const NavigationListHospital = () => {
+    navigation.navigate(page.hospitalList)}
+
+    const hospitalList = useGetAllHospital();
+    const bestHospital = hospitalList.data?.sort((a, b) => b.averageRating - a.averageRating);
   return (
     <View style={stylesHeaderFlatlist.container}>
       <View style={stylesHeaderFlatlist.containerService}>
-        <ServiceItem nameService={'Đặt lịch khám'} nameIcon={'calendar-clock-outline'} nameNavigation={NavigationSymptom} />
-        <ServiceItem nameService={'Khám định kỳ'} nameIcon={'progress-clock'} nameNavigation={null} />
+        <ServiceItem name={'Đặt lịch khám'} icon={'calendar-clock-outline'} navigation={NavigationSymptom} />
+        <ServiceItem name={'Khám định kỳ'} icon={'progress-clock'} navigation={NavigationListHospital} />
       </View>
       <View style={stylesHeaderFlatlist.containerService}>
-        <ServiceItem nameService={'Hồ sơ cá nhân'} nameIcon={'account-box-multiple-outline'} nameNavigation={null} />
-        <ServiceItem nameService={'Đặt lịch khám'} nameIcon={'card-bulleted-outline'} nameNavigation={null} />
+        <ServiceItem name={'Hồ sơ cá nhân'} icon={'account-box-multiple-outline'} navigation={null} />
+        <ServiceItem name={'Đặt lịch khám'} icon={'card-bulleted-outline'} navigation={null} />
       </View>
       <View><Text style={stylesHeaderFlatlist.title}>Bệnh viện nổi bật nhất</Text></View>
       <View>
         <FlatList
-          data={data}
-          renderItem={({ item }) => <RenderHospital item={item} />}
+          data={bestHospital}
+          renderItem={({ item }) => <Hospitals item={item} />}
           horizontal>
 
         </FlatList>

@@ -34,7 +34,7 @@ const data = [
 export const RenderHeaderFlatlist = () => {
   const navigation = useNavigation();
   const NavigationSymptom = () => {
-    navigation.navigate('voice')
+    navigation.navigate('diagnose')
   }
   return (
     <View style={stylesHeaderFlatlist.container}>

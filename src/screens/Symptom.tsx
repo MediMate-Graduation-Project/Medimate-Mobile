@@ -17,10 +17,13 @@ import TypeWriter from 'react-native-typewriter';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from '../common/colors';
 import { useSymptom } from '../hooks/useSymptom';
+import { ErrorModal } from '../components/ErrorModal';
+import { ButtonMain } from '../components/ButtonMain';
+import { ButtonItem } from '../components/ButtonItem';
 
-function VoiceTest() {
-  const {isPending, isKeyboardOpened, setIsKeyboardOpened, 
-    results, setResults,_stopRecognizing, _startRecognizing, mutateAsync,modalVisible,modalVisibleResult,checkError,closeModalDiagnose,modalVisibleError,setModalVisibleError,setModalVisibleResult,diagnoseAI,handleBackHome} = useSymptom()
+function Diagnose() {
+  const { isPending, isKeyboardOpened, setIsKeyboardOpened,
+    results, setResults, _stopRecognizing, _startRecognizing, mutateAsync,handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}
@@ -35,7 +38,7 @@ function VoiceTest() {
                 editable
                 multiline
                 numberOfLines={4}
-                maxLength={200}
+                maxLength={8000}
                 placeholder='Nhập triệu chứng của bạn....'
                 onFocus={() => setIsKeyboardOpened(true)}
                 onBlur={() => setIsKeyboardOpened(false)}
@@ -43,53 +46,42 @@ function VoiceTest() {
                 value={results}
                 onChangeText={v => setResults(v)}
               >
-
               </TextInput>
+              <TouchableHighlight onPress={_startRecognizing}>
+                <Image style={styles.button} source={require('../assets/button.png')} />
+              </TouchableHighlight>
               <Modal
                 animationIn={'bounceInLeft'}
                 isVisible={modalVisible}
 
               >
                 <View style={styles.containerVoice}>
-                  <Image width={50} height={50} style={{ objectFit: 'contain' }} source={require('../assets/voice.gif')} ></Image>
-                  <TouchableOpacity onPress={_stopRecognizing}>
-                    <MaterialCommunityIcons size={80} color={'white'} name='close-circle'></MaterialCommunityIcons>
-                  </TouchableOpacity>
+                  <TypeWriter typing={1} style={styles.resultVoice} >{results}</TypeWriter>
+                  <Image style={styles.ImageVoice} source={require('../assets/Voice_gif.gif')} ></Image>
+                  <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
+                        titleRight='Chẩn đoán' handleOnpresRight={()=>{{
+                          mutateAsync({prompt:results}),_stopRecognizing}
+                        }}
+                  />
                 </View>
 
               </Modal>
-              <TouchableHighlight onPress={_startRecognizing}>
-                <Image style={styles.button} source={require('../assets/button.png')} />
-              </TouchableHighlight>
+
             </View>
-
-            <TouchableOpacity style={styles.buttons} onPress={() => {
+            <ButtonMain title='Chẩn đoán' handleOnpres={() => {
               mutateAsync({ prompt: results })
-
-            }}>
-              <Text style={styles.title}>
-                Tiếp theo
-              </Text>
-
-            </TouchableOpacity>
-
+            }} />
             <Modal
               isVisible={modalVisibleResult}>
               <View style={styles.ModalSymptom}>
                 {checkError === 'true'
                   ?
-                  <View style={styles.containerErrorDiagnose}>
-                    <Image style={{ width: 200, height: 200, objectFit: 'contain' }} source={require('../assets/error.gif')}></Image>
-                    <Text style={{ color: 'red', fontWeight: 'bold' }}>
-                      Triệu chứng không phù hợp hoặc chưa chi tiết đầy đủ.
-                      Vui lòng nhập lại!??
-                    </Text>
-                    <TouchableOpacity style={styles.buttonBackHome} onPress={() => setModalVisibleResult(false)} >
-                      <Text style={styles.textButton}>
-                        OK
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  <ErrorModal image={require('../assets/error.gif')}
+                    message='Triệu chứng không phù hợp hoặc chưa chi tiết đầy đủ.
+                      Vui lòng nhập lại!??'
+                    handleNavigate={() => { setModalVisibleResult(false), setIsKeyboardOpened(false) }}
+                  />
+
                   :
                   <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
                     <View style={{ flexDirection: 'row' }}>
@@ -100,18 +92,11 @@ function VoiceTest() {
                     </View>
 
                     <TypeWriter typing={1} style={styles.TextDiagnose}>{diagnoseAI}</TypeWriter>
-                    <View style={styles.containerButton}>
-                      <TouchableOpacity style={styles.buttonBackHome} onPress={handleBackHome}>
-                        <Text style={styles.textButton}>
-                          Quay về trang chủ
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonBook}>
-                        <Text style={styles.textButton}>
-                          Đặt lịch khám
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                    <ButtonItem
+                      titleLeft='Quay về trang chủ' handleOnpresLeft={handleBackHome}
+                      titleRight='Đặt lịch khám' handleOnpresRight={null}
+                    />
+
                   </View>
                 }
 
@@ -124,14 +109,11 @@ function VoiceTest() {
               animationIn={'bounceInLeft'}
               isVisible={modalVisibleError}
             >
-              <View style={styles.containerError}>
-                <Image style={{ objectFit: 'contain', width: 200, height: 200 }} source={require('../assets/error.gif')} ></Image>
-                <Text style={styles.nameError}>Lỗi hệ thống! Vui lòng nhập lại</Text>
-                <TouchableOpacity style={styles.buttonReClick} onPress={() => setModalVisibleError(false)}>
-                  <Text style={{ color: 'white' }}>Nhập lại</Text>
-                </TouchableOpacity>
-              </View>
-
+              <ErrorModal
+                image={require('../assets/error.gif')}
+                message='Lỗi hệ thống! Vui lòng nhập lại'
+                handleNavigate={() => { setModalVisibleError(false), setIsKeyboardOpened(false),_stopRecognizing() }}
+              />
             </Modal>
           </View>}
 
@@ -174,8 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   Input: {
-    borderWidth: 1,
-    borderRadius: 20,
     width: 300,
     maxWidth: 300,
     maxHeight: 70
@@ -185,18 +165,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 50,
-    marginBottom: 100
-  },
-  buttons: {
-    padding: 10,
-    width: 300,
-    borderRadius: 15,
-    backgroundColor: '#30A2FF',
-    marginBottom: 30
-  },
-  title: {
-    color: 'white',
-    textAlign: 'center'
+    marginBottom: 20,
+    borderWidth: 1,
+    borderRadius: 20,
   },
   image: {
     width: 300,
@@ -214,13 +185,14 @@ const styles = StyleSheet.create({
   },
   containerVoice: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection:'column'
   },
   ModalSymptom: {
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 60,
+    margin: 60,
     maxWidth: 250,
     borderRadius: 20,
   },
@@ -234,6 +206,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: 'white',
+    padding: 5
   },
   buttonBackHome: {
     backgroundColor: '#FB3D56',
@@ -252,29 +225,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
   },
-  containerError: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 25
-  },
-  nameError: {
-    color: 'red',
-    fontWeight: 'bold'
-  },
+  
+
   buttonReClick: {
     backgroundColor: '#FB3D56',
     padding: 10,
     borderRadius: 10,
     margin: 10
   },
-  containerErrorDiagnose: {
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    borderRadius: 30
+  ImageVoice:{
+
+  },
+  resultVoice:{
+    marginTop:30,
+    width: 400,
+    fontSize:20,
+    color:'white',
+    padding:10
   }
 });
 
-export default VoiceTest;
+export default Diagnose;

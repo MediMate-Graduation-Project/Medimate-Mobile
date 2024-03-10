@@ -32,18 +32,6 @@ export const Boundary = ({children, background = '', hospitalId}) => {
                 Đặt khám ngay
               </Text>
             </Pressable>
-            {/* <MaterialCommunityIcons
-              name="share-variant-outline"
-              color={'#000'}
-              size={25}
-              style={styles.backIcon}
-            />
-            <MaterialCommunityIcons
-              name="heart"
-              color={'#000'}
-              size={25}
-              style={styles.backIcon}
-            /> */}
           </View>
         </View>
         {children}
@@ -96,6 +84,11 @@ const styles = StyleSheet.create({
   iconRight: {
     flexDirection: 'row',
     gap: 5,
+  },
+  iconRight: {
+    flexDirection: 'row',
+    gap: 5,
+    // justifyContent:'flex-end'
   },
   title: {
     marginTop: 5,

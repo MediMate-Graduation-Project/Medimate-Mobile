@@ -6,9 +6,9 @@ import {
   Image,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Boundary} from '../components/boundary.jsx';
+import {Boundary} from '../components/Boundary.jsx';
 import {Modalize} from 'react-native-modalize';
-import {Rating} from '../components/rating.jsx';
+import {Rating} from '../components/Rating.jsx';
 import { useGetHospitalDetail } from '../hooks/useHospital.jsx';
 
 export const HospitalDetail = ({route}: {route: any}) => {

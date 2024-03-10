@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import appointment from '../api/Appointment.js';
+import { page } from '../constants/index.js';
 const getSchedule = appointment.getSchedule;
 const bookAppointment = appointment.bookAppointment
 const queryClient = useQueryClient();
 export const useGetSchedule= (id) => {
   return useQuery({
-      queryKey: ["SCHEDULE",id],
+      queryKey: [page.schedule,id],
       queryFn: async () => {
           try {
               const { data } = await getSchedule(id);
@@ -26,7 +27,7 @@ export const useBookAppointment = (setErrorTextCallback) => {
         },
       onSuccess: async data => {
         console.log(data);
-        queryClient.invalidateQueries(["SCHEDULE"]);
+        queryClient.invalidateQueries([page.schedule]);
       },
       onError: error => {
         console.error('Error:', error);

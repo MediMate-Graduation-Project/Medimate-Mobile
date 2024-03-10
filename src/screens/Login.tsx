@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {createRef, useState} from 'react';
-// import Logo from '../assets/Logo.png';
-// import countryCode from '../assets/countryCode.png';
 import {useLogin} from '../hooks/useAuth';
 import {useNavigation} from '@react-navigation/native';
 

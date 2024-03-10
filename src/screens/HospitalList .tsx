@@ -1,4 +1,4 @@
-import Card from '../components/card.jsx';
+import Card from '../components/Card.jsx';
 import React from 'react';
 import {useGetAllHospital} from '../hooks/useHospital.jsx';
 import {ScrollView, StyleSheet, TextInput, View} from 'react-native';

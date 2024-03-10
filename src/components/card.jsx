@@ -1,9 +1,9 @@
 import {View, StyleSheet, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Boundary} from './boundary';
+import {Boundary} from './Boundary';
 import { useGetHospitalDetail } from '../hooks/useHospital';
-import { Rating } from './rating';
+import { Rating } from './Rating';
 import { page } from '../constants';
 
 export default function Card({ id }) {

@@ -38,9 +38,6 @@ export const HeaderFlatList = () => {
   const NavigationSymptom = () => {
     navigation.navigate(page.voice)
   }
-  // const NavigateSchedule = () =>{
-  //   navigation.navigate('schedule', { id: 2})
-  // }
   const NavigationListHospital = () => {
     navigation.navigate(page.hospitalList)}
 

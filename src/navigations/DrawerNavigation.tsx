@@ -9,7 +9,7 @@ import { TabNavigation } from './TabNavigation';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from '../common/colors';
-import { ItemDrawer } from '../components/itemDrawer';
+import { ItemDrawer } from '../components/ItemDrawer';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';

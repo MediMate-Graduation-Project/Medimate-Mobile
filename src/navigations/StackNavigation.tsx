@@ -18,7 +18,7 @@ export const StackNavigation = () => {
         name="MainStack"
         component={MyDrawerNavigation}
         options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="voice" component={Symptom}></Stack.Screen>
+      <Stack.Screen name="diagnose" component={Symptom}></Stack.Screen>
       <Stack.Screen
         name="login"
         component={Login}

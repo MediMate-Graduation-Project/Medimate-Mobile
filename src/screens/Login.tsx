@@ -6,10 +6,9 @@ import {
   Image,
   TextInput,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native';
 import React, {createRef, useState} from 'react';
-// import Logo from '../assets/Logo.png';
-// import countryCode from '../assets/countryCode.png';
 import {useLogin} from '../hooks/useAuth';
 import {useNavigation} from '@react-navigation/native';
 
@@ -19,7 +18,7 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
   const passwordInputRef = createRef();
-  const {mutate: login, isError, error} = useLogin(setErrorText);
+  const {mutate: login, isError, error,isPending,isSuccess} = useLogin(setErrorText);
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -87,9 +86,9 @@ export const Login = () => {
           </Text>
           <View>
             <View style={styles.button}>
-              <Pressable onPress={handleLogin} style={styles.btnLogin}>
+              <TouchableOpacity onPress={handleLogin} style={styles.btnLogin}>
                 <Text style={styles.buttonText}>Đăng nhập</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <Text style={styles.registerText}>
               Bạn chưa có tài khoản?{' '}

@@ -8,7 +8,7 @@ export const ItemDrawer = ({nameIcon, nameFeature }: any) => {
             <MaterialCommunityIcons name={nameIcon} color={'#30A2FF'} size={20}></MaterialCommunityIcons>
             <Text style={styles.nameFeature}>{nameFeature}</Text>
         </View>
-
+    
     )
 }
 

@@ -3,24 +3,24 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from "../../common/colors";
 
-export const ServiceItem = ({nameService,nameIcon,nameNavigation}:any) => {
+export const ServiceItem = ({name,icon,navigation}:any) => {
     return (
-        <View style={styles.containeritemService1}>
-            <MaterialCommunityIcons size={50} color={mainColor} name={nameIcon} ></MaterialCommunityIcons>
-            <TouchableOpacity onPress={nameNavigation}>
-                <Text style={styles.nameService}>{nameService}</Text>
+        <View style={styles.containerItemService1}>
+            <MaterialCommunityIcons size={50} color={mainColor} name={icon} ></MaterialCommunityIcons>
+            <TouchableOpacity onPress={navigation}>
+                <Text style={styles.name}>{name}</Text>
             </TouchableOpacity>
         </View>
     )
 }
 const styles = StyleSheet.create({
-    containeritemService1: {
+    containerItemService1: {
         flexDirection: 'row',
         flex: 2,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    nameService: {
+    name: {
         color: 'black',
         fontWeight:'bold'
     }

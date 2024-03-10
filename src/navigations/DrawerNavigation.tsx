@@ -1,48 +1,103 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {HomePage} from '../screens/Home';
-import {TabNavigation} from './TabNavigation';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { HomePage } from '../screens/Home';
+import { TabNavigation } from './TabNavigation';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {mainColor} from '../common/colors';
-import {ItemDrawer} from '../components/itemDrawer';
-import {useNavigation} from '@react-navigation/native';
+import { mainColor } from '../common/colors';
+import { ItemDrawer } from '../components/ItemDrawer';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCheckAuth } from '../hooks/checkAuth';
+import { useAuth } from '../components/AuthContext';
+import { useGetDataUser } from '../hooks/useAuth';
+import { page } from '../constants';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
+  const { hasUser, setHasUser, dataUser, setIdUser, idUser } = useAuth();
+
+  const { handleLogout } = useCheckAuth(setHasUser, setIdUser);
+
+
+  console.log('sss', idUser);
+
+
+  const { data: userData, isLoading, isError } = useQuery(
+    {
+      queryKey: ['userData'],
+      queryFn: async () => {
+        const response = await axios.get(`https://medimate-be.onrender.com/users/${idUser}`);
+        return response.data;
+      },
+      enabled: hasUser
+    }
+
+
+  );
+
+
+
+  console.log('newson', userData);
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.containerHeaderDrawer}>
         <Image source={require('../assets/logo.png')}></Image>
-        <View style={styles.contanierUser}>
-          <MaterialCommunityIcons
-            name="account-circle"
-            color={mainColor}
-            size={30}></MaterialCommunityIcons>
-          <Text style={styles.nameUser}>Nguyen Van Bien</Text>
-        </View>
-        <TouchableOpacity>
-          <Text>Xem trang cá nhân</Text>
-        </TouchableOpacity>
+        {hasUser == true ?
+          <><View style={styles.contanierUser}>
+            <MaterialCommunityIcons
+              name="account-circle"
+              color={mainColor}
+              size={30}></MaterialCommunityIcons>
+            <Text style={styles.nameUser}>{userData ? userData.name : null}</Text>
+
+          </View>
+            <TouchableOpacity>
+              <Text>Xem trang cá nhân</Text>
+            </TouchableOpacity></>
+
+          : null
+        }
+
       </View>
 
       <DrawerItemList {...props} />
-      <TouchableOpacity
+      {hasUser == true ? <TouchableOpacity
         onPress={() => {
-          navigation.navigate('login');
+          handleLogout()
         }}>
         <View style={styles.containerLogout}>
+
           <MaterialCommunityIcons
             name="logout"
             color={'#30A2FF'}
             size={20}></MaterialCommunityIcons>
           <Text style={styles.nameFeature}>Đăng xuất</Text>
+
+
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> : <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(page.login);
+        }}>
+        <View style={styles.containerLogout}>
+
+          <MaterialCommunityIcons
+            name="login"
+            color={'#30A2FF'}
+            size={20}></MaterialCommunityIcons>
+          <Text style={styles.nameFeature}>Đăng nhập</Text>
+
+
+        </View>
+      </TouchableOpacity>}
+
     </DrawerContentScrollView>
   );
 };
@@ -59,7 +114,8 @@ export const MyDrawerNavigation = () => {
             <Text style={styles.nameApp}>MediMate</Text>
           </View>
         ),
-        headerStyle: {height: 100},
+        headerStyle: { height: 150 },
+        drawerItemStyle: { marginBottom: 30 }
       }}>
       <Drawer.Screen
         name="myTab"
@@ -131,6 +187,7 @@ const styles = StyleSheet.create({
   containerLogout: {
     flexDirection: 'row',
     marginLeft: 20,
+    marginTop: 10
   },
 
   containerHeaderDrawer: {

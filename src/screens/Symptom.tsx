@@ -245,8 +245,4 @@ const styles = StyleSheet.create({
   }
 });
 
-<<<<<<< HEAD
 export default Diagnose;
-=======
-export default Symptom;
->>>>>>> 237d72ddc1100fcec02e50c6cc91f083be4a1732

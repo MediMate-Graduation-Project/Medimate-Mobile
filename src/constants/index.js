@@ -10,6 +10,6 @@ const page = {
   login: "login",
   register: "register",
   schedule: "schedule",
-  voice:"voice"
+  voice:"diagnose"
 };
 export {queryKey, page};

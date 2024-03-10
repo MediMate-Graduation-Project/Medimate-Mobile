@@ -1,7 +1,7 @@
 import React from "react"
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-export const RenderNews = ({ item }: any) => {
+export const News = ({ item }: any) => {
     return (
         <TouchableOpacity style={styles.container}>
             <View style={styles.containerImage}><Image width={100} height={100} source={{uri: item.image}}/></View>

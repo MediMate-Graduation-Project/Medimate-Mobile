@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCheckAuth } from '../hooks/checkAuth';
 import { useAuth } from '../components/AuthContext';
 import { useGetDataUser } from '../hooks/useAuth';
+import { page } from '../constants';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
@@ -83,7 +84,7 @@ const CustomDrawer = (props: any) => {
         </View>
       </TouchableOpacity> : <TouchableOpacity
         onPress={() => {
-          navigation.navigate('login');
+          navigation.navigate(page.login);
         }}>
         <View style={styles.containerLogout}>
 

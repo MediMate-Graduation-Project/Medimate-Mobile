@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {useBookAppointment, useGetSchedule} from '../hooks/useAppointment.jsx';
+import {useBookAppointment, useGetSchedule} from '../hooks/useAppointment';
 import moment from 'moment';
 import {mainColor} from '../common/colors';
 

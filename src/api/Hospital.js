@@ -2,7 +2,7 @@ import baseAxios from './baseAxios.js';
 
 const ENDPOINT = 'hospitals';
 
-export const getDetailHospital = async (id) => {
+export const getHospitalDetail = async (id) => {
   return await baseAxios.get(`${ENDPOINT}/${id}`);
 };
 export const getAllHospital = async () => {
@@ -10,6 +10,6 @@ export const getAllHospital = async () => {
 };
 
 export default {
-  getDetailHospital,
+  getHospitalDetail,
   getAllHospital
 };

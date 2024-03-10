@@ -1,15 +1,29 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import hospital from '../api/Hospital';
+import hospital, { getAllHospital } from '../api/Hospital';
+import { queryKey } from '../constants';
 
-const getDetailHospital = hospital.getDetailHospital;
+const getHospitalDetail = hospital.getHospitalDetail;
 
-
-export const useGetDetailHospital = (id) => {
+export const useGetAllHospital = () =>{
   return useQuery({
-      queryKey: ["HOSPITAL", id],
+    queryKey:[queryKey.hospital],
+    queryFn: async () =>{
+      try {
+        const {data} = await getAllHospital();
+        return data;
+      } catch (error) {
+        console.log("Error fetching list hospital:", error);
+        throw error;
+      }
+    }
+  })
+}
+export const useGetHospitalDetail = (id) => {
+  return useQuery({
+      queryKey: [queryKey.hospital, id],
       queryFn: async () => {
           try {
-              const { data } = await getDetailHospital(id);
+              const { data } = await getHospitalDetail(id);
               return data;
           } catch (error) {
                console.log("Error fetching hospital details:", error);

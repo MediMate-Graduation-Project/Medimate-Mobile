@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {useNavigation} from '@react-navigation/native';
 import { useRegister } from '../hooks/useAuth';
+import { page } from '../constants';
 export const Register = () => {
   const navigation = useNavigation();
   const [imageHeight, setImageHeight] = useState(new Animated.Value(247));
@@ -157,7 +158,7 @@ export const Register = () => {
               Bạn đã có tài khoản?{' '}
               <Text
                 style={{color: '#30A2FF'}}
-                onPress={() => navigation.navigate('login')}>
+                onPress={() => navigation.navigate(page.login)}>
                 Hãy đăng nhập
               </Text>
             </Text>

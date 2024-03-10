@@ -4,14 +4,14 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../components/AuthContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
+import { queryKey } from "../constants";
 
 export const useCheckAuth = (setHasUser: any, setIdUser: any) => {
     const navigation = useNavigation();
     const { setHasUser: setGlobalHasUser, setIdUser: setGlobalIdUser, hasUser,idUser} = useAuth();
 
     const {data,isSuccess, isLoading, isError } = useQuery({
-        queryKey: ['profile'],
+        queryKey: [queryKey.profile],
         queryFn: async () => {
             const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
             return response.data

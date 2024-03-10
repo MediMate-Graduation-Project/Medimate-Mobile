@@ -15,7 +15,8 @@ export const ItemDrawer = ({nameIcon, nameFeature }: any) => {
 const styles = StyleSheet.create(
     {
         containerdrawerLabel: {
-            flexDirection: 'row'
+            flexDirection: 'row',
+            gap: 10
         },
         nameFeature: {
             fontSize: 15,

@@ -110,12 +110,12 @@ export const MyDrawerNavigation = () => {
           <View style={styles.containerLogo}>
             <Image
               style={styles.image}
-              source={require('../assets/logo.png')}></Image>
+              source={require('../assets/logo.png')}  ></Image>
             <Text style={styles.nameApp}>MediMate</Text>
           </View>
         ),
-        headerStyle: { height: 150 },
-        drawerItemStyle: { marginBottom: 30 }
+        headerStyle: { height: 100 },
+        drawerItemStyle: { marginBottom: 10 }
       }}>
       <Drawer.Screen
         name="myTab"
@@ -173,10 +173,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 30,
-    marginTop: 40,
   },
   image: {
-    marginBottom: 10,
+    width: 100,
+    height: 100,
   },
   nameApp: {
     color: '#30A2FF',

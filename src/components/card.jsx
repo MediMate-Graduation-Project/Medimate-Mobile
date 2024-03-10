@@ -1,7 +1,6 @@
 import {View, StyleSheet, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Boundary} from './Boundary';
 import { useGetHospitalDetail } from '../hooks/useHospital';
 import { Rating } from './Rating';
 import { page } from '../constants';

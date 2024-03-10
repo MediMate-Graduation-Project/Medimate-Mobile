@@ -1,10 +1,10 @@
-import Card from '../components/Card.jsx';
 import React from 'react';
 import {useGetAllHospital} from '../hooks/useHospital.jsx';
 import {ScrollView, StyleSheet, TextInput, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Modalize} from 'react-native-modalize';
 import { mainColor } from '../common/colors.ts';
+import Card from '../components/Card.jsx';
 
 export const HospitalList  = () => {
   const hospitalList = useGetAllHospital();

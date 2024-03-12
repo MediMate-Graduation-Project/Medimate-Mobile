@@ -72,10 +72,10 @@ export const useSymptom=()=>{
   const { mutateAsync, isPending, isError } = useMutation({
     mutationFn: () => {
       const requestData = {
-        prompt: '(Lưu ý giúp tôi nhé =>nếu nhập sai, tầm bậy hoặc không phải triệu chứng bệnh thì đưa ra chữ Sai, còn nếu nhập đúng các triệu chứng thì đưa ra kết quả ngắn gọn chính xác nhất có thể)Tôi bị bệnh gì, đưa ra chẩn đoán sơ bộ 1 bệnh cụ thể và đưa ra phòng khám chuyên khoa phù hợp cho nó, triệu chứng là: ' + results
+        diagnose: '(Lưu ý giúp tôi nhé =>nếu nhập sai, tầm bậy hoặc không phải triệu chứng bệnh thì đưa ra chữ Sai, còn nếu nhập đúng các triệu chứng thì đưa ra kết quả ngắn gọn chính xác nhất có thể)Tôi bị bệnh gì, đưa ra chẩn đoán sơ bộ 1 bệnh cụ thể và đưa ra phòng khám chuyên khoa phù hợp cho nó, triệu chứng là: ' + results
       };
       console.log(requestData);
-      return axios.post('https://medimate-be.onrender.com/diagnostic', requestData);
+      return axios.post('https://medimate-be.onrender.com/diagnose', requestData);
 
 
     },
@@ -112,6 +112,9 @@ export const useSymptom=()=>{
     _stopRecognizing();
     navigation.navigate('diagnose')
   }
+  const handleNavigateMap=()=>{
+    navigation.navigate('maps')
+  }
   return(
     {
         _startRecognizing,
@@ -132,7 +135,8 @@ export const useSymptom=()=>{
         modalVisibleResult,
         checkError,
         diagnoseAI,
-        handleNavigateBack
+        handleNavigateBack,
+        handleNavigateMap
     }
 
   )

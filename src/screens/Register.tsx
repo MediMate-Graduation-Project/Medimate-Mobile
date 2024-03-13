@@ -44,12 +44,12 @@ export const Register = () => {
     Animated.parallel([
       Animated.timing(imageHeight, {
         duration: event.duration,
-        toValue: 150,
+        toValue: 90,
         useNativeDriver: false,
       }),
       Animated.timing(imageWidth, {
         duration: event.duration,
-        toValue: 150,
+        toValue: 90,
         useNativeDriver: false,
       }),
     ]).start();
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   viewInput: {
-    marginTop: 7,
+    marginTop: 5,
     borderColor: '#30A2FF',
     borderWidth: 1,
     borderRadius: 20,
@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 32,
     fontWeight: '700',
+    marginBottom:25
   },
   formRegister: {
     flexDirection: 'column',

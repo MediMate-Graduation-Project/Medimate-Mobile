@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 export const News = ({ item }: any) => {
     return (
         <TouchableOpacity style={styles.container}>
-            <View style={styles.containerImage}><Image width={100} height={100} source={{uri: item.image}}/></View>
+            <View style={styles.containerImage}><Image width={100} height={100} source={{uri: item.image}} style={styles.image}/></View>
             <View style={styles.containerText}><Text style={styles.title}>{item.namenews}</Text></View>
         </TouchableOpacity>
     )
@@ -15,6 +15,8 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         margin:20,
         backgroundColor:'#ECF0F1',
+        borderRadius: 10,
+        paddingRight: 5
     },
    containerImage:{
     marginRight:10
@@ -27,5 +29,8 @@ const styles=StyleSheet.create({
    title:{
     color:'black',
     fontWeight:'normal'
+   },
+   image:{
+    borderRadius:10
    }
 })

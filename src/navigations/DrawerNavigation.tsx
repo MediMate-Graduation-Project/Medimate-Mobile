@@ -175,17 +175,18 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
   },
   nameApp: {
     color: '#30A2FF',
     fontWeight: 'bold',
-    fontSize: 25,
+    fontSize: 22,
   },
 
   containerLogout: {
     flexDirection: 'row',
+    gap: 10,
     marginLeft: 20,
     marginTop: 10
   },

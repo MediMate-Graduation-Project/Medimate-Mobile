@@ -1,15 +1,10 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Boundary} from '../components/Boundary.jsx';
 import {Modalize} from 'react-native-modalize';
 import {Rating} from '../components/Rating.jsx';
-import { useGetHospitalDetail } from '../hooks/useHospital.jsx';
+import {useGetHospitalDetail} from '../hooks/useHospital.jsx';
 
 export const HospitalDetail = ({route}: {route: any}) => {
   const {id} = route.params || {};
@@ -40,10 +35,18 @@ export const HospitalDetail = ({route}: {route: any}) => {
           <View style={styles.imageContainer}>
             <Text style={styles.title}>Hình ảnh</Text>
             <View style={styles.imageView}>
-              <Image source={require('../assets/hospital1.png')}></Image>
-              <Image source={require('../assets/hospital2.png')}></Image>
-              <Image source={require('../assets/hospital3.png')}></Image>
-              <Image source={require('../assets/hospital4.png')}></Image>
+              <Image
+                source={require('../assets/hospital1.png')}
+                style={styles.image}></Image>
+              <Image
+                source={require('../assets/hospital2.png')}
+                style={styles.image}></Image>
+              <Image
+                source={require('../assets/hospital3.png')}
+                style={styles.image}></Image>
+              <Image
+                source={require('../assets/hospital4.png')}
+                style={styles.image}></Image>
             </View>
             <Text style={styles.moreText}>Xem thêm</Text>
           </View>
@@ -52,12 +55,16 @@ export const HospitalDetail = ({route}: {route: any}) => {
             {data.data?.reviews.map((item: any) => (
               <View style={styles.feedbackView} key={item}>
                 <View style={styles.infoView}>
-                  <MaterialCommunityIcons name="account" size={40} style={styles.avatar} />
+                  <MaterialCommunityIcons
+                    name="account"
+                    size={40}
+                    style={styles.avatar}
+                  />
                   <View style={styles.contentRight}>
                     <Text style={styles.title}>{item?.users.name}</Text>
                     <Text style={styles.reviewText}>{item?.review}</Text>
                     <View style={styles.rating}>
-                      <Rating number={item?.rating} />                    
+                      <Rating number={item?.rating} />
                     </View>
                   </View>
                 </View>
@@ -102,9 +109,13 @@ const styles = StyleSheet.create({
   imageView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     gap: 10,
     paddingTop: 10,
+  },
+  image: {
+    width: 150,
+    height: 100,
   },
   moreText: {
     color: '#30A2FF',
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
   infoView: {
     flexDirection: 'row',
   },
-  avatar:{
+  avatar: {
     // borderRadius: 20,
     // borderWidth: 1,
     // height: 40
@@ -132,7 +143,7 @@ const styles = StyleSheet.create({
   contentRight: {
     flexDirection: 'column',
     gap: 5,
-    paddingRight: 20,
+    paddingRight: 30,
   },
   rating: {
     flexDirection: 'row',

@@ -7,7 +7,7 @@ import {mainColor} from '../common/colors';
 import {TouchableOpacity} from 'react-native';
 import {page} from '../constants';
 
-export const AppointmentPage = () => {
+export const AppointmentDoctor = () => {
   const {hasUser} = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();

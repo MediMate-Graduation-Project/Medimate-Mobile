@@ -11,15 +11,27 @@ import {
 import React, {createRef, useState} from 'react';
 import {useLogin} from '../hooks/useAuth';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import CheckBox from 'react-native-check-box';
+import { mainColor } from '../common/colors';
 
 export const Login = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
+  const [isDoctor, setIsDoctor] = useState(false);
+  
   const passwordInputRef = createRef();
-  const {mutate: login, isError, error,isPending,isSuccess} = useLogin(setErrorText);
+  const {
+    mutate: login,
+    isError,
+    error,
+    isPending,
+    isSuccess,
+  } = useLogin(setErrorText);
   const navigation = useNavigation();
+  const [hidePwd, setHidePwd] = useState(true);
 
   const handleLogin = () => {
     try {
@@ -73,11 +85,25 @@ export const Login = () => {
                 ref={passwordInputRef}
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
                 onSubmitEditing={Keyboard.dismiss}
-                secureTextEntry={true}
                 returnKeyType="next"
+                secureTextEntry={hidePwd}
               />
+              <Pressable onPress={() => setHidePwd(!hidePwd)}>
+                <Icon name={hidePwd ? 'eye' : 'eye-off'} size={30} />
+              </Pressable>
             </View>
-            <Text style={styles.forgotPwd}>Quên mật khẩu?</Text>
+            <View style={styles.checkBoxView}>
+
+            <CheckBox
+              onClick={() => {
+                setIsDoctor(!isDoctor);
+              }}
+              isChecked={isDoctor}
+              checkBoxColor={mainColor}
+            >
+            </CheckBox>
+            <Text style= {styles.checkBoxText}>Bạn là bác sĩ?</Text>
+            </View>
           </View>
         </View>
         <View>
@@ -154,20 +180,28 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 18,
     color: '#FFF',
     fontWeight: '500',
   },
   btnLogin: {
     alignItems: 'center',
   },
-  forgotPwd: {
+  checkBoxView: {
     color: '#30A2FF',
     alignSelf: 'flex-end',
     paddingTop: 12,
+    paddingRight:10,
+    flexDirection: 'row',
+    gap:5,
+    alignItems: 'center'
+  },
+  checkBoxText:{
+    color: '#000',
+    fontWeight: '700'
   },
   registerText: {
-    fontSize: 15,
+    fontSize: 16,
     color: '#000',
     alignSelf: 'center',
     fontStyle: 'italic',

@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   formLogin: {
+   paddingTop:30,
     flexDirection: 'column',
     gap: 10,
   },
@@ -190,7 +191,8 @@ const styles = StyleSheet.create({
   checkBoxView: {
     color: '#30A2FF',
     alignSelf: 'flex-end',
-    paddingTop: 12,
+    paddingVertical: 10,
+    marginBottom:15,
     paddingRight:10,
     flexDirection: 'row',
     gap:5,

@@ -1,11 +1,10 @@
 import {Button, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {useAuth} from '../components/AuthContext';
 import Modal from 'react-native-modal';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {mainColor} from '../common/colors';
+import {mainColor} from '../../common/colors';
 import {TouchableOpacity} from 'react-native';
-import {page} from '../constants';
+import {useAuth} from '../../components/AuthContext';
 
 export const AppointmentDoctor = () => {
   const {hasUser} = useAuth();
@@ -26,86 +25,62 @@ export const AppointmentDoctor = () => {
   return (
     <View style={styles.container}>
       <View>
-        <View style={styles.buttonViewContainer}>
-          <Pressable style={styles.buttonViewCancel}>
-            <Text style={styles.cancelButtonText}>Hủy lịch</Text>
-          </Pressable>
-          <Pressable style={styles.buttonViewMore}>
-            <Text style={styles.viewMoreText}>Xem chi tiết</Text>
-          </Pressable>
-        </View>
-        <View style={styles.inforContainer}>
+        <View>
           <View style={styles.numberContainer}>
-            <View style={styles.numberView}>
-              <View style={styles.nameView}>
-                <Text style={styles.nameText}>Bệnh Viện 199 - Bộ Công An</Text>
-              </View>
-              <View style={styles.nextNumberView}>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>21</Text>
-                </View>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>22</Text>
-                </View>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>24</Text>
-                </View>
-              </View>
-            </View>
             <View style={styles.numberCircle}>
               <Text style={styles.currentNumber}>20</Text>
             </View>
             <View style={styles.numberCircle2}></View>
-            <View style={styles.myNumberView}>
-              <Text style={styles.timeText}>Dự kiến 11:02 AM</Text>
-              <Text style={styles.timeText} >Số thứ tự: <Text style={styles.numberText}>29</Text></Text>
-            </View>
           </View>
-          <View></View>
+          <View style={styles.buttonView}>
+            <Pressable style={styles.button}>
+              <Text style={styles.text}>Số tiếp theo</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-      <View style={styles.historyContainer}>
-        <Text style={styles.title}>Lịch sử</Text>
+      <View style={styles.patientContainer}>
+        <Text style={styles.text}>Danh sách khám bệnh</Text>
         <View style={styles.cardView}>
           <Pressable style={styles.card}>
             <Image
-              source={require('../assets/hospital1.png')}
+              source={require('../../assets/user.png')}
               style={styles.image}
               borderRadius={30}
             />
             <View style={styles.inforView}>
-              <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <Text style={styles.detailText}>29/11/2023</Text>
-                <Text style={styles.detailText}>09:30 AM</Text>
+              <Text style={styles.nameText}>Nguyễn Văn A</Text>
+              <View style={styles.detailView}>
+                <Text style={styles.detailText}>STT:</Text>
+                <Text style={styles.text}>21</Text>
               </View>
             </View>
           </Pressable>
           <Pressable style={styles.card}>
             <Image
-              source={require('../assets/hospital1.png')}
+              source={require('../../assets/user.png')}
               style={styles.image}
               borderRadius={30}
             />
             <View style={styles.inforView}>
-              <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <Text style={styles.detailText}>29/11/2023</Text>
-                <Text style={styles.detailText}>09:30 AM</Text>
+              <Text style={styles.nameText}>Nguyễn Văn A</Text>
+              <View style={styles.detailView}>
+                <Text style={styles.detailText}>STT:</Text>
+                <Text style={styles.text}>21</Text>
               </View>
             </View>
           </Pressable>
           <Pressable style={styles.card}>
             <Image
-              source={require('../assets/hospital1.png')}
+              source={require('../../assets/user.png')}
               style={styles.image}
               borderRadius={30}
             />
             <View style={styles.inforView}>
-              <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <Text style={styles.detailText}>29/11/2023</Text>
-                <Text style={styles.detailText}>09:30 AM</Text>
+              <Text style={styles.nameText}>Nguyễn Văn A</Text>
+              <View style={styles.detailView}>
+                <Text style={styles.detailText}>STT:</Text>
+                <Text style={styles.text}>21</Text>
               </View>
             </View>
           </Pressable>
@@ -120,52 +95,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 15,
     flexDirection: 'column',
-    gap: 40
+    gap: 40,
   },
-  buttonViewContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonViewCancel: {
-    borderRadius: 16,
-    borderColor: '#FB3D56',
-    borderWidth: 2,
-    width: 91,
-    height: 23,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonViewMore: {
-    borderRadius: 16,
-    borderColor: mainColor,
-    borderWidth: 2,
-    width: 91,
-    height: 23,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cancelButtonText: {
-    fontSize: 12,
-    color: '#FB3D56',
-  },
-  viewMoreText: {
-    fontSize: 12,
-    color: mainColor,
-  },
-  historyContainer: {
-    // flex:1,
-    // marginTop:20,
+  patientContainer: {
     flexDirection: 'column',
-    gap: 10,
-  },
-  inforContainer: {
-    // flex: 1,
+    gap: 20,
   },
   numberContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor:'blue',
     position: 'relative',
     marginTop: 5,
   },
@@ -178,6 +117,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 10,
     borderColor: '#c0c1c2',
+  },
+  button:{
+    marginTop:20,
+    alignSelf:'center',
+    borderRadius: 10,
+    borderWidth:1,
+    borderColor: mainColor,
+    padding: 8
   },
   numberView: {
     flexDirection: 'row',
@@ -192,8 +139,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: -1,
-    backgroundColor: '#fff'
-    // flex: 1
+    backgroundColor: '#fff',
   },
   numberCircle: {
     borderWidth: 1,
@@ -210,67 +156,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  currentNumber: {
-    color: '#FB3D56',
-    fontSize: 36,
-    fontWeight: '700',
-  },
   numberCircle2: {
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 9,
     paddingVertical: 12,
     borderColor: mainColor,
-    // position: 'absolute',
     zIndex: -2,
     alignSelf: 'center',
     width: 100,
     height: 100,
-    // backgroundColor:'#000'
   },
-  myNumberView: {
-    alignSelf: 'flex-end',
-    backgroundColor: mainColor,
-    padding: 8,
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    marginRight: 8,
-    position: 'absolute',
-    right: 0,
-    bottom: '-35%',
-  },
-  timeText: {
-    color: '#fff',
-    fontSize: 12,
-    alignSelf:'center'
-  },
-  numberText: {
-    color: '#fff',
-    fontSize: 15,
+
+  currentNumber: {
+    color: '#FB3D56',
+    fontSize: 36,
     fontWeight: '700',
   },
-  nameView: {
-    maxWidth: 110,
+  inforView: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: 9,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
-  nextNumberView: {
+  detailView: {
     flexDirection: 'row',
     gap: 5,
-  },
-  nextNumber: {
-    borderColor: mainColor,
-    borderWidth: 1,
-    padding: 7,
-    borderRadius: 5,
-  },
-  nextNumberText: {
-    color: '#000',
-    fontSize: 15,
-    fontWeight: '700'
-  },
-  inforView: {
-    flexDirection: 'column',
-    gap: 9,
-    // justifyContent: 'space-between'
   },
   nameText: {
     fontSize: 15,
@@ -278,22 +191,20 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   detailText: {
-    fontSize: 12,
-    fontStyle: 'italic',
-    color: '#000',
-  },
-  title: {
     fontSize: 15,
-    fontWeight: '700',
-    color: mainColor,
+    color: '#000',
   },
   cardView: {
     flexDirection: 'column',
     gap: 10,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
   },
- 
+  text: {
+    fontSize: 15,
+    color: mainColor,
+    fontWeight: '700',
+  },
 });

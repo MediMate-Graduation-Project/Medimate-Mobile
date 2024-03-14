@@ -6,6 +6,7 @@ import { NotificationPage } from '../screens/Notification';
 import { ProfilePage } from '../screens/Profile';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react'
+import { AppointmentDoctor } from '../screens/Doctor/Appointment';
 const Tab = createBottomTabNavigator();
 export function TabNavigation(){
    return(
@@ -38,7 +39,7 @@ export function TabNavigation(){
       <Tab.Screen name="Trang chủ" component={HomePage}></Tab.Screen>
       <Tab.Screen name="Tin nhắn" component={ChatPage}></Tab.Screen>
       <Tab.Screen name="Lịch hẹn" component={AppointmentPage}></Tab.Screen>
-      <Tab.Screen name="Thông báo" component={NotificationPage}></Tab.Screen>
+      <Tab.Screen name="Thông báo" component={AppointmentDoctor}></Tab.Screen>
       <Tab.Screen name="Cá nhân" component={ProfilePage}></Tab.Screen>
     </Tab.Navigator>
    )

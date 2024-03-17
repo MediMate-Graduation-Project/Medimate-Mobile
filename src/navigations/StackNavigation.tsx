@@ -9,6 +9,7 @@ import {Schedule} from '../screens/Schedule';
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
+import { WebViewNews } from '../components/WebViewNews';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -39,6 +40,10 @@ export const StackNavigation = () => {
         name="schedule"
         component={Schedule}
         options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+        name="News"
+        component={WebViewNews}
+        options={{title:''}}></Stack.Screen>
     </Stack.Navigator>
   );
 };

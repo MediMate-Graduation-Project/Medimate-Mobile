@@ -1,47 +1,41 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation,CommonActions } from "@react-navigation/native";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../components/AuthContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryKey } from "../constants";
+import SessionStorage from "react-native-session-storage";
 
-export const useCheckAuth = (setHasUser: any, setIdUser: any) => {
+export const useCheckAuth = () => {
     const navigation = useNavigation();
-    const { setHasUser: setGlobalHasUser, setIdUser: setGlobalIdUser, hasUser,idUser} = useAuth();
-
-    const {data,isSuccess, isLoading, isError } = useQuery({
-        queryKey: [queryKey.profile],
-        queryFn: async () => {
-            const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
-            return response.data
+    const logoutMutation = useMutation({
+        mutationFn: async () => {
+            const res = axios.post(`https://medimate-be.onrender.com/Auth/logout`);
+            return res;
         },
-        enabled:hasUser
-    })
-    useEffect(()=>{
-        if (data) {
-            console.log('check', data.id);
-            setGlobalIdUser(data.id);
-            setGlobalHasUser(true);
-          } else {
-            console.log('Không có user nào login');
-            setGlobalHasUser(false);
-          }
-    
-    },[data,isSuccess,isError])
-    
+        onSuccess: async data => {
 
-    const logoutMutation = useMutation({mutationFn:() => axios.post(`https://medimate-be.onrender.com/Auth/logout`),
-        onSuccess: () => {
-            console.log("Đăng xuất thành công!");
-            setGlobalHasUser(false);
-            navigation.navigate('Trang chủ');
+            if (data.status == 200) {
+
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: 'Trang chủ' }]
+                    })
+                );
+                SessionStorage.setItem('UserData', null)
+                setTimeout(() => {
+                    navigation.navigate('Trang chủ');
+                }, 100);
+            }
+            
         },
         onError: () => {
             console.log("Đăng xuất thất bại!");
-        }
-    });
+        },
 
+    });
     const handleLogout = async () => {
         try {
             await logoutMutation.mutateAsync();
@@ -49,8 +43,6 @@ export const useCheckAuth = (setHasUser: any, setIdUser: any) => {
             console.log('Đăng xuất thất bại');
         }
     };
-    
-
     return {
         handleLogout
     }

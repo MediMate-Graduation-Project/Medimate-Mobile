@@ -6,8 +6,11 @@ import { NotificationPage } from '../screens/Notification';
 import { ProfilePage } from '../screens/Profile';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react'
+import SessionStorage from 'react-native-session-storage';
+import { ModalCheckAuth } from '../components/ModalCheckAuth';
 const Tab = createBottomTabNavigator();
 export function TabNavigation(){
+  const userData=SessionStorage.getItem('UserData')
    return(
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -36,10 +39,10 @@ export function TabNavigation(){
         headerShown:false
       })}>
       <Tab.Screen name="Trang chủ" component={HomePage}></Tab.Screen>
-      <Tab.Screen name="Tin nhắn" component={ChatPage}></Tab.Screen>
-      <Tab.Screen name="Lịch hẹn" component={AppointmentPage}></Tab.Screen>
-      <Tab.Screen name="Thông báo" component={NotificationPage}></Tab.Screen>
-      <Tab.Screen name="Cá nhân" component={ProfilePage}></Tab.Screen>
+      <Tab.Screen name="Tin nhắn" component={userData!=null?ChatPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Lịch hẹn" component={userData!=null?AppointmentPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Thông báo" component={userData!=null?NotificationPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Cá nhân" component={userData!=null?ProfilePage:ModalCheckAuth}></Tab.Screen>
     </Tab.Navigator>
    )
 }

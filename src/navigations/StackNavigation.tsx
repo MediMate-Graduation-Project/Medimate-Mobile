@@ -9,6 +9,7 @@ import {Schedule} from '../screens/Schedule';
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
+import { AppointmentDetail } from '../components/AppointmentDetail';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -18,7 +19,7 @@ export const StackNavigation = () => {
         name="MainStack"
         component={MyDrawerNavigation}
         options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="diagnose" component={Symptom}></Stack.Screen>
+      <Stack.Screen name="diagnose" component={AppointmentDetail}></Stack.Screen>
       <Stack.Screen
         name="login"
         component={Login}

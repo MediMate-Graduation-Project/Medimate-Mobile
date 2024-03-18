@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import Voice, {SpeechResultsEvent,SpeechErrorEvent,SpeechRecognizedEvent,} from '@react-native-voice/voice';
+import Voice, {SpeechResultsEvent,SpeechErrorEvent,SpeechRecognizedEvent,SpeechEndEvent} from '@react-native-voice/voice';
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 export const useSymptom=()=>{
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(true);
   const [results, setResults] = useState<string>('');
   const [isKeyboardOpened, setIsKeyboardOpened] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,9 +29,10 @@ export const useSymptom=()=>{
   };
 
 
-  const onSpeechEnd = (e: any) => {
+  const onSpeechEnd = (e: SpeechEndEvent) => {
     console.log('onSpeechEnd: ', e);
     setIsRecording(false);
+    setModalVisible(false)
   };
 
   const onSpeechError = (e: SpeechErrorEvent) => {

@@ -9,7 +9,7 @@ import {Schedule} from '../screens/Schedule';
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
-import { AppointmentDetail } from '../components/AppointmentDetail';
+import Maps from '../screens/Maps';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -19,7 +19,7 @@ export const StackNavigation = () => {
         name="MainStack"
         component={MyDrawerNavigation}
         options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="diagnose" component={Symptom}></Stack.Screen>
+      <Stack.Screen name="diagnose" component={Symptom} options={{title:''}}></Stack.Screen>
       <Stack.Screen
         name="login"
         component={Login}
@@ -40,6 +40,10 @@ export const StackNavigation = () => {
         name="schedule"
         component={Schedule}
         options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+        name="maps"
+        component={Maps}
+        options={{headerShown:false}}></Stack.Screen>
     </Stack.Navigator>
   );
 };

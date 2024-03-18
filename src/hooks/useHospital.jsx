@@ -4,12 +4,12 @@ import { queryKey } from '../constants';
 
 const getHospitalDetail = hospital.getHospitalDetail;
 
-export const useGetAllHospital = () =>{
+export const useGetAllHospital = (lat,long) =>{
   return useQuery({
     queryKey:[queryKey.hospital],
     queryFn: async () =>{
       try {
-        const {data} = await getAllHospital();
+        const {data} = await getAllHospital(lat,long);
         return data;
       } catch (error) {
         console.log("Error fetching list hospital:", error);

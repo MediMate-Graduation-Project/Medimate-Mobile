@@ -1,10 +1,13 @@
 import React from 'react';
-import { FlatList} from 'react-native';
-import {  TextInput, View } from 'react-native';
+import { FlatList } from 'react-native';
+import { TextInput, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HeaderFlatList } from '../components/HomePage/HeaderFlatList';
 import { News } from '../components/HomePage/News';
 import { stylesHome } from '../styles/Home';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import SessionStorage from 'react-native-session-storage';
 
 
 export const HomePage = () => {
@@ -35,7 +38,20 @@ export const HomePage = () => {
     }
   ]
 
-  
+  const { data: Userdata, isSuccess, isLoading, isError } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: async () => {
+      const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
+      return response.data
+    },
+  })
+  if (isSuccess) {
+    SessionStorage.setItem('UserData', Userdata);
+  } if (isError) {
+    SessionStorage.setItem('UserData', null)
+  }
+  const data = SessionStorage.getItem('UserData')
+  console.log('data', data != null);
   return (
 
     <View style={stylesHome.container}>

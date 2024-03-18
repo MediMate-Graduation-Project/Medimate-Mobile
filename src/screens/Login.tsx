@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {createRef, useState} from 'react';
 import {useLogin} from '../hooks/useAuth';
@@ -39,7 +40,9 @@ export const Login = () => {
       console.error(error);
     }
   };
+  
   return (
+  
     <View style={styles.container}>
       <View style={styles.view}>
         <View style={{alignSelf: 'center', alignItems: 'center'}}>

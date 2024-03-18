@@ -1,7 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {useAuth} from '../components/AuthContext';
-import Modal from 'react-native-modal';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {mainColor} from '../common/colors';
 import { useActualNumber } from '../hooks/useAppointment';
@@ -11,8 +10,8 @@ export const AppointmentPage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const hospitalId=1;
-  const {data} = useActualNumber(hospitalId);
-  console.log(42, data);
+  // const {data} = useActualNumber(hospitalId);
+  // console.log(42, data);
   useFocusEffect(
     useCallback(() => {
       if (hasUser === false) {

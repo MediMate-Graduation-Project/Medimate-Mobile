@@ -8,15 +8,15 @@ import { page } from '../constants';
 export default function Card({ id }) {
   const   data = useGetHospitalDetail(id);
   const navigation = useNavigation()
-  const rating = 2
+  // const rating = 2
   return (
     // <Boundary title={'Menu'}>
       <Pressable onPress={() => {navigation.navigate(page.detail, { id: data.data?.id})}}>
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.name}>{data.data?.hospitalName}</Text>
+            <Text style={styles.name}>{data.data?.name}</Text>
             <View style={styles.rating}>
-              <Rating number={rating}/>
+              <Rating number={data.data?.averageRating}/>
             </View>
             <Text style={styles.address}>{data.data?.address}</Text>
             <Text style={styles.status}>

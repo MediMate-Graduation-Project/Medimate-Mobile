@@ -9,6 +9,7 @@ import {Schedule} from '../screens/Schedule';
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
+import { AppointmentDetail } from '../components/AppointmentDetail';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();

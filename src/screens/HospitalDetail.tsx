@@ -16,7 +16,7 @@ export const HospitalDetail = ({route}: {route: any}) => {
       <Modalize alwaysOpen={550}>
         <View style={styles.container}>
           <View style={styles.info}>
-            <Text style={styles.name}>{data.data?.hospitalName}</Text>
+            <Text style={styles.name}>{data.data?.name}</Text>
             <Text style={styles.address}>{data.data?.address}</Text>
             <Text style={styles.title}>Giới thiệu về bệnh viện</Text>
             <Text style={styles.address} numberOfLines={numberOfLines}>

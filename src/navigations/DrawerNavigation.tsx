@@ -16,46 +16,28 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCheckAuth } from '../hooks/checkAuth';
 import { useAuth } from '../components/AuthContext';
-import { useGetDataUser } from '../hooks/useAuth';
 import { page } from '../constants';
+import SessionStorage from 'react-native-session-storage';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
-  const { hasUser, setHasUser, dataUser, setIdUser, idUser } = useAuth();
+  
+  const { handleLogout } = useCheckAuth();
 
-  const { handleLogout } = useCheckAuth(setHasUser, setIdUser);
+  const UserData=SessionStorage.getItem('UserData')
 
-
-  console.log('sss', idUser);
-
-
-  const { data: userData, isLoading, isError } = useQuery(
-    {
-      queryKey: ['userData'],
-      queryFn: async () => {
-        const response = await axios.get(`https://medimate-be.onrender.com/users/${idUser}`);
-        return response.data;
-      },
-      enabled: hasUser
-    }
-
-
-  );
-
-
-
-  console.log('newson', userData);
+  console.log('newson', UserData);
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.containerHeaderDrawer}>
         <Image source={require('../assets/logo.png')}></Image>
-        {hasUser == true ?
+        {UserData !=null ?
           <><View style={styles.contanierUser}>
             <MaterialCommunityIcons
               name="account-circle"
               color={mainColor}
               size={30}></MaterialCommunityIcons>
-            <Text style={styles.nameUser}>{userData ? userData.name : null}</Text>
+            <Text style={styles.nameUser}>{UserData ? UserData.name : null}</Text>
 
           </View>
             <TouchableOpacity>
@@ -68,7 +50,7 @@ const CustomDrawer = (props: any) => {
       </View>
 
       <DrawerItemList {...props} />
-      {hasUser == true ? <TouchableOpacity
+      {UserData !=null ? <TouchableOpacity
         onPress={() => {
           handleLogout()
         }}>

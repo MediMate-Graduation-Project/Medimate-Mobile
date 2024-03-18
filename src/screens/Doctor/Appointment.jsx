@@ -5,11 +5,15 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {mainColor} from '../../common/colors';
 import {TouchableOpacity} from 'react-native';
 import {useAuth} from '../../components/AuthContext';
+import { useActualNumber } from '../../hooks/useAppointment';
 
 export const AppointmentDoctor = () => {
   const {hasUser} = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const hospitalId=1;
+  // const {data} = useActualNumber(hospitalId)
+  // console.log(42, data);
   useFocusEffect(
     useCallback(() => {
       if (hasUser === false) {
@@ -21,7 +25,7 @@ export const AppointmentDoctor = () => {
   );
 
   console.log(hasUser);
-
+  
   return (
     <View style={styles.container}>
       <View>
@@ -33,7 +37,7 @@ export const AppointmentDoctor = () => {
             <View style={styles.numberCircle2}></View>
           </View>
           <View style={styles.buttonView}>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} >
               <Text style={styles.text}>Số tiếp theo</Text>
             </Pressable>
           </View>

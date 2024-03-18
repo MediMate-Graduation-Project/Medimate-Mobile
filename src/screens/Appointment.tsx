@@ -1,16 +1,18 @@
-import {Button, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import { Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import {useAuth} from '../components/AuthContext';
 import Modal from 'react-native-modal';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {mainColor} from '../common/colors';
-import {TouchableOpacity} from 'react-native';
-import {page} from '../constants';
+import { useActualNumber } from '../hooks/useAppointment';
 
 export const AppointmentPage = () => {
-  const {hasUser} = useAuth();
+  const {hasUser, idUser} = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const hospitalId=1;
+  const {data} = useActualNumber(hospitalId);
+  console.log(42, data);
   useFocusEffect(
     useCallback(() => {
       if (hasUser === false) {
@@ -21,7 +23,7 @@ export const AppointmentPage = () => {
     }, [hasUser]),
   );
 
-  console.log(hasUser);
+  console.log(hasUser, idUser);
 
   return (
     <View style={styles.container}>
@@ -38,7 +40,7 @@ export const AppointmentPage = () => {
           <View style={styles.numberContainer}>
             <View style={styles.numberView}>
               <View style={styles.nameView}>
-                <Text style={styles.nameText}>Bệnh Viện 199 - Bộ Công An</Text>
+                <Text style={styles.nameText}>Bệnh Viện 199 - Bộ Công An</Text> 
               </View>
               <View style={styles.nextNumberView}>
                 <View style={styles.nextNumber}>

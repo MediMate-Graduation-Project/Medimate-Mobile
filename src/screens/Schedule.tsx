@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {useBookAppointment, useGetSchedule} from '../hooks/useAppointment';
+import {
+  useBookAppointment,
+  useConfirmSchedule,
+  useGetSchedule,
+} from '../hooks/useAppointment';
 import moment from 'moment';
 import {mainColor} from '../common/colors';
 
@@ -46,22 +50,25 @@ export const Schedule = ({route}: {route: any}) => {
   const data = useGetSchedule(id);
   const orderNumbers: Record<string, number> = {};
   const {mutate: bookAppointment, isError, error} = useBookAppointment();
+  const  appointmentData  = useConfirmSchedule(93);
+  console.log(appointmentData, 11);  
+
   (data?.data as Order[])?.forEach(order => {
     const formattedDate = moment(order.date).format('YYYY-MM-DD');
     orderNumbers[formattedDate] = order.orderNumber;
   });
 
-  const HandlePress = (date : string | undefined) => {
+  const HandlePress = (date: string | undefined) => {
+    if (date) {
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      console.log('Formatted date', formattedDate);
+      let dataToSend: any = {userId: 9, hospitalId: id, date: formattedDate};
+      console.log(dataToSend);
 
-      if (date) {
-    const formattedDate = moment(date).format('YYYY-MM-DD');
-    console.log('Formatted date', formattedDate);
-    let dataToSend: any = {userId: 9, hospitalId: id, date: formattedDate};
-    console.log(dataToSend);
-    
-    bookAppointment(dataToSend);
-  }
-  }
+      bookAppointment(dataToSend);
+    }
+  };
+  
   return (
     <View style={styles.container}>
       <Calendar
@@ -81,7 +88,7 @@ export const Schedule = ({route}: {route: any}) => {
               onPress={() => HandlePress(date?.dateString)}
               style={styles.DayContainer}>
               <Text style={{color: dayColor, fontSize: 15}}>{date?.day}</Text>
-              <View >
+              <View>
                 <Text
                   style={[
                     styles.orderNumber,

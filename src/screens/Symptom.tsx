@@ -23,7 +23,7 @@ import { ButtonItem } from '../components/ButtonItem';
 
 function Diagnose() {
   const { isPending, isKeyboardOpened, setIsKeyboardOpened,
-    results, setResults, _stopRecognizing, _startRecognizing, mutateAsync,handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
+    results, setResults, _stopRecognizing, _startRecognizing,handleNavigateMap, mutateAsync,handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}
@@ -94,7 +94,7 @@ function Diagnose() {
                     <TypeWriter typing={1} style={styles.TextDiagnose}>{diagnoseAI}</TypeWriter>
                     <ButtonItem
                       titleLeft='Quay về trang chủ' handleOnpresLeft={handleBackHome}
-                      titleRight='Đặt lịch khám' handleOnpresRight={null}
+                      titleRight='Đặt lịch khám' handleOnpresRight={handleNavigateMap}
                     />
 
                   </View>

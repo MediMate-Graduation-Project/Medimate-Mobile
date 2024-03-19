@@ -10,6 +10,7 @@ import {Schedule} from '../screens/Schedule';
 
 import Symptom from '../screens/Symptom';
 import { AppointmentDetail } from '../components/AppointmentDetail';
+import Maps from '../screens/Maps';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ export const StackNavigation = () => {
         name="MainStack"
         component={MyDrawerNavigation}
         options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="diagnose" component={AppointmentDetail}></Stack.Screen>
+      <Stack.Screen name="diagnose" component={Symptom}></Stack.Screen>
       <Stack.Screen
         name="login"
         component={Login}
@@ -39,6 +40,10 @@ export const StackNavigation = () => {
       <Stack.Screen
         name="schedule"
         component={Schedule}
+        options={{headerShown: false}}></Stack.Screen>
+         <Stack.Screen
+        name="Maps"
+        component={Maps}
         options={{headerShown: false}}></Stack.Screen>
     </Stack.Navigator>
   );

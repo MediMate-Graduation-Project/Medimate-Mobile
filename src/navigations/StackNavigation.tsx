@@ -11,6 +11,7 @@ import {Schedule} from '../screens/Schedule';
 import Symptom from '../screens/Symptom';
 import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
+import { DetailChat } from '../screens/DetailChat';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -44,6 +45,10 @@ export const StackNavigation = () => {
          <Stack.Screen
         name="Maps"
         component={Maps}
+        options={{headerShown: false}}></Stack.Screen>
+         <Stack.Screen
+        name="DetailChat"
+        component={DetailChat}
         options={{headerShown: false}}></Stack.Screen>
     </Stack.Navigator>
   );

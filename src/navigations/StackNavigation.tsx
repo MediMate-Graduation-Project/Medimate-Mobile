@@ -9,6 +9,7 @@ import {Schedule} from '../screens/Schedule';
 // import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
+import { WebViewNews } from '../components/WebViewNews';
 import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
 import { DetailChat } from '../screens/DetailChat';
@@ -42,6 +43,10 @@ export const StackNavigation = () => {
         name="schedule"
         component={Schedule}
         options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+        name="News"
+        component={WebViewNews}
+        options={{title:''}}></Stack.Screen>
          <Stack.Screen
         name="Maps"
         component={Maps}

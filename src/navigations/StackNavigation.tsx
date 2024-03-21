@@ -4,15 +4,14 @@ import {MyDrawerNavigation} from './DrawerNavigation';
 import {Login} from '../screens/Login';
 import {Register} from '../screens/Register';
 import {HospitalDetail} from '../screens/HospitalDetail';
-import {HospitalList} from '../screens/HospitalList ';
 import {Schedule} from '../screens/Schedule';
-// import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
 import { WebViewNews } from '../components/WebViewNews';
 import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
 import { DetailChat } from '../screens/DetailChat';
+import { HospitalList } from '../screens/HospitalList';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();

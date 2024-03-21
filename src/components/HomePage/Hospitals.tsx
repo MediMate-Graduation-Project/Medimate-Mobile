@@ -16,7 +16,7 @@ export const Hospitals = ({item}: any) => {
           onPress={() => {
             navigation.navigate(page.detail, {id: item.id});
           }}>
-          <Text style={stylesRenderHospital.name}>{item.hospitalName}</Text>
+          <Text style={stylesRenderHospital.name}>{item.name}</Text>
           <View style={stylesRenderHospital.containeritemInfor}>
             <Image
               width={100}

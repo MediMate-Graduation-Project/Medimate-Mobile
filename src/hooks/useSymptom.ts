@@ -10,7 +10,7 @@ export const useSymptom=()=>{
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleResult, setModalVisibleResult] = useState(false);
   const [modalVisibleError, setModalVisibleError] = useState(false);
-  const [diagnoseAI, setdiagnoseAI] = useState('')
+  const [diagnoseAI, setDiagnoseAI] = useState('')
   const [checkError, setCheckError] = useState('false');
   const navigation=useNavigation();
   useEffect(() => {
@@ -48,7 +48,7 @@ export const useSymptom=()=>{
     _clearState();
     setModalVisible(true)
     try {
-      await Voice.start('en-US');
+      await Voice.start('vi-VN');
       console.log('called start');
     } catch (e) {
       console.error(e);
@@ -81,7 +81,7 @@ export const useSymptom=()=>{
     },
     onSuccess: (response) => {
       console.log('API Response:', response.data);
-      setdiagnoseAI(response.data)
+      setDiagnoseAI(response.data)
       setModalVisibleResult(true)
       console.log('m', diagnoseAI);
 
@@ -101,7 +101,7 @@ export const useSymptom=()=>{
   console.log("Results:", diagnoseAI[0]);
   const closeModalDiagnose = () => {
     setModalVisibleResult(false);
-    setdiagnoseAI('')
+    setDiagnoseAI('')
     setIsKeyboardOpened(false)
   }
 

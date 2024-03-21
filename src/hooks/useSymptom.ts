@@ -1,23 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import Voice, {SpeechResultsEvent,SpeechErrorEvent,SpeechRecognizedEvent,} from '@react-native-voice/voice';
+import Voice, {SpeechResultsEvent,SpeechErrorEvent,SpeechRecognizedEvent,SpeechEndEvent} from '@react-native-voice/voice';
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 export const useSymptom=()=>{
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(true);
   const [results, setResults] = useState<string>('');
   const [isKeyboardOpened, setIsKeyboardOpened] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleResult, setModalVisibleResult] = useState(false);
   const [modalVisibleError, setModalVisibleError] = useState(false);
   const [diagnoseAI, setdiagnoseAI] = useState('')
-  const [checkError, setCheckError] = useState('false');
+  const [checkError, setCheckError] = useState(false);
+  const [messageError,setMessageError]=useState('')
   const navigation=useNavigation();
   useEffect(() => {
     Voice.onSpeechStart = onSpeechStart;
     Voice.onSpeechEnd = onSpeechEnd;
     Voice.onSpeechError = onSpeechError;
-    Voice.onSpeechResults = onSpeechResults;
+    Voice.onSpeechPartialResults = onSpeechResults;
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
@@ -29,14 +30,15 @@ export const useSymptom=()=>{
   };
 
 
-  const onSpeechEnd = (e: any) => {
+  const onSpeechEnd = (e: SpeechEndEvent) => {
     console.log('onSpeechEnd: ', e);
     setIsRecording(false);
   };
 
   const onSpeechError = (e: SpeechErrorEvent) => {
     console.log('onSpeechError: ', e);
-    
+    setCheckError(true)
+    setMessageError('Không nhận diện được giọng nói. Vui lòng thử lại!')
   };
 
   const onSpeechResults = (e: SpeechResultsEvent) => {
@@ -45,10 +47,11 @@ export const useSymptom=()=>{
   };
 
   const _startRecognizing = async () => {
-    _clearState();
     setModalVisible(true)
+    _clearState();
+  
     try {
-      await Voice.start('en-US');
+      await Voice.start('vi-VN');
       console.log('called start');
     } catch (e) {
       console.error(e);
@@ -65,10 +68,19 @@ export const useSymptom=()=>{
     }
   };
   const _clearState = () => {
-    setIsRecording(false);
+    setIsRecording(true);
+    setCheckError(false)
     setResults('');
   };
-
+ const _stopSpeaking=async()=>{
+  setIsRecording(false)
+  try {
+    await Voice.stop();
+    console.log('called end');
+  } catch (e) {
+    console.error(e);
+  }
+ }
   const { mutateAsync, isPending, isError } = useMutation({
     mutationFn: () => {
       const requestData = {
@@ -138,7 +150,11 @@ export const useSymptom=()=>{
         checkError,
         diagnoseAI,
         handleNavigateBack,
-        handleNavigateMap
+        handleNavigateMap,
+        isRecording,
+        setIsRecording,
+        messageError,
+        _stopSpeaking
     }
 
   )

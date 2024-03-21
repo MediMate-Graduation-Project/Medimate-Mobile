@@ -1,96 +1,61 @@
 import {Button, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import Modal from 'react-native-modal';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React from 'react';
 import {mainColor} from '../../common/colors';
-import {TouchableOpacity} from 'react-native';
-import {useAuth} from '../../components/AuthContext';
-import { useActualNumber } from '../../hooks/useAppointment';
+import {useActualNumber, useNextNumber} from '../../hooks/useAppointment';
+import {useProfile} from '../../hooks/useAuth';
 
 export const AppointmentDoctor = () => {
-  const {hasUser} = useAuth();
-  const [isModalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
-  const hospitalId=1;
-  // const {data} = useActualNumber(hospitalId)
-  // console.log(42, data);
-  useFocusEffect(
-    useCallback(() => {
-      if (hasUser === false) {
-        setModalVisible(true);
-      } else {
-        setModalVisible(false);
-      }
-    }, [hasUser]),
-  );
+  const {data: userData} = useProfile();
+  const {data} = useActualNumber(userData?.hospitalId);
+  const {mutate: nextNumber} = useNextNumber();
 
-  console.log(hasUser);
-  
+  const HandleNextNumber = e => {
+    nextNumber(userData?.hospitalId);
+  };
+  const check = userData?.role == 'HOSPITAL';
   return (
-    <View style={styles.container}>
-      <View>
+    {check} && (
+      <View style={styles.container}>
         <View>
-          <View style={styles.numberContainer}>
-            <View style={styles.numberCircle}>
-              <Text style={styles.currentNumber}>20</Text>
+          <View>
+            <View style={styles.numberContainer}>
+              <View style={styles.numberCircle}>
+                <Text style={styles.currentNumber}>{data?.actualNumber}</Text>
+              </View>
+              <View style={styles.numberCircle2}></View>
             </View>
-            <View style={styles.numberCircle2}></View>
+            <View style={styles.buttonView}>
+              <Pressable style={styles.button}>
+                <Text style={styles.text} onPress={HandleNextNumber}>
+                  Số tiếp theo
+                </Text>
+              </Pressable>
+            </View>
           </View>
-          <View style={styles.buttonView}>
-            <Pressable style={styles.button} >
-              <Text style={styles.text}>Số tiếp theo</Text>
-            </Pressable>
+        </View>
+        <View style={styles.patientContainer}>
+          <Text style={styles.text}>Danh sách khám bệnh</Text>
+          <View style={styles.cardView}>
+            {data?.nextThreeAppointments.map(item => (
+              <Pressable style={styles.card} key={item.id}>
+                <Image
+                  source={require('../../assets/user.png')}
+                  style={styles.image}
+                  borderRadius={30}
+                />
+                <View style={styles.inforView}>
+                  <Text style={styles.nameText}>{item.name}</Text>
+                  <View style={styles.detailView}>
+                    <Text style={styles.detailText}>STT:</Text>
+                    <Text style={styles.text}>{item.orderNumber}</Text>
+                  </View>
+                </View>
+              </Pressable>
+            ))}
           </View>
         </View>
       </View>
-      <View style={styles.patientContainer}>
-        <Text style={styles.text}>Danh sách khám bệnh</Text>
-        <View style={styles.cardView}>
-          <Pressable style={styles.card}>
-            <Image
-              source={require('../../assets/user.png')}
-              style={styles.image}
-              borderRadius={30}
-            />
-            <View style={styles.inforView}>
-              <Text style={styles.nameText}>Nguyễn Văn A</Text>
-              <View style={styles.detailView}>
-                <Text style={styles.detailText}>STT:</Text>
-                <Text style={styles.text}>21</Text>
-              </View>
-            </View>
-          </Pressable>
-          <Pressable style={styles.card}>
-            <Image
-              source={require('../../assets/user.png')}
-              style={styles.image}
-              borderRadius={30}
-            />
-            <View style={styles.inforView}>
-              <Text style={styles.nameText}>Nguyễn Văn A</Text>
-              <View style={styles.detailView}>
-                <Text style={styles.detailText}>STT:</Text>
-                <Text style={styles.text}>21</Text>
-              </View>
-            </View>
-          </Pressable>
-          <Pressable style={styles.card}>
-            <Image
-              source={require('../../assets/user.png')}
-              style={styles.image}
-              borderRadius={30}
-            />
-            <View style={styles.inforView}>
-              <Text style={styles.nameText}>Nguyễn Văn A</Text>
-              <View style={styles.detailView}>
-                <Text style={styles.detailText}>STT:</Text>
-                <Text style={styles.text}>21</Text>
-              </View>
-            </View>
-          </Pressable>
-        </View>
-      </View>
-    </View>
+    )
   );
 };
 const styles = StyleSheet.create({
@@ -122,13 +87,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: '#c0c1c2',
   },
-  button:{
-    marginTop:20,
-    alignSelf:'center',
+  button: {
+    marginTop: 20,
+    alignSelf: 'center',
     borderRadius: 10,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: mainColor,
-    padding: 8
+    padding: 8,
   },
   numberView: {
     flexDirection: 'row',

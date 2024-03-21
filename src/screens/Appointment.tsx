@@ -1,70 +1,94 @@
-import { Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {useAuth} from '../components/AuthContext';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {mainColor} from '../common/colors';
-import { useActualNumber } from '../hooks/useAppointment';
+import {
+  useActualNumber,
+  useCancel,
+  useUserNumber,
+} from '../hooks/useAppointment';
+import {useProfile} from '../hooks/useAuth';
+import moment from 'moment';
+import { AppointmentDetail } from '../components/AppointmentDetail';
+import { useGetHospitalDetail } from '../hooks/useHospital';
 
 export const AppointmentPage = () => {
-  const {hasUser, idUser} = useAuth();
-  const [isModalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
-  const hospitalId=1;
-  // const {data} = useActualNumber(hospitalId);
-  // console.log(42, data);
-  useFocusEffect(
-    useCallback(() => {
-      if (hasUser === false) {
-        setModalVisible(true);
-      } else {
-        setModalVisible(false);
-      }
-    }, [hasUser]),
+  const [isOpen, setIsOpen] = useState(false);
+  const {data: userData} = useProfile();
+  const {data: userNumber} = useUserNumber(userData?.id);
+  const hospitalId = userNumber?.hospital?.id;
+  const {mutate: cancel, isError, error} = useCancel();
+  const {data: appointment} = useActualNumber(hospitalId);
+  const datetime = moment(
+    userNumber?.estimatedFormatted,
+    'dddd, MMMM DD, YYYY [at] hh:mm:ss A',
   );
-
-  console.log(hasUser, idUser);
-
+  const {data: hospital} = useGetHospitalDetail(hospitalId)
+  const formattedDate = moment(datetime).format('DD/MM/YYYY');
+  const formattedTime = moment(datetime).format('hh:mm A');
+  const appointmentId = userNumber?.id;
+  const appointmentData= {...userNumber,hospitalId: hospitalId}
+  
+  const HandleCancel = () => {
+    cancel(appointmentId);
+  };
+  const HandleSeeMoreDetail = () => {
+    setIsOpen(true)
+  }
+  console.log();
+  
   return (
     <View style={styles.container}>
-      <View>
-        <View style={styles.buttonViewContainer}>
-          <Pressable style={styles.buttonViewCancel}>
-            <Text style={styles.cancelButtonText}>Hủy lịch</Text>
-          </Pressable>
-          <Pressable style={styles.buttonViewMore}>
-            <Text style={styles.viewMoreText}>Xem chi tiết</Text>
-          </Pressable>
-        </View>
-        <View style={styles.inforContainer}>
-          <View style={styles.numberContainer}>
-            <View style={styles.numberView}>
-              <View style={styles.nameView}>
-                <Text style={styles.nameText}>Bệnh Viện 199 - Bộ Công An</Text> 
-              </View>
-              <View style={styles.nextNumberView}>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>21</Text>
-                </View>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>22</Text>
-                </View>
-                <View style={styles.nextNumber}>
-                  <Text style={styles.nextNumberText}>24</Text>
-                </View>
-              </View>
+      {appointment?.actualNumber !== undefined &&
+        userNumber?.orderNumber !== undefined &&
+        userNumber?.orderNumber >= appointment?.actualNumber && (
+          <View>
+            <View style={styles.buttonViewContainer}>
+              <Pressable style={styles.buttonViewCancel} onPress={HandleCancel}>
+                <Text style={styles.cancelButtonText}>Hủy lịch</Text>
+              </Pressable>
+              <Pressable style={styles.buttonViewMore} onPress={HandleSeeMoreDetail}>
+                <Text style={styles.viewMoreText}>Xem chi tiết</Text>
+              </Pressable>
             </View>
-            <View style={styles.numberCircle}>
-              <Text style={styles.currentNumber}>20</Text>
-            </View>
-            <View style={styles.numberCircle2}></View>
-            <View style={styles.myNumberView}>
-              <Text style={styles.timeText}>Dự kiến 11:02 AM</Text>
-              <Text style={styles.timeText} >Số thứ tự: <Text style={styles.numberText}>29</Text></Text>
+            <View style={styles.inforContainer}>
+              <View style={styles.numberContainer}>
+                <View style={styles.numberView}>
+                  <View style={styles.nameView}>
+                    <Text style={styles.nameText}>
+                      {hospital?.name}
+                    </Text>
+                  </View>
+                  <View style={styles.nextNumberView}>
+                    {appointment?.nextThreeAppointments?.map((item: any) => (
+                      <View style={styles.nextNumber} key={item}>
+                        <Text style={styles.nextNumberText}>{item.orderNumber}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </View>
+                <View style={styles.numberCircle}>
+                  <Text style={styles.currentNumber}>
+                    {appointment?.actualNumber}
+                  </Text>
+                </View>
+                <View style={styles.numberCircle2}></View>
+                <View style={styles.myNumberView}>
+                  <Text style={styles.timeText}>Dự kiến {formattedTime}</Text>
+                  <Text style={styles.timeText}>
+                    Số thứ tự:
+                    <Text style={styles.numberText}>
+                      {userNumber?.orderNumber}
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+              
             </View>
           </View>
-          <View></View>
-        </View>
-      </View>
+        )}
+
       <View style={styles.historyContainer}>
         <Text style={styles.title}>Lịch sử</Text>
         <View style={styles.cardView}>
@@ -112,6 +136,8 @@ export const AppointmentPage = () => {
           </Pressable>
         </View>
       </View>
+      {appointmentData && isOpen && <AppointmentDetail prompt={appointmentData} schedule={false} isOpen= {isOpen} setIsOpen={setIsOpen}/>}
+
     </View>
   );
 };
@@ -121,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 15,
     flexDirection: 'column',
-    gap: 40
+    gap: 40,
   },
   buttonViewContainer: {
     flexDirection: 'row',
@@ -193,7 +219,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: -1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
     // flex: 1
   },
   numberCircle: {
@@ -243,7 +269,7 @@ const styles = StyleSheet.create({
   timeText: {
     color: '#fff',
     fontSize: 12,
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   numberText: {
     color: '#fff',
@@ -266,7 +292,7 @@ const styles = StyleSheet.create({
   nextNumberText: {
     color: '#000',
     fontSize: 15,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   inforView: {
     flexDirection: 'column',

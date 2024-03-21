@@ -10,6 +10,9 @@ export const register = async (params) => {
   return await baseAxios.post(`${ENDPOINT}/register`, params);
 };
 
+export const getProfile = async () =>{
+  return await baseAxios.get(`${ENDPOINT}/profile`)
+}
 export default {
   login,
   register

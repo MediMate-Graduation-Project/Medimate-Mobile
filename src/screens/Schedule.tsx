@@ -5,9 +5,12 @@ import {
   useBookAppointment,
   useConfirmSchedule,
   useGetSchedule,
+  useUserNumber,
 } from '../hooks/useAppointment';
 import moment from 'moment';
 import {mainColor} from '../common/colors';
+import {AppointmentDetail} from '../components/AppointmentDetail';
+import {useProfile} from '../hooks/useAuth';
 
 LocaleConfig.locales['tr'] = {
   monthNames: [
@@ -45,30 +48,38 @@ interface Order {
 }
 
 export const Schedule = ({route}: {route: any}) => {
-  const [selected, setSelected] = useState('');
+  const [isOpen, setIsOpen] = useState(true);
   const {id} = route.params || {};
   const data = useGetSchedule(id);
   const orderNumbers: Record<string, number> = {};
-  const {mutate: bookAppointment, isError, error} = useBookAppointment();
-  const  appointmentData  = useConfirmSchedule(93);
-  console.log(appointmentData, 11);  
+  const {mutateAsync: selectDate, isError, error} = useBookAppointment();
+  const [appointmentData, setAppointmentData] = useState<any>(null);
+  const {data: userData} = useProfile();
 
   (data?.data as Order[])?.forEach(order => {
     const formattedDate = moment(order.date).format('YYYY-MM-DD');
     orderNumbers[formattedDate] = order.orderNumber;
   });
 
-  const HandlePress = (date: string | undefined) => {
+  const HandlePress = async (date: string | undefined) => {
     if (date) {
       const formattedDate = moment(date).format('YYYY-MM-DD');
-      console.log('Formatted date', formattedDate);
-      let dataToSend: any = {userId: 9, hospitalId: id, date: formattedDate};
-      console.log(dataToSend);
+      let dataToSend: any = {
+        userId: userData?.id,
+        hospitalId: id,
+        date: formattedDate,
+      };
+      try {
+        const data = await selectDate(dataToSend);
+        data && setAppointmentData(data);
+        setIsOpen(true);
+      } catch (error) {
+        console.error('Error:', error);
+      }
 
-      bookAppointment(dataToSend);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <Calendar
@@ -116,6 +127,14 @@ export const Schedule = ({route}: {route: any}) => {
           <Text style={styles.text}>Không thể đặt lịch khám</Text>
         </View>
       </View>
+      {appointmentData && (
+        <AppointmentDetail
+          prompt={appointmentData?.data.appointment}
+          schedule={true}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+        />
+      )}
     </View>
   );
 };

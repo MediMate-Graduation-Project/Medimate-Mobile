@@ -2,7 +2,7 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 const loginAPI = auth.loginAPI;
 import {useQueryClient, useMutation, useQuery} from '@tanstack/react-query';
 import SweetAlert2 from 'react-sweetalert2';
-import auth from '../api/auth.js';
+import auth, { getProfile } from '../api/auth.js';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuth} from '../components/AuthContext.jsx';
@@ -14,7 +14,7 @@ import {
   Toast,
 } from 'react-native-alert-notification';
 import {Alert} from 'react-native';
-import { page } from '../constants/index.js';
+import { page, queryKey } from '../constants/index.js';
 import SessionStorage from 'react-native-session-storage';
 const login = auth.login;
 const register = auth.register;
@@ -82,3 +82,16 @@ export const useRegister = setErrorTextCallback => {
     },
   });
 };
+
+export const useProfile = () =>{
+  return useQuery({
+    queryKey:[queryKey.profile],
+    queryFn: async () =>{
+        const response = await getProfile();
+        return response.data;
+    },
+    // onSuccess: (userData)=>{
+    //   return userData
+    // }
+  })
+}

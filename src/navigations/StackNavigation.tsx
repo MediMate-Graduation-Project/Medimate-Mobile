@@ -4,12 +4,14 @@ import {MyDrawerNavigation} from './DrawerNavigation';
 import {Login} from '../screens/Login';
 import {Register} from '../screens/Register';
 import {HospitalDetail} from '../screens/HospitalDetail';
-import {HospitalList} from '../screens/HospitalList ';
 import {Schedule} from '../screens/Schedule';
-// import AppDemo, { VoiceTest2 } from "../screens/Symptom_copy";
 
 import Symptom from '../screens/Symptom';
+import { WebViewNews } from '../components/WebViewNews';
 import { AppointmentDetail } from '../components/AppointmentDetail';
+import Maps from '../screens/Maps';
+import { DetailChat } from '../screens/DetailChat';
+import { HospitalList } from '../screens/HospitalList';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -39,6 +41,18 @@ export const StackNavigation = () => {
       <Stack.Screen
         name="schedule"
         component={Schedule}
+        options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+        name="News"
+        component={WebViewNews}
+        options={{title:''}}></Stack.Screen>
+         <Stack.Screen
+        name="Maps"
+        component={Maps}
+        options={{headerShown: false}}></Stack.Screen>
+         <Stack.Screen
+        name="DetailChat"
+        component={DetailChat}
         options={{headerShown: false}}></Stack.Screen>
     </Stack.Navigator>
   );

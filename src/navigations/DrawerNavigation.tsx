@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import { HomePage } from '../screens/Home';
 import { TabNavigation } from './TabNavigation';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { mainColor } from '../common/colors';
 import { ItemDrawer } from '../components/ItemDrawer';
@@ -52,7 +52,15 @@ const CustomDrawer = (props: any) => {
       <DrawerItemList {...props} />
       {UserData !=null ? <TouchableOpacity
         onPress={() => {
-          handleLogout()
+          Alert.alert('Đăng xuất', 'Bạn có chắc chắn muốn đăng xuất?', [
+            {
+              text: 'Hủy',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Chắc chắn', onPress: () => handleLogout()},
+          ]);
+         
         }}>
         <View style={styles.containerLogout}>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { mainColor } from '../common/colors';
 import axios from 'axios';
@@ -20,7 +20,8 @@ export const Maps = () => {
     const [currentLocation, setCurrentLocation] = useState<Result[]>([]);
     const [LATITUDE, setLATITUDE] = useState(16.0544);
     const [LONGITUDE, setLONGITUDE] = useState(108.2022);
-    const [isCurrentLocation, setIsCurrentLocation] = useState(false)
+    const [isCurrentLocation, setIsCurrentLocation] = useState(false);
+    const [dataLocation, setDataLocation] = useState();
     const [INITIAL_POSITION, setInitialPosition] = useState({
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -87,6 +88,22 @@ export const Maps = () => {
         }
 
     }, [currentLocation, LATITUDE])
+    const handleSearchOnpress = async (query: any) => {
+        try {
+            const response = await axios.get(`https://us1.locationiq.com/v1/search?key=pk.8d9318f063a56e90900ec9c914c24baf&q=${query}&format=json`);
+            const searchData = response.data
+            const convertedSearchResults = searchData.map((result: Result) => ({
+                ...result,
+                lat: parseFloat(result.lat),
+                lon: parseFloat(result.lon),
+            }));
+            setSearchResults(convertedSearchResults);
+        } catch (error) {
+            console.error("Error searching:", error);
+        }
+        setIsCurrentLocation(true)
+        Keyboard.dismiss;
+    };
     const handleSearch = async () => {
         try {
             const response = await axios.get(`https://us1.locationiq.com/v1/search?key=pk.8d9318f063a56e90900ec9c914c24baf&q=${query}&format=json`);
@@ -103,7 +120,6 @@ export const Maps = () => {
         setIsCurrentLocation(true)
         Keyboard.dismiss;
     };
-
     useEffect(() => {
         if (searchResults && searchResults.length > 0) {
             setLATITUDE(searchResults[0].lat);
@@ -119,9 +135,19 @@ export const Maps = () => {
 
 
     useEffect(() => {
-        console.log('INITIAL_POSITION', INITIAL_POSITION);
+        const handleGetQuery = async () => {
+            try {
+                const respon = await axios.get(`https://api.locationiq.com/v1/autocomplete?key=pk.8d9318f063a56e90900ec9c914c24baf&q=${query}`);
+                setDataLocation(respon.data);
+            } catch (error) {
 
-    }, [INITIAL_POSITION])
+            }
+        }
+        handleGetQuery();
+        console.log('location', dataLocation);
+
+    }, [query])
+    console.log('query', query);
 
     return (
         <View style={{ flex: 1 }}>
@@ -153,24 +179,50 @@ export const Maps = () => {
             <View style={styles.searchBar}>
                 <Text style={{ color: 'black', fontWeight: 'bold' }}>Tìm kiếm vị trí của bạn</Text>
                 <View style={styles.Containerinput}>
-                    <TextInput
-                        placeholder='Nhập vị trí'
-                        onChangeText={setQuery}
-                        value={query}
-                        style={styles.input}
-                        editable
-                        multiline
-                        numberOfLines={4}
-                        maxLength={400}
-                    />
-                    <TouchableOpacity onPress={getCurrentLocation}>
+                    <View style={styles.input}>
+                        <TextInput
+                            placeholder='Nhập vị trí'
+                            onChangeText={setQuery}
+                            value={query}
+                            editable
+                            multiline
+                            numberOfLines={4}
+                            maxLength={400}
+                        />
+
+                    </View>
+                    <TouchableOpacity onPress={handleSearch}>
+                        <MaterialCommunityIcons color={mainColor} size={30} name='magnify'></MaterialCommunityIcons>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ padding: 5 }} onPress={ getCurrentLocation}>
                         <MaterialCommunityIcons size={30} color={'red'} name='crosshairs-gps' />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={handleSearch}>
+                {/* <TouchableOpacity style={styles.button} onPress={handleSearch}>
                     <Text style={styles.title}>Tìm kiếm</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {query != '' ?
+                    <ScrollView style={styles.ScrollView}>
+                        {dataLocation?.map((item: any) => (
+                            <TouchableOpacity style={{ margin: 10 }} onPress={() => {
+                                handleSearchOnpress(item.display_address)
+                            }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                                    <MaterialCommunityIcons name='map-marker' color={mainColor} size={20}></MaterialCommunityIcons>
+                                    <Text>{item.display_name}</Text>
+                                </View>
+
+                                <View style={styles.line}></View>
+                            </TouchableOpacity>
+
+                        ))}
+                    </ScrollView>
+                    : null
+                }
             </View>
+
+
 
             <TouchableOpacity style={styles.ContainerSelectButton} onPress={() => { navigation.navigate('hospitalList', { lat: LATITUDE, lon: LONGITUDE, nameAddress: query }) }}>
                 <Text style={styles.titleBottomButton}>Chọn vị trí này</Text>
@@ -191,14 +243,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 10
+        margin: 5
     },
     input: {
-        maxWidth: 300
+        width: 300,
+        borderWidth: 1,
+        borderRadius: 15,
+        height: 60,
+        borderColor: '#D9D9D9',
+        flexDirection: 'row',
+
+        alignItems: 'center'
     },
     searchBar: {
         position: 'absolute',
-        width: '90%',
+        width: '95%',
         padding: 8,
         alignSelf: 'center',
         marginTop: 20,
@@ -234,6 +293,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         padding: 15
+    },
+    ScrollView: {
+
+        height: 100,
+
+    },
+    line: {
+        backgroundColor: '#D9D9D9',
+        height: 1,
+        width: '100%'
     }
 });
 

@@ -186,16 +186,16 @@ export const Maps = () => {
                             value={query}
                             editable
                             multiline
-                            numberOfLines={4}
+                            numberOfLines={3}
                             maxLength={400}
                         />
 
                     </View>
-                    <TouchableOpacity onPress={handleSearch}>
+                    <TouchableOpacity onPress={handleSearch} style={styles.SearchIcon}>
                         <MaterialCommunityIcons color={mainColor} size={30} name='magnify'></MaterialCommunityIcons>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ padding: 5 }} onPress={ getCurrentLocation}>
+                    <TouchableOpacity  style={styles.LocationIcon} onPress={ getCurrentLocation}>
                         <MaterialCommunityIcons size={30} color={'red'} name='crosshairs-gps' />
                     </TouchableOpacity>
                 </View>
@@ -246,14 +246,19 @@ const styles = StyleSheet.create({
         margin: 5
     },
     input: {
-        width: 300,
+        flex:7,
         borderWidth: 1,
         borderRadius: 15,
-        height: 60,
+        height: '100%',
         borderColor: '#D9D9D9',
         flexDirection: 'row',
-
         alignItems: 'center'
+    },
+    SearchIcon:{
+     flex:1
+    },
+    LocationIcon:{
+     flex:1
     },
     searchBar: {
         position: 'absolute',

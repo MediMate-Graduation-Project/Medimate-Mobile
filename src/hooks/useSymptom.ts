@@ -68,8 +68,8 @@ export const useSymptom=()=>{
     }
   };
   const _clearState = () => {
+    setCheckError(false);
     setIsRecording(true);
-    setCheckError(false)
     setResults('');
   };
  const _stopSpeaking=async()=>{

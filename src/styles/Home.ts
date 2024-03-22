@@ -8,11 +8,12 @@ export const stylesHome = StyleSheet.create(
       searchBar: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: 25,
         borderColor: '#30A2FF',
         margin: 20,
         height: 60,
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 10,
       },
       Input: {
         flex: 1,

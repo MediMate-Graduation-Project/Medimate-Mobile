@@ -62,7 +62,7 @@ function Diagnose() {
                   {
                     checkError ? <>
                     <TypeWriter typing={1} style={{color:'red',fontWeight:'bold',fontSize:16}} >{messageError}</TypeWriter>
-                      <TouchableOpacity onPress={() => _startRecognizing()}>
+                      <TouchableOpacity onPress={() =>{_startRecognizing()}}>
                         <Image style={styles.ImageVoice} source={require('../assets/voice_nogif.png')} ></Image>
                       </TouchableOpacity>
                       <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}

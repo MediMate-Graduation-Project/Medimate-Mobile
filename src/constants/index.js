@@ -3,6 +3,8 @@ const queryKey = {
   hospital: 'HOSPITAL',
   appointment: 'APPOINTMENT',
   profile: 'PROFILE',
+  number: 'NUMBER',
+  userNumber: 'USER NUMBER'
 };
 const page = {
   detail: "detail",

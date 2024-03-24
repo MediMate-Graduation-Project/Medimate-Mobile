@@ -22,8 +22,8 @@ import { ButtonMain } from '../components/ButtonMain';
 import { ButtonItem } from '../components/ButtonItem';
 
 function Diagnose() {
-  const { isPending, isKeyboardOpened, setIsKeyboardOpened,
-    results, setResults, _stopRecognizing, _startRecognizing,handleNavigateMap, mutateAsync,handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
+  const { isPending, isRecording, isKeyboardOpened, setIsKeyboardOpened,
+    results, messageError,_stopSpeaking, setIsRecording, setResults, _stopRecognizing, _startRecognizing, handleNavigateMap, mutateAsync, handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}
@@ -53,16 +53,46 @@ function Diagnose() {
               <Modal
                 animationIn={'bounceInLeft'}
                 isVisible={modalVisible}
-
+                backdropColor='grey'
+                coverScreen
+              
               >
                 <View style={styles.containerVoice}>
-                  <TypeWriter typing={1} style={styles.resultVoice} >{results}</TypeWriter>
-                  <Image style={styles.ImageVoice} source={require('../assets/Voice_gif.gif')} ></Image>
-                  <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
-                        titleRight='Chẩn đoán' handleOnpresRight={()=>{{
-                          mutateAsync({prompt:results}),_stopRecognizing}
+                 <TypeWriter typing={1} style={styles.resultVoice} >{results}</TypeWriter>
+                  {
+                    checkError ? <>
+                    <TypeWriter typing={1} style={{color:'red',fontWeight:'bold',fontSize:16}} >{messageError}</TypeWriter>
+                      <TouchableOpacity onPress={() =>{_startRecognizing()}}>
+                        <Image style={styles.ImageVoice} source={require('../assets/voice_nogif.png')} ></Image>
+                      </TouchableOpacity>
+                      <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
+                        titleRight='Thử lại' handleOnpresRight={() => {
+                          _startRecognizing();
                         }}
-                  />
+                      />
+                    </> :
+                    
+                      isRecording ?
+                        <TouchableOpacity onPress={() =>_stopSpeaking() }>
+                          <Image style={styles.ImageVoice} source={require('../assets/Voice_gif.gif')} ></Image>
+                        </TouchableOpacity>
+
+                        :
+                        <>
+                          <TouchableOpacity onPress={() => _startRecognizing()}>
+                            <Image style={styles.ImageVoice} source={require('../assets/voice_nogif.png')} ></Image>
+                          </TouchableOpacity>
+                          <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
+                            titleRight='Chẩn đoán' handleOnpresRight={() => {
+                              {
+                                mutateAsync({ prompt: results }), _stopRecognizing
+                              }
+                            }}
+                          />
+                        </>
+                  }
+
+
                 </View>
 
               </Modal>
@@ -74,7 +104,7 @@ function Diagnose() {
             <Modal
               isVisible={modalVisibleResult}>
               <View style={styles.ModalSymptom}>
-                {checkError === 'true'
+                {checkError
                   ?
                   <ErrorModal image={require('../assets/error.gif')}
                     message='Triệu chứng không phù hợp hoặc chưa chi tiết đầy đủ.
@@ -84,13 +114,17 @@ function Diagnose() {
 
                   :
                   <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Image style={{ width: 300, height: 200, objectFit: 'contain' }} source={require('../assets/a.gif')}></Image>
-                      <TouchableOpacity onPress={closeModalDiagnose}>
-                        <MaterialCommunityIcons color={'red'} size={40} name='close'></MaterialCommunityIcons>
-                      </TouchableOpacity>
-                    </View>
 
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={{ flex: 8 }}></View>
+                      <View style={{ flex: 1 }}>
+                        <TouchableOpacity onPress={closeModalDiagnose}>
+                          <MaterialCommunityIcons color={'red'} size={40} name='close'></MaterialCommunityIcons>
+                        </TouchableOpacity>
+                      </View>
+
+                    </View>
+                    <Image style={{ width: 300, height: 200, objectFit: 'contain' }} source={require('../assets/a.gif')}></Image>
                     <TypeWriter typing={1} style={styles.TextDiagnose}>{diagnoseAI}</TypeWriter>
                     <ButtonItem
                       titleLeft='Quay về trang chủ' handleOnpresLeft={handleBackHome}
@@ -112,7 +146,7 @@ function Diagnose() {
               <ErrorModal
                 image={require('../assets/error.gif')}
                 message='Lỗi hệ thống! Vui lòng nhập lại'
-                handleNavigate={() => { setModalVisibleError(false), setIsKeyboardOpened(false),_stopRecognizing() }}
+                handleNavigate={() => { setModalVisibleError(false), setIsKeyboardOpened(false), _stopRecognizing() }}
               />
             </Modal>
           </View>}
@@ -156,9 +190,8 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   Input: {
-    width: 300,
-    maxWidth: 300,
-    maxHeight: 70
+    width: 250,
+    height:70
   },
   containerInput: {
     flexDirection: 'row',
@@ -181,19 +214,17 @@ const styles = StyleSheet.create({
   },
   containerItem: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin:10
   },
   containerVoice: {
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection:'column'
+    flexDirection: 'column'
   },
   ModalSymptom: {
-    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 60,
-    maxWidth: 250,
     borderRadius: 20,
   },
   TextDiagnose: {
@@ -225,7 +256,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
   },
-  
+
 
   buttonReClick: {
     backgroundColor: '#FB3D56',
@@ -233,15 +264,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10
   },
-  ImageVoice:{
+  ImageVoice: {
 
   },
-  resultVoice:{
-    marginTop:30,
+  resultVoice: {
+    marginTop: 30,
     width: 400,
-    fontSize:20,
-    color:'white',
-    padding:10
+    fontSize: 20,
+    color: 'white',
+    padding: 10
   }
 });
 

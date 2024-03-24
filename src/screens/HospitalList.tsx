@@ -8,18 +8,21 @@ import Card from '../components/Card.jsx';
 import axios from 'axios';
 import { ButtonItem } from '../components/ButtonItem.tsx';
 import { useNavigation } from '@react-navigation/native';
+import { useQueries, useQuery } from '@tanstack/react-query';
+import { queryKey } from '../constants/index.js';
 
 export const HospitalList = ({ route }: { route: any }) => {
   const { lat, lon, nameAddress } = route.params;
   const [dataHospital, setData] = useState();
-  const navigation=useNavigation();
-  useEffect(() => {
-    const handleGetNearHospital = async () => {
-      const res = await axios.get(`https://medimate-be.onrender.com/hospitals/map?lat=${lat}&lon=${lon}`)
-      setData(res.data)
+  const navigation = useNavigation();
+
+  const { isLoading,data } = useQuery(
+    {
+      queryKey: ['nearHospital'],
+      queryFn: async() => await axios.get(`https://medimate-be.onrender.com/hospitals/map?lat=${lat}&lon=${lon}`)
+        .then(res => setData(res.data))
     }
-    handleGetNearHospital();
-  }, [])
+  )
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
@@ -36,13 +39,13 @@ export const HospitalList = ({ route }: { route: any }) => {
       </View>
       {/* <Modalize alwaysOpen={650}> */}
       <ScrollView style={styles.listView}>
-        {dataHospital != null ? dataHospital?.map((item: any) => (
+        {isLoading ? <View style={{justifyContent:'center',alignItems:'center',flex:1}}><Image source={require('../assets/Loading_2.gif')}></Image></View>  : dataHospital != null ? dataHospital?.map((item: any) => (
           <Card key={item.id} id={item.id} />
-        )) : <View style={{alignItems:'center'}}>
-             <Text style={{color:'red',fontWeight:'bold',fontSize:20}}>Không có bệnh viện nào gần địa chỉ của bạn</Text>
-             <Image style={styles.ImageNoLocation} source={require('../assets/no_Location.jpg')}></Image>
-             <ButtonItem titleLeft='Quay lại trang chủ' handleOnpresLeft={()=>navigation.navigate('Trang chủ')} titleRight='Chọn lại vị trí' handleOnpresRight={()=>navigation.navigate('Maps')}  />
-          </View>}
+        )) : <View style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 20 }}>Không có bệnh viện nào gần địa chỉ của bạn</Text>
+          <Image style={styles.ImageNoLocation} source={require('../assets/no_Location.jpg')}></Image>
+          <ButtonItem titleLeft='Quay lại trang chủ' handleOnpresLeft={() => navigation.navigate('Trang chủ')} titleRight='Chọn lại vị trí' handleOnpresRight={() => navigation.navigate('Maps')} />
+        </View>}
       </ScrollView>
       {/* </Modalize> */}
     </View>
@@ -74,9 +77,9 @@ const styles = StyleSheet.create({
   listView: {
     marginTop: 20,
   },
-  ImageNoLocation:{
-    width:300,
-    height:300,
-    objectFit:'contain'
+  ImageNoLocation: {
+    width: 300,
+    height: 300,
+    objectFit: 'contain'
   }
 });

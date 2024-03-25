@@ -98,9 +98,9 @@ export const useSymptom=()=>{
       console.log('m', diagnoseAI);
 
       if (response.data === "Sai") {
-        setCheckError('true')
+        setCheckError(true)
       } else {
-        setCheckError('false')
+        setCheckError(false)
       }
       console.log('e', checkError);
 

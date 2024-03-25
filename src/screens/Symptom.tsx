@@ -23,7 +23,7 @@ import { ButtonItem } from '../components/ButtonItem';
 
 function Diagnose() {
   const { isPending, isRecording, isKeyboardOpened, setIsKeyboardOpened,
-    results, messageError,_stopSpeaking, setIsRecording, setResults, _stopRecognizing, _startRecognizing, handleNavigateMap, mutateAsync, handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
+    results, messageError,resultsVoice, _stopSpeaking, setIsRecording, setResults, _stopRecognizing, _startRecognizing, handleNavigateMap, mutateAsync, handleNavigateBack, modalVisible, modalVisibleResult, checkError, closeModalDiagnose, modalVisibleError, setModalVisibleError, setModalVisibleResult, diagnoseAI, handleBackHome } = useSymptom()
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}
@@ -53,16 +53,16 @@ function Diagnose() {
               <Modal
                 animationIn={'bounceInLeft'}
                 isVisible={modalVisible}
-                backdropColor='grey'
+                backdropColor='black'
                 coverScreen
-              
+
               >
                 <View style={styles.containerVoice}>
-                 <TypeWriter typing={1} style={styles.resultVoice} >{results}</TypeWriter>
+
                   {
                     checkError ? <>
-                    <TypeWriter typing={1} style={{color:'red',fontWeight:'bold',fontSize:16}} >{messageError}</TypeWriter>
-                      <TouchableOpacity onPress={() =>{_startRecognizing()}}>
+                      <TypeWriter typing={1} style={{ color: 'red', fontWeight: 'bold', fontSize: 16 }} >{messageError}</TypeWriter>
+                      <TouchableOpacity onPress={() => { _startRecognizing() }}>
                         <Image style={styles.ImageVoice} source={require('../assets/voice_nogif.png')} ></Image>
                       </TouchableOpacity>
                       <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
@@ -71,25 +71,30 @@ function Diagnose() {
                         }}
                       />
                     </> :
-                    
-                      isRecording ?
-                        <TouchableOpacity onPress={() =>_stopSpeaking() }>
-                          <Image style={styles.ImageVoice} source={require('../assets/Voice_gif.gif')} ></Image>
-                        </TouchableOpacity>
 
+                      isRecording ?
+                        <>
+                          <TypeWriter typing={1} style={styles.resultVoice} >{resultsVoice}</TypeWriter>
+                          <TouchableOpacity onPress={() => _stopSpeaking()}>
+                            <Image style={styles.ImageVoice} source={require('../assets/Voice_gif.gif')} ></Image>
+                          </TouchableOpacity>
+                          
+                        </>
                         :
                         <>
+                          <Text style={{color:mainColor,fontWeight:'bold'}}>{resultsVoice}</Text>
                           <TouchableOpacity onPress={() => _startRecognizing()}>
                             <Image style={styles.ImageVoice} source={require('../assets/voice_nogif.png')} ></Image>
                           </TouchableOpacity>
                           <ButtonItem titleLeft='Quay lại' handleOnpresLeft={handleNavigateBack}
                             titleRight='Chẩn đoán' handleOnpresRight={() => {
                               {
-                                mutateAsync({ prompt: results }), _stopRecognizing
+                                mutateAsync({ prompt: resultsVoice }), _stopRecognizing
                               }
                             }}
                           />
                         </>
+
                   }
 
 
@@ -191,7 +196,7 @@ const styles = StyleSheet.create({
   },
   Input: {
     width: 250,
-    height:70
+    height: 70
   },
   containerInput: {
     flexDirection: 'row',
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
   containerItem: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin:10
+    margin: 10
   },
   containerVoice: {
     justifyContent: 'center',
@@ -268,10 +273,11 @@ const styles = StyleSheet.create({
 
   },
   resultVoice: {
-    marginTop: 30,
-    width: 400,
+    marginTop: 250,
+    // width: 400,
     fontSize: 20,
-    color: 'white',
+    color: mainColor,
+    fontWeight:'bold'
     padding: 10
   }
 });

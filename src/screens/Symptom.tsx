@@ -190,9 +190,8 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   Input: {
-    width: 300,
-    maxWidth: 300,
-    maxHeight: 70
+    width: 250,
+    height:70
   },
   containerInput: {
     flexDirection: 'row',
@@ -215,7 +214,8 @@ const styles = StyleSheet.create({
   },
   containerItem: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin:10
   },
   containerVoice: {
     justifyContent: 'center',

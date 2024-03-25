@@ -6,6 +6,7 @@ import { useAuth } from "../components/AuthContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryKey } from "../constants";
 import SessionStorage from "react-native-session-storage";
+import { Alert } from "react-native";
 
 export const useCheckAuth = () => {
     const navigation = useNavigation();
@@ -26,6 +27,7 @@ export const useCheckAuth = () => {
                 );
                 SessionStorage.setItem('UserData', null)
                 setTimeout(() => {
+                    Alert.alert('Đăng xuất thành công')
                     navigation.navigate('Trang chủ');
                 }, 100);
             }

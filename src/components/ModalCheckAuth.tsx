@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     containerCheckAuth: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        flex:1
     },
     button: {
         width: 150,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-        borderRadius: 20
+        borderRadius: 10
     },
     containerButton: {
         flexDirection: 'row',

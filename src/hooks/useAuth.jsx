@@ -76,7 +76,10 @@ export const useRegister = setErrorTextCallback => {
       console.error('Error:', error);
       if (error.response && error.response.status === 409) {
         setErrorTextCallback('Tài khoản đã tồn tại');
-      } else {
+      }else if (error.response&& error.response.status===400) {
+        setErrorTextCallback('Số điện thoại hoặc mật khẩu không hợp lệ!');
+      }
+       else {
         setErrorText('Error:', error);
       }
     },

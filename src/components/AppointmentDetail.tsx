@@ -24,7 +24,6 @@ export const AppointmentDetail = ({
   setIsOpen,
   isOpen,
 }: Props) => {
-  console.log(20, schedule);
 
   const {data: userData} = useProfile();
   const {data: hospital} = useGetHospitalDetail(prompt?.hospitalId);
@@ -34,14 +33,11 @@ export const AppointmentDetail = ({
   const {mutate: confirm} = useConfirmSchedule();
 
   const HandleCancel = () => {
-    cancel(prompt?.appointment?.id);
-    setIsOpen(false);
-  };
-  const Cancel = () => {
+    cancel(prompt?.id);
     setIsOpen(false);
   };
   const HandleConfirm = () => {
-    confirm(prompt?.appointment?.id);
+    confirm(prompt?.id);
     setIsOpen(false);
   };
   return (

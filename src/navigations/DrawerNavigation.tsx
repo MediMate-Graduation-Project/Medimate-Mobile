@@ -18,6 +18,7 @@ import { useCheckAuth } from '../hooks/checkAuth';
 import { useAuth } from '../components/AuthContext';
 import { page } from '../constants';
 import SessionStorage from 'react-native-session-storage';
+import { AppointmentDoctor } from '../screens/Doctor/Appointment';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
@@ -136,7 +137,7 @@ export const MyDrawerNavigation = () => {
 
       <Drawer.Screen
         name="guideUse"
-        component={HomePage}
+        component={AppointmentDoctor}
         options={{
           drawerLabel: () => (
             <ItemDrawer

@@ -13,6 +13,7 @@ export const AppointmentDoctor = () => {
     nextNumber(userData?.hospitalId);
   };
   const check = userData?.role == 'HOSPITAL';
+  console.log(55, userData,check);
   return (
     {check} && (
       <View style={styles.container}>

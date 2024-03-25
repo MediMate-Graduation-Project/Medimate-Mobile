@@ -1,18 +1,7 @@
 import {CommonActions, useNavigation} from '@react-navigation/native';
-const loginAPI = auth.loginAPI;
-import {useQueryClient, useMutation, useQuery} from '@tanstack/react-query';
-import SweetAlert2 from 'react-sweetalert2';
+import {useMutation, useQuery} from '@tanstack/react-query';
 import auth, { getProfile } from '../api/auth.js';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuth} from '../components/AuthContext.jsx';
-import {useEffect, useState} from 'react';
-import {
-  ALERT_TYPE,
-  Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from 'react-native-alert-notification';
 import {Alert} from 'react-native';
 import { page, queryKey } from '../constants/index.js';
 import SessionStorage from 'react-native-session-storage';
@@ -28,26 +17,31 @@ export const useLogin = setErrorTextCallback => {
       return result;
     },
     onSuccess: async data => {
+      console.log('login',data.data);
       const check = data.status === 200;
       if (check) {
-        SessionStorage.setItem('UserData','HaveUser')
-        Alert.alert('Đăng nhập thành công')
-        navigation.dispatch(
-          CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'Trang chủ' }]
-          })
-      );
+        // console.log(89,userData);
+        // SessionStorage.setItem('UserData','HaveUser');
+        Alert.alert('Đăng nhập thành công');
+        // const dataUser= SessionStorage.getItem('UserData');
+        // console.log(80,dataUser);
+      //   navigation.dispatch(
+      //     CommonActions.reset({
+      //         index: 1,
+      //         routes: [{ name: 'Trang chủ' }]
+      //     })
+      // );
       navigation.navigate('Trang chủ');
       }
     },
     onError: error => {
-      console.error('Error:', error);
-      if (error.response && error.response.status === 401) {
-        setErrorTextCallback('Số điện thoại hoặc mật khẩu không đúng');
-      } else {
-        setErrorText('Error:', error);
-      }
+      console.log(78,  error.response.data.message);
+      setErrorTextCallback(error.response.data.message);
+      // if (error.response && error.response.status === 401) {
+      //   setErrorTextCallback('Số điện thoại hoặc mật khẩu không đúng');
+      // } else {
+      //   setErrorText('Error:', error);
+      // }
     },
   });
 };
@@ -90,8 +84,5 @@ export const useProfile = () =>{
         const response = await getProfile();
         return response.data;
     },
-    // onSuccess: (userData)=>{
-    //   return userData
-    // }
   })
 }

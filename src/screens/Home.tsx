@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { TextInput, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,6 +8,8 @@ import { stylesHome } from '../styles/Home';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import SessionStorage from 'react-native-session-storage';
+import { useProfile } from '../hooks/useAuth';
+import { useNavigation } from '@react-navigation/native';
 
 
 export const HomePage = () => {
@@ -38,20 +40,28 @@ export const HomePage = () => {
     }
   ]
 
-  const { data: Userdata, isSuccess, isLoading, isError } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: async () => {
-      const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
-      return response.data
-    },
-  })
-  if (isSuccess) {
-    SessionStorage.setItem('UserData', Userdata);
-  } if (isError) {
-    SessionStorage.setItem('UserData', null)
-  }
-  const data = SessionStorage.getItem('UserData')
-  console.log('data', data != null);
+  // const { data: Userdata, isSuccess, isLoading, isError } = useQuery({
+  //   queryKey: ['userProfile'],
+  //   queryFn: async () => {
+  //     const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
+  //     return response.data
+  //   },
+  // })
+  // if (isSuccess) {
+  //   SessionStorage.setItem('UserData', Userdata);
+  // } if (isError) {
+  //   SessionStorage.setItem('UserData', null)
+  // }
+  // const data = SessionStorage.getItem('UserData')
+  // console.log('data', data != null);
+  const navigation= useNavigation()
+  const {data: userData} = useProfile();
+  console.log('chekc', userData);
+  useEffect(()=>{
+    if(userData?.role =='HOSPITAL'){
+      navigation.navigate('doctor');
+    }
+  },[userData])
   return (
 
     <View style={stylesHome.container}>

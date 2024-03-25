@@ -1,89 +1,91 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { HomePage } from '../screens/Home';
-import { TabNavigation } from './TabNavigation';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {HomePage} from '../screens/Home';
+import {TabNavigation} from './TabNavigation';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { mainColor } from '../common/colors';
-import { ItemDrawer } from '../components/ItemDrawer';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useQuery } from '@tanstack/react-query';
+import {mainColor} from '../common/colors';
+import {ItemDrawer} from '../components/ItemDrawer';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useQuery} from '@tanstack/react-query';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCheckAuth } from '../hooks/checkAuth';
-import { useAuth } from '../components/AuthContext';
-import { page } from '../constants';
+import {useCheckAuth} from '../hooks/checkAuth';
+import {useAuth} from '../components/AuthContext';
+import {page} from '../constants';
 import SessionStorage from 'react-native-session-storage';
+import {AppointmentDoctor} from '../screens/Doctor/Appointment';
+import {useProfile} from '../hooks/useAuth';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
-  
-  const { handleLogout } = useCheckAuth();
 
-  const UserData=SessionStorage.getItem('UserData')
+  const {handleLogout} = useCheckAuth();
+  const {data: UserData} = useProfile();
 
-  console.log('newson', UserData);
+  // const UserData=SessionStorage.getItem('UserData')
+
+  // console.log('newson', UserData);
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.containerHeaderDrawer}>
         <Image source={require('../assets/logo.png')}></Image>
-        {UserData !=null ?
-          <><View style={styles.contanierUser}>
-            <MaterialCommunityIcons
-              name="account-circle"
-              color={mainColor}
-              size={30}></MaterialCommunityIcons>
-            <Text style={styles.nameUser}>{UserData ? UserData.name : null}</Text>
-
-          </View>
+        {UserData != undefined ? (
+          <>
+            <View style={styles.contanierUser}>
+              <MaterialCommunityIcons
+                name="account-circle"
+                color={mainColor}
+                size={30}></MaterialCommunityIcons>
+              <Text style={styles.nameUser}>
+                {UserData ? UserData.name : null}
+              </Text>
+            </View>
             <TouchableOpacity>
               <Text>Xem trang cá nhân</Text>
-            </TouchableOpacity></>
-
-          : null
-        }
-
+            </TouchableOpacity>
+          </>
+        ) : null}
       </View>
 
       <DrawerItemList {...props} />
-      {UserData !=null ? <TouchableOpacity
-        onPress={() => {
-          handleLogout()
-        }}>
-        <View style={styles.containerLogout}>
-
-          <MaterialCommunityIcons
-            name="logout"
-            color={'#30A2FF'}
-            size={20}></MaterialCommunityIcons>
-          <Text style={styles.nameFeature}>Đăng xuất</Text>
-
-
-        </View>
-      </TouchableOpacity> : <TouchableOpacity
-        onPress={() => {
-          navigation.navigate(page.login);
-        }}>
-        <View style={styles.containerLogout}>
-
-          <MaterialCommunityIcons
-            name="login"
-            color={'#30A2FF'}
-            size={20}></MaterialCommunityIcons>
-          <Text style={styles.nameFeature}>Đăng nhập</Text>
-
-
-        </View>
-      </TouchableOpacity>}
-
+      {UserData != undefined ? (
+        <TouchableOpacity
+          onPress={() => {
+            handleLogout();
+          }}>
+          <View style={styles.containerLogout}>
+            <MaterialCommunityIcons
+              name="logout"
+              color={'#30A2FF'}
+              size={20}></MaterialCommunityIcons>
+            <Text style={styles.nameFeature}>Đăng xuất</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(page.login);
+          }}>
+          <View style={styles.containerLogout}>
+            <MaterialCommunityIcons
+              name="login"
+              color={'#30A2FF'}
+              size={20}></MaterialCommunityIcons>
+            <Text style={styles.nameFeature}>Đăng nhập</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </DrawerContentScrollView>
   );
 };
 export const MyDrawerNavigation = () => {
+  const {data: UserData} = useProfile();
+
   return (
     <Drawer.Navigator
       drawerContent={(props: any) => <CustomDrawer {...props} />}
@@ -92,12 +94,12 @@ export const MyDrawerNavigation = () => {
           <View style={styles.containerLogo}>
             <Image
               style={styles.image}
-              source={require('../assets/logo.png')}  ></Image>
+              source={require('../assets/logo.png')}></Image>
             <Text style={styles.nameApp}>MediMate</Text>
           </View>
         ),
-        headerStyle: { height: 100 },
-        drawerItemStyle: { marginBottom: 10 }
+        headerStyle: {height: 100},
+        drawerItemStyle: {marginBottom: 10},
       }}>
       <Drawer.Screen
         name="myTab"
@@ -135,8 +137,8 @@ export const MyDrawerNavigation = () => {
         }}></Drawer.Screen>
 
       <Drawer.Screen
-        name="guideUse"
-        component={HomePage}
+        name="doctor"
+        component={UserData?.role == 'HOSPITAL' ? AppointmentDoctor : HomePage}
         options={{
           drawerLabel: () => (
             <ItemDrawer
@@ -170,7 +172,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 10,
   },
 
   containerHeaderDrawer: {

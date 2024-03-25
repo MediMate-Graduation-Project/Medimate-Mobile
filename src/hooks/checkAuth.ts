@@ -18,13 +18,13 @@ export const useCheckAuth = () => {
 
             if (data.status == 200) {
 
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [{ name: 'Trang chủ' }]
-                    })
-                );
-                SessionStorage.setItem('UserData', null)
+                // navigation.dispatch(
+                //     CommonActions.reset({
+                //         index: 0,
+                //         routes: [{ name: 'Trang chủ' }]
+                //     })
+                // );
+                // SessionStorage.setItem('UserData', null)
                 setTimeout(() => {
                     navigation.navigate('Trang chủ');
                 }, 100);

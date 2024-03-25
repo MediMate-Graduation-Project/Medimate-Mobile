@@ -119,7 +119,7 @@ export const Register = () => {
           <View>
             <Text style={styles.text}>Số Điện Thoại</Text>
             <View style={styles.viewInput}>
-              <Image source={require('../assets/countryCode.png')} />
+              {/* <Image source={require('../assets/countryCode.png')} /> */}
               <TextInput
                 style={styles.textInput}
                 onChangeText={userPhoneNumber =>

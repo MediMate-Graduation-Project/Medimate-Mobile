@@ -12,8 +12,12 @@ import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
 import { DetailChat } from '../screens/DetailChat';
 import { HospitalList } from '../screens/HospitalList';
+import { AppointmentDoctor } from '../screens/Doctor/Appointment';
+import { useProfile } from '../hooks/useAuth';
+import { ModalCheckAuth } from '../components/ModalCheckAuth';
 
 export const StackNavigation = () => {
+  const {data: userData} = useProfile()
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
@@ -40,7 +44,7 @@ export const StackNavigation = () => {
         options={{headerShown: false}}></Stack.Screen>
       <Stack.Screen
         name="schedule"
-        component={Schedule}
+        component={userData!=undefined?Schedule:ModalCheckAuth}
         options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
         name="News"

@@ -87,7 +87,16 @@ export const AppointmentPage = () => {
         userNumber?.orderNumber >= appointment?.actualNumber && (
           <View>
             <View style={styles.buttonViewContainer}>
-              <Pressable style={styles.buttonViewCancel} onPress={HandleCancel}>
+              <Pressable style={styles.buttonViewCancel} onPress={()=>{
+                Alert.alert('Hủy lịch', 'Bạn có chắc chắn muốn hủy lịch?', [
+                  {
+                    text: 'Không',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {text: 'Chắc chắn', onPress:HandleCancel},
+                ]);
+              }}>
                 <Text style={styles.cancelButtonText}>Hủy lịch</Text>
               </Pressable>
               <Pressable style={styles.buttonViewMore} onPress={HandleSeeMoreDetail}>

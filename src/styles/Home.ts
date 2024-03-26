@@ -22,7 +22,7 @@ export const stylesHome = StyleSheet.create(
         margin: 10,
       },
       Flatlist:{
-        marginBottom:100
+        marginBottom:100,
       }
     }
   )
@@ -96,6 +96,8 @@ export const stylesRenderHospital= StyleSheet.create({
         flexDirection: 'row'
     },
     itemInfor: {
-        marginLeft: 5
+        marginLeft: 5,
+        width:150,
+        marginRight:10
     }
 })

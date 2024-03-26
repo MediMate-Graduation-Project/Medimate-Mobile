@@ -4,9 +4,9 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {HomePage} from '../screens/Home';
-import {TabNavigation} from './TabNavigation';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { HomePage } from '../screens/Home';
+import { TabNavigation } from './TabNavigation';
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {mainColor} from '../common/colors';
 import {ItemDrawer} from '../components/ItemDrawer';
@@ -41,40 +41,51 @@ const CustomDrawer = (props: any) => {
               </Text>
             </View>
             <TouchableOpacity onPress={()=>{navigation.navigate('Cá nhân')}}>
-              <Text>Xem trang cá nhân</Text>
+              <Text style={{color:"#898c8a", fontSize: 15}}>Xem trang cá nhân</Text>
             </TouchableOpacity>
           </>
         ) : null}
       </View>
 
       <DrawerItemList {...props} />
-      {userData != undefined ? (
-        <TouchableOpacity
-          onPress={() => {
-            handleLogout();
-          }}>
-          <View style={styles.containerLogout}>
-            <MaterialCommunityIcons
-              name="logout"
-              color={'#30A2FF'}
-              size={20}></MaterialCommunityIcons>
-            <Text style={styles.nameFeature}>Đăng xuất</Text>
-          </View>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(page.login);
-          }}>
-          <View style={styles.containerLogout}>
-            <MaterialCommunityIcons
-              name="login"
-              color={'#30A2FF'}
-              size={20}></MaterialCommunityIcons>
-            <Text style={styles.nameFeature}>Đăng nhập</Text>
-          </View>
-        </TouchableOpacity>
-      )}
+      {userData !=undefined ? <TouchableOpacity
+        onPress={() => {
+          Alert.alert('Đăng xuất', 'Bạn có chắc chắn muốn đăng xuất?', [
+            {
+              text: 'Hủy',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Chắc chắn', onPress: () => handleLogout()},
+          ]);
+         
+        }}>
+        <View style={styles.containerLogout}>
+
+          <MaterialCommunityIcons
+            name="logout"
+            color={'#30A2FF'}
+            size={20}></MaterialCommunityIcons>
+          <Text style={styles.nameFeature}>Đăng xuất</Text>
+
+
+        </View>
+      </TouchableOpacity> : <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(page.login);
+        }}>
+        <View style={styles.containerLogout}>
+
+          <MaterialCommunityIcons
+            name="login"
+            color={'#30A2FF'}
+            size={20}></MaterialCommunityIcons>
+          <Text style={styles.nameFeature}>Đăng nhập</Text>
+
+
+        </View>
+      </TouchableOpacity>}
+
     </DrawerContentScrollView>
   );
 };

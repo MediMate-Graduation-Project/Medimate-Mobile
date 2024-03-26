@@ -1,11 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-import axios from 'axios';
-import {useCallback, useEffect, useState} from 'react';
-import {useAuth} from '../components/AuthContext';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useMutation,  useQueryClient} from '@tanstack/react-query';
 import {queryKey} from '../constants';
-import SessionStorage from 'react-native-session-storage';
 import {logout} from '../api/auth';
 import {Alert} from 'react-native';
 const queryClient = useQueryClient();

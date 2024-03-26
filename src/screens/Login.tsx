@@ -8,6 +8,7 @@ import {
   Keyboard,
   TouchableOpacity,
   ActivityIndicator,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {createRef, useState} from 'react';
 import {useLogin} from '../hooks/useAuth';
@@ -15,13 +16,15 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CheckBox from 'react-native-check-box';
 import {mainColor} from '../common/colors';
+import { KeyboardAvoidingView } from 'react-native';
+import { Platform } from 'react-native';
 
 export const Login = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [errorText, setErrorText] = useState('');
   const [isDoctor, setIsDoctor] = useState(false);
-
+  const [isKeyboardOpened,setIsKeyboardOpened]=useState(false);
   const passwordInputRef = createRef();
   const {
     mutate: login,
@@ -58,14 +61,18 @@ export const Login = () => {
     </View>
   ) : (
     <>
-      <View style={styles.container}>
+     <KeyboardAvoidingView
+      behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+      style={styles.container} >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.view}>
           <View style={{alignSelf: 'center', alignItems: 'center'}}>
-            <Image source={require('../assets/logo.png')} />
+            <Image source={require('../assets/logo.png')}
+             style={isKeyboardOpened?{width:100,height:100}:null} />
             <Text style={styles.title}>Đăng nhập</Text>
           </View>
           <View style={styles.formLogin}>
-            <View>
+            <View style={{marginBottom:20}}>
               <Text style={styles.text}>Số Điện Thoại</Text>
               <View style={styles.viewInput}>
                 {/* <Image source={require('../assets/countryCode.png')} /> */}
@@ -80,6 +87,8 @@ export const Login = () => {
                   }
                   value={userPhoneNumber}
                   keyboardType="numeric"
+                  onFocus={() => setIsKeyboardOpened(true)}
+                  onBlur={() => setIsKeyboardOpened(false)}
                 />
               </View>
             </View>
@@ -93,6 +102,8 @@ export const Login = () => {
                   onSubmitEditing={Keyboard.dismiss}
                   returnKeyType="next"
                   secureTextEntry={hidePwd}
+                  onFocus={() => setIsKeyboardOpened(true)}
+                  onBlur={() => setIsKeyboardOpened(false)}
                 />
                 <Pressable onPress={() => setHidePwd(!hidePwd)}>
                   <Icon name={hidePwd ? 'eye' : 'eye-off'} size={30} />
@@ -131,7 +142,8 @@ export const Login = () => {
             </View>
           </View>
         </View>
-      </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   );
 };
@@ -144,7 +156,6 @@ const styles = StyleSheet.create({
   },
   view: {
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
     flex: 2,
   },
   viewInput: {
@@ -170,13 +181,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#000000',
-    fontSize: 32,
     fontWeight: '700',
+    fontSize: 32
   },
   formLogin: {
     paddingTop: 30,
-    flexDirection: 'column',
-    gap: 10,
+    // flexDirection: 'column',
+    // gap: 10,
   },
   button: {
     textAlign: 'center',
@@ -196,7 +207,7 @@ const styles = StyleSheet.create({
     color: '#30A2FF',
     alignSelf: 'flex-end',
     paddingVertical: 10,
-    marginBottom: 15,
+   
     paddingRight: 10,
     flexDirection: 'row',
     gap: 5,
@@ -211,5 +222,7 @@ const styles = StyleSheet.create({
     color: '#000',
     alignSelf: 'center',
     fontStyle: 'italic',
+    marginTop:10,
+    marginBottom:10
   },
 });

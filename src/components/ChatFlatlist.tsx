@@ -12,9 +12,9 @@ export const ChatFlatlist = ({ item }: any) => {
                 <Image style={styles.image} source={{ uri: item.image }}></Image>
                 <View>
                     <Text style={styles.nameHospital}>{item.name}</Text>
-                    <Text>Chúng tôi có thể giúp gì cho bạn</Text>
+                    <Text style={styles.text}>Chúng tôi có thể giúp gì cho bạn</Text>
                 </View>
-                <Text>09:30 AM</Text>
+                <Text style={{color:'#000'}}>09:30 AM</Text>
             </View>
         </TouchableOpacity>
 
@@ -29,7 +29,8 @@ const styles = StyleSheet.create(
             borderColor: 'grey',
             margin: 10,
             borderRadius: 10,
-            padding: 10
+            padding: 10,
+            flexWrap:'wrap'
         },
         image: {
             width: 50,
@@ -39,6 +40,9 @@ const styles = StyleSheet.create(
         nameHospital: {
             fontWeight: 'bold',
             color: 'black'
+        },
+        text:{
+            color:'#898c8a'
         }
     }
 )

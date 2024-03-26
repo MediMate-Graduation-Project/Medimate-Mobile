@@ -7,11 +7,13 @@ import {
   TextInput,
   Animated,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useRegister } from '../hooks/useAuth';
 import { page } from '../constants';
 export const Register = () => {
@@ -24,7 +26,7 @@ export const Register = () => {
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
-  const {mutate: register, isError, error} = useRegister(setErrorText)
+  const { mutate: register, isError, error } = useRegister(setErrorText)
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
       'keyboardDidShow',
@@ -71,7 +73,7 @@ export const Register = () => {
   };
   const handleRegister = () => {
     try {
-      if(!userName){
+      if (!userName) {
         setErrorText('Vui lòng nhập tên');
         return;
       }
@@ -96,76 +98,82 @@ export const Register = () => {
     }
   };
   return (
-    <Animated.View style={styles.container}>
-      <View style={styles.view}>
-        <View style={{alignSelf: 'center', alignItems: 'center'}}>
-          <Animated.Image
-            source={require('../assets/logo.png')}
-            style={{height: imageHeight, width: imageWidth}}
-          />
-          <Text style={styles.title}>Tạo tài khoản</Text>
-        </View>
-        <View style={styles.formRegister}>
-          <View>
-            <Text style={styles.text}>Tên</Text>
-            <View style={styles.viewInput}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={userName => setUserName(userName)}
-                value={userName}
-              />
+
+    <Animated.View style={styles.container} >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+        style={styles.container} 
+        >
+        <View style={styles.view}>
+          <View style={{ alignSelf: 'center', alignItems: 'center' }}>
+            <Animated.Image
+              source={require('../assets/logo.png')}
+              style={{ height: imageHeight, width: imageWidth }}
+            />
+            <Text style={styles.title}>Tạo tài khoản</Text>
+          </View>
+          <View style={styles.formRegister}>
+            <View>
+              <Text style={styles.text}>Tên</Text>
+              <View style={styles.viewInput}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={userName => setUserName(userName)}
+                  value={userName}
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.text}>Số Điện Thoại</Text>
+              <View style={styles.viewInput}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={userPhoneNumber =>
+                    setUserPhoneNumber(userPhoneNumber)
+                  }
+                  value={userPhoneNumber}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.text}>Mật khẩu</Text>
+              <View style={styles.viewInput}>
+                <TextInput
+                  style={styles.textInput}
+                  secureTextEntry={hidePwd}
+                  onChangeText={UserPassword => setUserPassword(UserPassword)}
+                />
+                <Pressable onPress={() => setHidePwd(!hidePwd)}>
+                  <Icon name={hidePwd ? 'eye' : 'eye-off'} size={30} />
+                </Pressable>
+              </View>
             </View>
           </View>
           <View>
-            <Text style={styles.text}>Số Điện Thoại</Text>
-            <View style={styles.viewInput}>
-              {/* <Image source={require('../assets/countryCode.png')} /> */}
-              <TextInput
-                style={styles.textInput}
-                onChangeText={userPhoneNumber =>
-                  setUserPhoneNumber(userPhoneNumber)
-                }
-                value={userPhoneNumber}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
-          <View>
-            <Text style={styles.text}>Mật khẩu</Text>
-            <View style={styles.viewInput}>
-              <TextInput
-                style={styles.textInput}
-                secureTextEntry={hidePwd}
-                onChangeText={UserPassword => setUserPassword(UserPassword)}
-              />
-              <Pressable onPress={() => setHidePwd(!hidePwd)}>
-                <Icon name={hidePwd ? 'eye' : 'eye-off'} size={30} />
-              </Pressable>
-            </View>
-          </View>
-        </View>
-        <View>
-          <View>
-            <Text style={{color: 'red', alignSelf: 'center', margin: 15}}>
-              {errorText}
-            </Text>
-            <View style={styles.button}>
-              <Pressable onPress={handleRegister} style={styles.btnRegister}>
-                <Text style={styles.buttonText}>Đăng ký</Text>
-              </Pressable>
-            </View>
-            <Text style={styles.loginText}>
-              Bạn đã có tài khoản?{' '}
-              <Text
-                style={{color: '#30A2FF'}}
-                onPress={() => navigation.navigate(page.login)}>
-                Hãy đăng nhập
+            <View>
+              <Text style={{ color: 'red', alignSelf: 'center', margin: 15 }}>
+                {errorText}
               </Text>
-            </Text>
+              <View style={styles.button}>
+                <Pressable onPress={handleRegister} style={styles.btnRegister}>
+                  <Text style={styles.buttonText}>Đăng ký</Text>
+                </Pressable>
+              </View>
+              <Text style={styles.loginText}>
+                Bạn đã có tài khoản?{' '}
+                <Text
+                  style={{ color: '#30A2FF' }}
+                  onPress={() => navigation.navigate(page.login)}>
+                  Hãy đăng nhập
+                </Text>
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Animated.View>
+
   );
 };
 
@@ -173,7 +181,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
   },
   view: {
     flexDirection: 'column',
@@ -205,7 +213,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 32,
     fontWeight: '700',
-    marginBottom:25
+    marginBottom: 25
   },
   formRegister: {
     flexDirection: 'column',
@@ -216,6 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#30A2FF',
     borderRadius: 16,
     paddingVertical: 12,
+    marginBottom: 10
   },
   buttonText: {
     fontSize: 14,

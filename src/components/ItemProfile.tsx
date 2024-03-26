@@ -5,11 +5,11 @@ import { mainColor } from "../common/colors";
 export const ItemProfile = ({ nameService, nameIcon }: any) => {
     return (
         <View style={styles.containerItem}>
-            <View style={{ flex: 1 }}>
-                <MaterialCommunityIcons size={50} color={mainColor} name={nameIcon}></MaterialCommunityIcons>
+            <View style={{ flex: 2}}>
+                <MaterialCommunityIcons size={30} color={mainColor} name={nameIcon}></MaterialCommunityIcons>
             </View>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 20, marginLeft: 50, fontWeight: 'bold' }}>{nameService}</Text>
+                <Text style={{ fontSize: 15,  fontWeight: 'bold', color:'#6C7A89' }}>{nameService}</Text>
             </View>
 
 
@@ -19,12 +19,13 @@ export const ItemProfile = ({ nameService, nameIcon }: any) => {
 const styles = StyleSheet.create({
     containerItem: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
         borderColor: mainColor,
         borderWidth: 1,
         borderRadius: 15,
-        padding: 10,
-        margin: 20
+        padding: 15,
+        marginStart:50,
+        marginEnd:50,
+        marginBottom:20
     }
 })

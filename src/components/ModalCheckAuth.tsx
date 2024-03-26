@@ -5,14 +5,15 @@ import Modal from 'react-native-modal';
 import { page } from "../constants";
 import { mainColor } from "../common/colors";
 import SessionStorage from "react-native-session-storage";
+import { useProfile } from "../hooks/useAuth";
 
 export const ModalCheckAuth = () => {
     const navigation = useNavigation();
     const [isVisible, setIsVisible] = useState(false); // Khởi tạo isVisible là false
+    const{ data: userData} =useProfile()
 
     useEffect(() => {
-        const UserData = SessionStorage.getItem('UserData');
-        if (UserData == null) {
+        if (userData == undefined) {
             setIsVisible(true); // Nếu UserData không tồn tại, hiển thị modal
         }
     }, []);

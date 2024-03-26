@@ -3,13 +3,13 @@ import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-nati
 import { useGetHospitalDetail } from "../hooks/useHospital";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text } from "react-native";
-import SessionStorage from "react-native-session-storage";
 import { mainColor } from "../common/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useProfile } from "../hooks/useAuth";
 export const DetailChat = ({ route }: { route: any }) => {
     const { id, image, name } = route.params;
 
-    const DataUser = SessionStorage.getItem('UserData')
+    const {data: DataUser} = useProfile()
     const nameUser = DataUser.name;
     console.log('name', nameUser);
     const navigation = useNavigation();

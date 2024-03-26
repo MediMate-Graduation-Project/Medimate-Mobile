@@ -4,10 +4,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { mainColor } from '../common/colors';
 import SessionStorage from 'react-native-session-storage';
 import { ItemProfile } from '../components/ItemProfile';
+import { useProfile } from '../hooks/useAuth';
 
 export const ProfilePage = () => {
-  const dataUser = SessionStorage.getItem('UserData');
-  const nameUser = dataUser.name;
+  const {data: userData} = useProfile()
+
+  const nameUser = userData?.name;
   return (
     <View style={styles.container}>
       <Image style={{ width: 200, height: 100, borderRadius: 50, objectFit: 'contain' }} source={require('../assets/avatar.png')}></Image>

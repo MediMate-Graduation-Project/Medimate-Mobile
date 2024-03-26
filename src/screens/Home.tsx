@@ -13,7 +13,6 @@ import { useProfile } from '../hooks/useAuth';
 
 
 export const HomePage = () => {
-  const navigation = useNavigation()
 
   const dataNews = [
     {
@@ -42,20 +41,7 @@ export const HomePage = () => {
     }
   ]
 
-  // const { data: Userdata, isSuccess, isLoading, isError } = useQuery({
-  //   queryKey: ['userProfile'],
-  //   queryFn: async () => {
-  //     const response = await axios.get('https://medimate-be.onrender.com/Auth/profile');
-  //     return response.data
-  //   },
-  // })
-  // if (isSuccess) {
-  //   SessionStorage.setItem('UserData', Userdata);
-  // } if (isError) {
-  //   SessionStorage.setItem('UserData', null)
-  // }
-  // const data = SessionStorage.getItem('UserData')
-  // console.log('data', data );
+  const navigation = useNavigation()
   const {data: userData} = useProfile()
   useEffect(()=>{
     if(userData?.role=='HOSPITAL'){

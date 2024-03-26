@@ -15,7 +15,6 @@ import {
 } from 'react-native-alert-notification';
 import {Alert} from 'react-native';
 import { page, queryKey } from '../constants/index.js';
-import SessionStorage from 'react-native-session-storage';
 const login = auth.login;
 const register = auth.register;
 
@@ -30,7 +29,6 @@ export const useLogin = setErrorTextCallback => {
     onSuccess: async data => {
       const check = data.status === 200;
       if (check) {
-        SessionStorage.setItem('UserData','HaveUser')
         Alert.alert('Đăng nhập thành công')
         navigation.dispatch(
           CommonActions.reset({
@@ -90,8 +88,5 @@ export const useProfile = () =>{
         const response = await getProfile();
         return response.data;
     },
-    // onSuccess: (userData)=>{
-    //   return userData
-    // }
   })
 }

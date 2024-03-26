@@ -45,7 +45,7 @@ export const StackNavigation = () => {
         options={{headerShown: false}}></Stack.Screen>
       <Stack.Screen
         name="schedule"
-        component={userData!= null?Schedule:ModalCheckAuth}
+        component={userData!= undefined?Schedule:ModalCheckAuth}
         options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
         name="News"
@@ -63,6 +63,10 @@ export const StackNavigation = () => {
         name="doctor"
         component={userData?.role=='HOSPITAL'?AppointmentDoctor:HomePage}
         options={{headerShown: false}}></Stack.Screen>
+         {/* <Stack.Screen
+        name="Homepage"
+        component={HomePage}
+        options={{headerShown: false}}></Stack.Screen> */}
     </Stack.Navigator>
   );
 };

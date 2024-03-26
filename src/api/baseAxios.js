@@ -1,12 +1,13 @@
 import axios from 'axios';
 const BASE_URL = 'https://medimate-be.onrender.com/';
 
-const baseAxios = axios.create({
+let baseAxios = axios.create({
     baseURL: BASE_URL, 
     headers: {
         'Content-Type': 'application/json',
         
     },
+    withCredentials: true,
 });
 
 export default baseAxios;

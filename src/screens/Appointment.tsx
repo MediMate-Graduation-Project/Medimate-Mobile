@@ -1,35 +1,38 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useState} from 'react';
-import {useAuth} from '../components/AuthContext';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {mainColor} from '../common/colors';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { useAuth } from '../components/AuthContext';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { mainColor } from '../common/colors';
 import {
   useActualNumber,
   useCancel,
   useUserNumber,
 } from '../hooks/useAppointment';
-import {useProfile} from '../hooks/useAuth';
+import { useProfile } from '../hooks/useAuth';
 import moment from 'moment';
 import { AppointmentDetail } from '../components/AppointmentDetail';
 import { useGetHospitalDetail } from '../hooks/useHospital';
+import { Alert } from 'react-native';
 
 export const AppointmentPage = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const {data: userData} = useProfile();
-  const {data: userNumber} = useUserNumber(userData?.id);
+  const { data: userData } = useProfile();
+  const { data: userNumber } = useUserNumber(userData?.id);
   const hospitalId = userNumber?.hospital?.id;
-  const {mutate: cancel, isError, error} = useCancel();
-  const {data: appointment} = useActualNumber(hospitalId);
+  const { mutate: cancel, isError, error } = useCancel();
+  const { data: appointment } = useActualNumber(hospitalId);
   const datetime = moment(
     userNumber?.estimatedFormatted,
     'dddd, MMMM DD, YYYY [at] hh:mm:ss A',
   );
-  const {data: hospital} = useGetHospitalDetail(hospitalId)
-  const formattedDate = moment(datetime).format('DD/MM/YYYY');
+  console.log('userNumber',userNumber);
+  
+  const { data: hospital } = useGetHospitalDetail(hospitalId)
+  //const formattedDate = moment(datetime).format('DD/MM/YYYY');
   const formattedTime = moment(datetime).format('hh:mm A');
   const appointmentId = userNumber?.id;
-  const appointmentData= {...userNumber,hospitalId: hospitalId}
-  
+  const appointmentData = { ...userNumber, hospitalId: hospitalId }
+
   const HandleCancel = () => {
     cancel(appointmentId);
   };
@@ -37,10 +40,49 @@ export const AppointmentPage = () => {
     setIsOpen(true)
   }
   console.log();
-  
+  const formattedDate = moment(datetime, 'dddd, MMMM DD, YYYY [at] hh:mm:ss A').format('DD/MM/YYYY');
+  const formattedDateObject = moment(formattedDate, 'DD/MM/YYYY').toDate();
+  const currentDate = moment();
+
+
+
+  const isAfterCurrentDate = moment(formattedDateObject).isAfter(currentDate);
+
   return (
     <View style={styles.container}>
-      {appointment?.actualNumber !== undefined &&
+      {isAfterCurrentDate
+        ?
+        <View>
+          <View style={{alignItems:'center'}}>
+            <Text style={{ fontWeight: 'normal', color: 'black' }}>Bạn có lịch hẹn vào ngày <Text style={{ fontWeight: 'bold', color: 'balck' }}>{formattedDate}</Text></Text>
+            <Text style={{ color: 'black' }}>Tại:
+              <Text style={{ fontWeight: 'bold' }}> {hospital?.name}</Text>
+            </Text>
+            <Text style={{ color: 'black' }}>Thời gian dự kiến: <Text style={{ fontWeight: 'bold' }}> {formattedTime}</Text></Text>
+          </View>
+
+
+          <View style={{ ...styles.buttonViewContainer, padding: 10, margin: 10 }}>
+            <Pressable style={styles.buttonViewCancel} onPress={()=>{
+              Alert.alert('Hủy lịch', 'Bạn có chắc chắn muốn hủy lịch?', [
+                {
+                  text: 'Không',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {text: 'Chắc chắn', onPress:HandleCancel},
+              ]);
+            }}>
+              <Text style={styles.cancelButtonText}>Hủy lịch</Text>
+            </Pressable>
+            <Pressable style={styles.buttonViewMore} onPress={HandleSeeMoreDetail}>
+              <Text style={styles.viewMoreText}>Xem chi tiết</Text>
+            </Pressable>
+          </View>
+
+        </View>
+        :
+        appointment?.actualNumber !== undefined &&
         userNumber?.orderNumber !== undefined &&
         userNumber?.orderNumber >= appointment?.actualNumber && (
           <View>
@@ -84,7 +126,7 @@ export const AppointmentPage = () => {
                   </Text>
                 </View>
               </View>
-              
+
             </View>
           </View>
         )}
@@ -100,7 +142,7 @@ export const AppointmentPage = () => {
             />
             <View style={styles.inforView}>
               <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Text style={styles.detailText}>29/11/2023</Text>
                 <Text style={styles.detailText}>09:30 AM</Text>
               </View>
@@ -114,7 +156,7 @@ export const AppointmentPage = () => {
             />
             <View style={styles.inforView}>
               <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Text style={styles.detailText}>29/11/2023</Text>
                 <Text style={styles.detailText}>09:30 AM</Text>
               </View>
@@ -128,7 +170,7 @@ export const AppointmentPage = () => {
             />
             <View style={styles.inforView}>
               <Text style={styles.nameText}>Bệnh viện Đà Nẵng</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Text style={styles.detailText}>29/11/2023</Text>
                 <Text style={styles.detailText}>09:30 AM</Text>
               </View>
@@ -136,7 +178,7 @@ export const AppointmentPage = () => {
           </Pressable>
         </View>
       </View>
-      {appointmentData && isOpen && <AppointmentDetail prompt={appointmentData} schedule={false} isOpen= {isOpen} setIsOpen={setIsOpen}/>}
+      {appointmentData && isOpen && <AppointmentDetail prompt={appointmentData} schedule={false} isOpen={isOpen} setIsOpen={setIsOpen} />}
 
     </View>
   );
@@ -322,5 +364,5 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
- 
+
 });

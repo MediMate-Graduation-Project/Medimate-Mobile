@@ -36,7 +36,7 @@ const data = [
 export const HeaderFlatList = () => {
   const navigation = useNavigation();
   const NavigationSymptom = () => {
-    navigation.navigate('NoticeAppointment')
+    navigation.navigate(page.voice)
   }
   const NavigationListHospital = () => {
     navigation.navigate(page.hospitalList)}
@@ -51,7 +51,7 @@ export const HeaderFlatList = () => {
       </View>
       <View style={stylesHeaderFlatlist.containerService}>
         <ServiceItem name={'Hồ sơ cá nhân'} icon={'account-box-multiple-outline'} navigation={null} />
-        <ServiceItem name={'Bảo hiểm y tế'} icon={'card-bulleted-outline'} navigation={NavigationSymptom} />
+        <ServiceItem name={'Bảo hiểm y tế'} icon={'card-bulleted-outline'} navigation={null} />
       </View>
       <View><Text style={stylesHeaderFlatlist.title}>Bệnh viện nổi bật nhất</Text></View>
       <View>

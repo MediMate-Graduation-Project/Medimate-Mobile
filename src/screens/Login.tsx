@@ -69,13 +69,13 @@ export const Login = () => {
           <View style={{alignSelf: 'center', alignItems: 'center'}}>
             <Image source={require('../assets/logo.png')}
              style={isKeyboardOpened?{width:100,height:100}:null} />
-            <Text style={isKeyboardOpened?{...styles.title,fontSize:15}:{...styles.title,fontSize:30}}>Đăng nhập</Text>
+            <Text style={styles.title}>Đăng nhập</Text>
           </View>
           <View style={styles.formLogin}>
             <View style={{marginBottom:20}}>
               <Text style={styles.text}>Số Điện Thoại</Text>
               <View style={styles.viewInput}>
-                <Image source={require('../assets/countryCode.png')} />
+                {/* <Image source={require('../assets/countryCode.png')} /> */}
                 <TextInput
                   style={styles.textInput}
                   onChangeText={userPhoneNumber =>
@@ -182,12 +182,13 @@ const styles = StyleSheet.create({
   title: {
     color: '#000000',
     fontWeight: '700',
+    fontSize: 32
   },
-  // formLogin: {
-  //   paddingTop: 30,
-  //   flexDirection: 'column',
-  //   gap: 10,
-  // },
+  formLogin: {
+    paddingTop: 30,
+    // flexDirection: 'column',
+    // gap: 10,
+  },
   button: {
     textAlign: 'center',
     backgroundColor: '#30A2FF',

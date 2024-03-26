@@ -7,12 +7,13 @@ import { ItemProfile } from '../components/ItemProfile';
 import { useProfile } from '../hooks/useAuth';
 
 export const ProfilePage = () => {
-  const dataUser = useProfile();
+  const {data: userData} = useProfile()
 
+  const nameUser = userData?.name;
   return (
     <View style={styles.container}>
       <Image style={styles.avatar} source={require('../assets/avatar.png')}></Image>
-      <Text style={styles.nameUser}>{dataUser.data.name}</Text>
+      <Text style={styles.nameUser}>{nameUser}</Text>
       <ItemProfile nameService='THÔNG TIN CÁ NHÂN' nameIcon='account-child-circle'></ItemProfile>
       <ItemProfile nameService='THÀNH VIÊN GIA ĐÌNH' nameIcon='account-group'></ItemProfile>
 
@@ -39,7 +40,10 @@ const styles = StyleSheet.create({
   nameUser: {
     fontWeight: 'bold',
     color: 'black',
-    marginBottom: 10
+    marginBottom: 10,
+    fontSize: 20,
+    margin:5,
+    paddingBottom:10
   },
 
 })

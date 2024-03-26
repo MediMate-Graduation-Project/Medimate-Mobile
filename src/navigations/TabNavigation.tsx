@@ -6,12 +6,12 @@ import { NotificationPage } from '../screens/Notification';
 import { ProfilePage } from '../screens/Profile';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react'
-import { AppointmentDoctor } from '../screens/Doctor/Appointment';
-import SessionStorage from 'react-native-session-storage';
 import { ModalCheckAuth } from '../components/ModalCheckAuth';
+import { useProfile } from '../hooks/useAuth';
 const Tab = createBottomTabNavigator();
 export function TabNavigation(){
-  const userData=SessionStorage.getItem('UserData')
+  const {data: userData} = useProfile();
+
    return(
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -40,10 +40,10 @@ export function TabNavigation(){
         headerShown:false
       })}>
       <Tab.Screen name="Trang chủ" component={HomePage}></Tab.Screen>
-      <Tab.Screen name="Tin nhắn" component={userData!=null?ChatPage:ModalCheckAuth}></Tab.Screen>
-      <Tab.Screen name="Lịch hẹn" component={userData!=null?AppointmentPage:ModalCheckAuth}></Tab.Screen>
-      <Tab.Screen name="Thông báo" component={userData!=null?NotificationPage:ModalCheckAuth}></Tab.Screen>
-      <Tab.Screen name="Cá nhân" component={userData!=null?ProfilePage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Tin nhắn" component={userData!=undefined?ChatPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Lịch hẹn" component={userData!=undefined?AppointmentPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Thông báo" component={userData!=undefined?NotificationPage:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Cá nhân" component={userData!=undefined?ProfilePage:ModalCheckAuth}></Tab.Screen>
     </Tab.Navigator>
    )
 }

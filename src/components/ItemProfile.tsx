@@ -9,7 +9,7 @@ export const ItemProfile = ({ nameService, nameIcon }: any) => {
                 <MaterialCommunityIcons size={30} color={mainColor} name={nameIcon}></MaterialCommunityIcons>
             </View>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 15, marginLeft: 20, fontWeight: 'bold' }}>{nameService}</Text>
+                <Text style={{ fontSize: 15,  fontWeight: 'bold', color:'#6C7A89' }}>{nameService}</Text>
             </View>
 
 

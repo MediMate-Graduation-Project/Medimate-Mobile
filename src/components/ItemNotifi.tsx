@@ -14,9 +14,9 @@ export const ItemNotifi = ({ nameIcon, colorIcon, status, message, time }) => {
 
             <View style={{ flex: 7 }}>
                 <Text style={{ fontWeight: 'bold', color: 'black' }}>{status}</Text>
-                <Text>{message}</Text>
+                <Text style={{color:'#898c8a'}}>{message}</Text>
             </View>
-            <Text style={{flex:1}} >{time}</Text>
+            <Text style={{flex:1, color:'#898c8a', fontWeight:'700'}} >{time}</Text>
         </View>
     )
 }

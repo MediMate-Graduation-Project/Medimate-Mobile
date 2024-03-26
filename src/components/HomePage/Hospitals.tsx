@@ -19,7 +19,7 @@ export const Hospitals = ({item}: any) => {
           <Text style={stylesRenderHospital.name}>{item.name}</Text>
           <View style={stylesRenderHospital.containeritemInfor}>
             <Image
-              style={{width:100,height:100,objectFit: 'contain'}}
+              style={{width:100,height:100,objectFit: 'cover', borderRadius: 15}}
               source={{uri: item.image}}
             />
             <View style={stylesRenderHospital.itemInfor}>

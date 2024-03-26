@@ -22,7 +22,7 @@ export const stylesHome = StyleSheet.create(
         margin: 10,
       },
       Flatlist:{
-        marginBottom:100
+        marginBottom:100,
       }
     }
   )

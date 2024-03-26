@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     // width: 400,
     fontSize: 20,
     color: mainColor,
-    fontWeight:'bold'
+    fontWeight:'bold',
     padding: 10
   }
 });

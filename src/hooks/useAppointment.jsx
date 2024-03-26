@@ -40,6 +40,7 @@ export const useConfirmSchedule = id => {
       return data;
     },
     onError: error => {
+      console.log(error.response.data.message);
       console.error('Error:', error);
     },
   });

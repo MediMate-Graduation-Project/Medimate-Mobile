@@ -12,9 +12,14 @@ import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
 import { DetailChat } from '../screens/DetailChat';
 import { HospitalList } from '../screens/HospitalList';
+import { useProfile } from '../hooks/useAuth';
+import { ModalCheckAuth } from '../components/ModalCheckAuth';
+import { AppointmentDoctor } from '../screens/Doctor/Appointment';
+import { HomePage } from '../screens/Home';
 
 export const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
+  const {data: userData}= useProfile()
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -40,7 +45,7 @@ export const StackNavigation = () => {
         options={{headerShown: false}}></Stack.Screen>
       <Stack.Screen
         name="schedule"
-        component={Schedule}
+        component={userData!= undefined?Schedule:ModalCheckAuth}
         options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
         name="News"
@@ -54,6 +59,14 @@ export const StackNavigation = () => {
         name="DetailChat"
         component={DetailChat}
         options={{headerShown: false}}></Stack.Screen>
+         <Stack.Screen
+        name="doctor"
+        component={userData?.role=='HOSPITAL'?AppointmentDoctor:HomePage}
+        options={{headerShown: false}}></Stack.Screen>
+         {/* <Stack.Screen
+        name="Homepage"
+        component={HomePage}
+        options={{headerShown: false}}></Stack.Screen> */}
     </Stack.Navigator>
   );
 };

@@ -1,4 +1,4 @@
-import baseAxios from './baseAxios.js';
+import baseAxios, { useAxios } from './baseAxios.js';
 
 const ENDPOINT = 'auth';
 
@@ -13,7 +13,12 @@ export const register = async (params) => {
 export const getProfile = async () =>{
   return await baseAxios.get(`${ENDPOINT}/profile`)
 }
+
+export const logout = async () => {
+  return await baseAxios.post(`${ENDPOINT}/logout`)
+}
 export default {
   login,
-  register
+  register,
+  logout
 };

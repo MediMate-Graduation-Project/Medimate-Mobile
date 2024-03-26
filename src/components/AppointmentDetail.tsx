@@ -24,7 +24,6 @@ export const AppointmentDetail = ({
   setIsOpen,
   isOpen,
 }: Props) => {
-  console.log(20, schedule);
 
   const {data: userData} = useProfile();
   const {data: hospital} = useGetHospitalDetail(prompt?.hospitalId);
@@ -34,14 +33,11 @@ export const AppointmentDetail = ({
   const {mutate: confirm} = useConfirmSchedule();
 
   const HandleCancel = () => {
-    cancel(prompt?.appointment?.id);
-    setIsOpen(false);
-  };
-  const Cancel = () => {
+    cancel(prompt?.id);
     setIsOpen(false);
   };
   const HandleConfirm = () => {
-    confirm(prompt?.appointment?.id);
+    confirm(prompt?.id);
     setIsOpen(false);
   };
   return (
@@ -52,19 +48,19 @@ export const AppointmentDetail = ({
         </View>
         <View style={styles.containerInfor}>
           <Text style={styles.inforContainer}>
-            <Text>Họ và tên: {userData?.name}</Text>
+            <Text style={styles.textBold}>Họ và tên: </Text><Text style={styles.text}>{userData?.name}</Text>
           </Text>
           <Text style={styles.inforContainer}>
-            <Text>Bệnh viện: {hospital?.name}</Text>
+            <Text style={styles.textBold}>Bệnh viện: </Text><Text style={styles.text}> {hospital?.name}</Text>
           </Text>
           <Text style={styles.inforContainer}>
-            <Text>Địa chỉ: {hospital?.address}</Text>
+            <Text style={styles.textBold}>Địa chỉ: </Text><Text style={styles.text}>{hospital?.address}</Text>
           </Text>
           <Text style={styles.inforContainer}>
-            <Text>Số thứ tự: {orderNumber}</Text>
+            <Text style={styles.textBold}>Số thứ tự: </Text><Text style={styles.text}> {orderNumber}</Text>
           </Text>
           <Text style={styles.inforContainer}>
-            <Text>Thời gian khám dự kiến: {datetime}</Text>
+            <Text style={styles.textBold}>Thời gian khám dự kiến: </Text><Text style={styles.text}> {datetime}</Text>
           </Text>
         </View>
         {schedule ? (
@@ -86,9 +82,10 @@ export const AppointmentDetail = ({
 const styles = StyleSheet.create({
   containerTitle: {
     alignItems: 'center',
+    paddingVertical: 10
   },
   container: {
-    padding: 20,
+    padding: 10,
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 15,
@@ -97,17 +94,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 10,
+    color:'#000'
+  },
+  text:{
+    color:'#000'
+  },
+  textBold:{
+    color:'#000',
+    fontWeight:'700'
   },
   containerInfor: {
     borderWidth: 1,
-    width: 340,
+    width: 'auto',
     height: 'auto',
-    padding: 10,
     borderRadius: 20,
     marginBottom: 10,
-  },
-  inforContainer: {
-    padding: 10,
+    flexDirection:'column',
+    gap: 15,
+    padding: 10
   },
   okButton: {
     backgroundColor: mainColor,

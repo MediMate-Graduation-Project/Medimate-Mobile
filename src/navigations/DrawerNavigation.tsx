@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -8,49 +8,47 @@ import { HomePage } from '../screens/Home';
 import { TabNavigation } from './TabNavigation';
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { mainColor } from '../common/colors';
-import { ItemDrawer } from '../components/ItemDrawer';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCheckAuth } from '../hooks/checkAuth';
-import { useAuth } from '../components/AuthContext';
-import { page } from '../constants';
-import SessionStorage from 'react-native-session-storage';
+import {mainColor} from '../common/colors';
+import {ItemDrawer} from '../components/ItemDrawer';
+import { useNavigation} from '@react-navigation/native';
+
+import {useCheckAuth} from '../hooks/checkAuth';
+import {page} from '../constants';
+import {AppointmentDoctor} from '../screens/Doctor/Appointment';
+import {useProfile} from '../hooks/useAuth';
 const Drawer = createDrawerNavigator();
 const CustomDrawer = (props: any) => {
   const navigation = useNavigation();
-  
-  const { handleLogout } = useCheckAuth();
 
-  const UserData=SessionStorage.getItem('UserData')
+  const {handleLogout} = useCheckAuth();
 
-  console.log('newson', UserData);
+  const {data: userData} = useProfile();
+
+
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.containerHeaderDrawer}>
         <Image source={require('../assets/logo.png')}></Image>
-        {UserData !=null ?
-          <><View style={styles.contanierUser}>
-            <MaterialCommunityIcons
-              name="account-circle"
-              color={mainColor}
-              size={30}></MaterialCommunityIcons>
-            <Text style={styles.nameUser}>{UserData ? UserData.name : null}</Text>
-
-          </View>
-            <TouchableOpacity>
-              <Text>Xem trang cá nhân</Text>
-            </TouchableOpacity></>
-
-          : null
-        }
-
+        {userData != undefined ? (
+          <>
+            <View style={styles.contanierUser}>
+              <MaterialCommunityIcons
+                name="account-circle"
+                color={mainColor}
+                size={30}></MaterialCommunityIcons>
+              <Text style={styles.nameUser}>
+                {userData ? userData.name : null}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Cá nhân')}}>
+              <Text style={{color:"#898c8a", fontSize: 15}}>Xem trang cá nhân</Text>
+            </TouchableOpacity>
+          </>
+        ) : null}
       </View>
 
       <DrawerItemList {...props} />
-      {UserData !=null ? <TouchableOpacity
+      {userData !=undefined ? <TouchableOpacity
         onPress={() => {
           Alert.alert('Đăng xuất', 'Bạn có chắc chắn muốn đăng xuất?', [
             {
@@ -92,6 +90,8 @@ const CustomDrawer = (props: any) => {
   );
 };
 export const MyDrawerNavigation = () => {
+  const {data: userData} = useProfile();
+
   return (
     <Drawer.Navigator
       drawerContent={(props: any) => <CustomDrawer {...props} />}
@@ -100,16 +100,16 @@ export const MyDrawerNavigation = () => {
           <View style={styles.containerLogo}>
             <Image
               style={styles.image}
-              source={require('../assets/logo.png')}  ></Image>
+              source={require('../assets/logo.png')}></Image>
             <Text style={styles.nameApp}>MediMate</Text>
           </View>
         ),
-        headerStyle: { height: 100 },
-        drawerItemStyle: { marginBottom: 10 }
+        headerStyle: {height: 100},
+        drawerItemStyle: {marginBottom: 10},
       }}>
       <Drawer.Screen
         name="myTab"
-        component={TabNavigation}
+        component={ TabNavigation }
         options={{
           drawerLabel: () => (
             <ItemDrawer nameIcon="home" nameFeature="Trang chủ" />
@@ -143,8 +143,8 @@ export const MyDrawerNavigation = () => {
         }}></Drawer.Screen>
 
       <Drawer.Screen
-        name="guideUse"
-        component={HomePage}
+        name="doctor"
+        component={userData?.role == 'HOSPITAL' ? AppointmentDoctor : HomePage}
         options={{
           drawerLabel: () => (
             <ItemDrawer
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 10,
   },
 
   containerHeaderDrawer: {

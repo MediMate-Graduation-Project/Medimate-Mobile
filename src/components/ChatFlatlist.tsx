@@ -29,7 +29,8 @@ const styles = StyleSheet.create(
             borderColor: 'grey',
             margin: 10,
             borderRadius: 10,
-            padding: 10
+            padding: 10,
+            flexWrap:'wrap'
         },
         image: {
             width: 50,

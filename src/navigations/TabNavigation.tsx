@@ -42,7 +42,7 @@ export function TabNavigation(){
       <Tab.Screen name="Trang chủ" component={HomePage}></Tab.Screen>
       <Tab.Screen name="Tin nhắn" component={userData!=null?ChatPage:ModalCheckAuth}></Tab.Screen>
       <Tab.Screen name="Lịch hẹn" component={userData!=null?AppointmentPage:ModalCheckAuth}></Tab.Screen>
-      <Tab.Screen name="Thông báo" component={userData!=null?AppointmentDoctor:ModalCheckAuth}></Tab.Screen>
+      <Tab.Screen name="Thông báo" component={userData!=null?NotificationPage:ModalCheckAuth}></Tab.Screen>
       <Tab.Screen name="Cá nhân" component={userData!=null?ProfilePage:ModalCheckAuth}></Tab.Screen>
     </Tab.Navigator>
    )

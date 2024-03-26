@@ -6,6 +6,7 @@ import axios from "axios";
 export const useSymptom=()=>{
   const [isRecording, setIsRecording] = useState(true);
   const [results, setResults] = useState<string>('');
+  const [resultsVoice, setResultsVoice] = useState<string>('');
   const [isKeyboardOpened, setIsKeyboardOpened] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleResult, setModalVisibleResult] = useState(false);
@@ -43,7 +44,7 @@ export const useSymptom=()=>{
 
   const onSpeechResults = (e: SpeechResultsEvent) => {
     console.log('onSpeechResults: ', e.value);
-    setResults(e.value && e.value[0] || '');
+    setResultsVoice(e.value && e.value[0] || '');
   };
 
   const _startRecognizing = async () => {
@@ -70,7 +71,7 @@ export const useSymptom=()=>{
   const _clearState = () => {
     setCheckError(false);
     setIsRecording(true);
-    setResults('');
+    setResultsVoice('');
   };
  const _stopSpeaking=async()=>{
   setIsRecording(false)
@@ -83,11 +84,18 @@ export const useSymptom=()=>{
  }
   const { mutateAsync, isPending, isError } = useMutation({
     mutationFn: () => {
-      const requestData = {
-        diagnose: '(Lưu ý giúp tôi nhé =>nếu nhập sai, tầm bậy hoặc không phải triệu chứng bệnh thì đưa ra chữ Sai, còn nếu nhập đúng các triệu chứng thì đưa ra kết quả ngắn gọn chính xác nhất có thể)Tôi bị bệnh gì, đưa ra chẩn đoán sơ bộ 1 bệnh cụ thể với câu có thể bạn đang bị: và đưa ra phòng khám chuyên khoa phù hợp cho nó với câu bạn nên đến phòng khám: , triệu chứng là: ' + results
-      };
-      console.log(requestData);
-      return axios.post('https://medimate-be.onrender.com/diagnose', requestData);
+      if (resultsVoice != '') {
+        const requestData = {
+          diagnose: '(Lưu ý giúp tôi nhé =>nếu nhập sai, tầm bậy hoặc không phải triệu chứng bệnh thì đưa ra chữ Sai, còn nếu nhập đúng các triệu chứng thì đưa ra kết quả ngắn gọn chính xác nhất có thể)Tôi bị bệnh gì, đưa ra chẩn đoán sơ bộ 1 bệnh cụ thể với câu có thể bạn đang bị: và đưa ra phòng khám chuyên khoa phù hợp cho nó với câu bạn nên đến phòng khám: , triệu chứng là: ' + resultsVoice
+        };
+        console.log(requestData);
+        return axios.post('https://medimate-be.onrender.com/diagnose', requestData);
+      }else{
+        const requestData = {
+          diagnose: '(Lưu ý giúp tôi nhé =>nếu nhập sai, tầm bậy hoặc không phải triệu chứng bệnh thì đưa ra chữ Sai, còn nếu nhập đúng các triệu chứng thì đưa ra kết quả ngắn gọn chính xác nhất có thể)Tôi bị bệnh gì, đưa ra chẩn đoán sơ bộ 1 bệnh cụ thể với câu có thể bạn đang bị: và đưa ra phòng khám chuyên khoa phù hợp cho nó với câu bạn nên đến phòng khám: , triệu chứng là: ' + results        };
+        console.log(requestData);
+        return axios.post('https://medimate-be.onrender.com/diagnose', requestData);
+      }
 
 
     },
@@ -154,7 +162,8 @@ export const useSymptom=()=>{
         isRecording,
         setIsRecording,
         messageError,
-        _stopSpeaking
+        _stopSpeaking,
+        resultsVoice
     }
 
   )

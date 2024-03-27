@@ -11,6 +11,7 @@ import {
   useConfirmSchedule,
 } from '../hooks/useAppointment';
 import {mainColor} from '../common/colors';
+import { NoticeAppointment } from './NoticeAppointment';
 
 type Props = {
   prompt: any;
@@ -24,13 +25,12 @@ export const AppointmentDetail = ({
   setIsOpen,
   isOpen,
 }: Props) => {
+  const [isVisible,setIsVisible]=useState(false)
 
   const {data: userData} = useProfile();
   const {data: hospital} = useGetHospitalDetail(prompt?.hospitalId);
   const orderNumber = prompt?.orderNumber;
-  const datetime = moment(prompt?.estimatedFormatted,'dddd, MMMM DD, YYYY [at] hh:mm:ss A');
-  const formattedDate = moment(datetime, 'dddd, MMMM DD, YYYY [at] hh:mm:ss A').format('DD/MM/YYYY hh:mm A');
-  // const datetime = moment(prompt?.estimatedFormatted).format('DD/MM/YYYY hh:mm A');
+  const datetime = moment(prompt?.estimated).format('DD/MM/YYYY hh:mm A');
   const {mutate: cancel} = useCancelSchedule();
   const {mutate: confirm} = useConfirmSchedule();
   
@@ -41,8 +41,11 @@ export const AppointmentDetail = ({
   const HandleConfirm = () => {
     confirm(prompt?.id);
     setIsOpen(false);
+    setIsVisible(true)
   };
   return (
+    <>
+  
     <Modal isVisible={isOpen} animationIn={'bounceInLeft'}>
       <View style={styles.container}>
         <View style={styles.containerTitle}>
@@ -62,7 +65,7 @@ export const AppointmentDetail = ({
             <Text style={styles.textBold}>Số thứ tự: </Text><Text style={styles.text}> {orderNumber}</Text>
           </Text>
           <Text style={styles.inforContainer}>
-            <Text style={styles.textBold}>Thời gian khám dự kiến: </Text><Text style={styles.text}> {formattedDate}</Text>
+            <Text style={styles.textBold}>Thời gian khám dự kiến: </Text><Text style={styles.text}> {datetime}</Text>
           </Text>
         </View>
         {schedule ? (
@@ -79,6 +82,8 @@ export const AppointmentDetail = ({
         )}
       </View>
     </Modal>
+    {isVisible && <NoticeAppointment/>}
+    </>
   );
 };
 const styles = StyleSheet.create({

@@ -17,7 +17,7 @@ export const NoticeAppointment = () => {
                 <ButtonItem titleLeft='Quay về trang chủ' 
                 handleOnpresLeft={() => {setIsVisible(false), navigation.navigate('Trang chủ')}}
                 titleRight='Xem chi tiết lịch'
-                handleOnpresRight={() =>{setIsVisible(false), navigation.navigate('schedule')}}
+                handleOnpresRight={() =>{setIsVisible(false), navigation.navigate('Lịch hẹn')}}
                  />
             </View>
         </Modal>

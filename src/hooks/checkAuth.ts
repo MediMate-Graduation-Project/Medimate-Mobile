@@ -18,7 +18,7 @@ export const useCheckAuth = () => {
       },
     onSuccess: async data => {
       console.log(33,data.data);
-        queryClient.resetQueries()
+      queryClient.resetQueries();
       queryClient.invalidateQueries();
       Alert.alert('Đăng xuất thành công');
       navigation.dispatch(

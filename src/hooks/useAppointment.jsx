@@ -99,15 +99,19 @@ export const useNextNumber = id => {
 
 export const useUserNumber = (id) => {
   return useQuery({
-    queryKey: [queryKey.userNumber],
+    queryKey: [queryKey.userNumber, id],
     queryFn: async () => {
-      try {
-        const response = await userNumber(id);
-        return response.data;
-      } catch (error) {
-        console.error('Error:', error);
-        throw error;
-      }
+      const response = await userNumber(id);
+      return response.data;
+      // try {
+      //   const response = await userNumber(id);
+      //   return response.data;
+      // } catch (error) {
+      //   console.error('Error:', error);
+      //   // return {data: undefined}
+      //   throw error;
+        
+      // }
     },
   });
 }
@@ -115,14 +119,14 @@ export const useUserNumber = (id) => {
 export const useCancel = () => {
   const navigation = useNavigation()
   return useMutation({
-    mutationFn:   cancel = async  (id) => {
+    mutationFn:   cancel = async (id) => {
       const result = await cancelAppointment(id);
       return result;
     },
     onSuccess: async data => {
       Alert.alert('Hủy lịch thành công')
-      navigation.navigate('Trang chủ')
-      queryClient.invalidateQueries([queryKey.number, queryKey.userNumber]);
+      queryClient.resetQueries(); 
+      queryClient.invalidateQueries({ queryKey: [queryKey.userNumber] });
       return data;
     },
     onError: error => {

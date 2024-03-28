@@ -8,7 +8,6 @@ import {Schedule} from '../screens/Schedule';
 
 import Symptom from '../screens/Symptom';
 import { WebViewNews } from '../components/WebViewNews';
-import { AppointmentDetail } from '../components/AppointmentDetail';
 import Maps from '../screens/Maps';
 import { DetailChat } from '../screens/DetailChat';
 import { HospitalList } from '../screens/HospitalList';
@@ -63,10 +62,6 @@ export const StackNavigation = () => {
         name="doctor"
         component={userData?.role=='HOSPITAL'?AppointmentDoctor:HomePage}
         options={{headerShown: false}}></Stack.Screen>
-         {/* <Stack.Screen
-        name="Homepage"
-        component={HomePage}
-        options={{headerShown: false}}></Stack.Screen> */}
     </Stack.Navigator>
   );
 };

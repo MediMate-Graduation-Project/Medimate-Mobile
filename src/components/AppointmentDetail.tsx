@@ -30,9 +30,12 @@ export const AppointmentDetail = ({
   const {data: userData} = useProfile();
   const {data: hospital} = useGetHospitalDetail(prompt?.hospitalId);
   const orderNumber = prompt?.orderNumber;
-  const datetime = moment(prompt?.estimated).format('DD/MM/YYYY hh:mm A');
+  // const datetime = moment(prompt?.estimated).format('DD/MM/YYYY hh:mm A');
+  const datetime = moment(prompt?.estimatedFormatted, 'dd-mm-yyyy hh:mm').format('DD/MM/YYYY hh:mm A');
   const {mutate: cancel} = useCancelSchedule();
   const {mutate: confirm} = useConfirmSchedule();
+  
+  console.log('promp', prompt?.estimatedFormatted);
   
   const HandleCancel = () => {
     cancel(prompt?.id);
@@ -45,7 +48,6 @@ export const AppointmentDetail = ({
   };
   return (
     <>
-  
     <Modal isVisible={isOpen} animationIn={'bounceInLeft'}>
       <View style={styles.container}>
         <View style={styles.containerTitle}>
@@ -60,6 +62,9 @@ export const AppointmentDetail = ({
           </Text>
           <Text style={styles.inforContainer}>
             <Text style={styles.textBold}>Địa chỉ: </Text><Text style={styles.text}>{hospital?.address}</Text>
+          </Text>
+          <Text style={styles.inforContainer}>
+            <Text style={styles.textBold}>Phòng khám: </Text><Text style={styles.text}>4</Text>
           </Text>
           <Text style={styles.inforContainer}>
             <Text style={styles.textBold}>Số thứ tự: </Text><Text style={styles.text}> {orderNumber}</Text>
